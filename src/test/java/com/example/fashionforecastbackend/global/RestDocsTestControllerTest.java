@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @SpringBootTest
-public class RestDocsTestControllerTest extends RestDocsTest{
+class RestDocsTestControllerTest extends RestDocsTest{
 
     @DisplayName("200 상태, Hello를 응답으로 반환 후 restDocs를 생성한다")
     @Test
