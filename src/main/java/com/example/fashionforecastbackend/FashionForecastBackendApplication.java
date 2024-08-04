@@ -1,0 +1,13 @@
+package com.example.fashionforecastbackend;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class FashionForecastBackendApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(FashionForecastBackendApplication.class, args);
+    }
+
+}
