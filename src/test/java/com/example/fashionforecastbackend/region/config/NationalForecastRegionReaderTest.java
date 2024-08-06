@@ -40,9 +40,9 @@ class NationalForecastRegionReaderTest {
     public void read_정상_케이스() {
         //given
         List<Region> regions = nationalForecastRegionReader.read();
-        //when
 
-        //then
+
+        //when & then
         assertThat(regions).hasSize(2);
         assertThat(regions.get(0).getAddress().getCode()).isEqualTo("001");
         assertThat(regions.get(0).getAddress().getCity()).isEqualTo("서울특별시");
@@ -55,7 +55,6 @@ class NationalForecastRegionReaderTest {
     @DisplayName("잘못된 형식의 라인은 무시되고 읽어오지 않는다")
     @Test
     void read_잘못된_형식의_라인_무시() throws Exception {
-        //given
 
         //when
         when(csvReader.readNext()).thenReturn(
@@ -83,7 +82,6 @@ class NationalForecastRegionReaderTest {
     @DisplayName("csv파일을 읽어오는 중 예외가 발생한다.")
     @Test
     public void read_예외_발생() throws Exception {
-        //given
 
         //when
         when(csvReader.readNext()).thenThrow(new RuntimeException("파일 읽기 실패"));

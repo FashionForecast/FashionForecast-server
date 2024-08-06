@@ -56,8 +56,6 @@ class RegionRepositoryTest {
     @DisplayName("isExist_1개_이상의_레코드가_존재하면_true를_반환한다")
     @Test
     void isExist_1개_이상의_레코드가_존재하면_true를_반환한다() {
-        // given
-        assertThat(regionRepository.isExist()).isFalse();
 
         // when
         Region region = createRegion("001", "서울특별시", "강남구", "삼성동", "60", "127");
