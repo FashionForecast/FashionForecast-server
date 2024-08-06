@@ -1,3 +1,8 @@
 spring:
   profiles:
-    active: dev
+    active: local
+
+national-forecast-regions: national_forecast_regions.csv
+
+initialize-region:
+  enabled: true
