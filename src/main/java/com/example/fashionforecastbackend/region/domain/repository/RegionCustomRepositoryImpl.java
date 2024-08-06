@@ -22,8 +22,6 @@ public class RegionCustomRepositoryImpl implements RegionCustomRepository {
         String sql = "INSERT INTO region (code, city, district, neighborhood, nx, ny)" +
                 " VALUES (:code, :city, :district, :neighborhood, :nx, :ny)";
 
-
-        //MapSqlParameterSource에 담긴 키값이 컬럼과 매핑되고, values는 값과 매핑이된다.
         namedParameterJdbcTemplate.batchUpdate(sql, getRegionParameterSource(regions));
 
     }
@@ -34,10 +32,6 @@ public class RegionCustomRepositoryImpl implements RegionCustomRepository {
                 .toArray(MapSqlParameterSource[]::new);
     }
 
-    /*
-     * 키 - 값으로 매핑을 시킨다.
-     * 키값은 위 쿼리문의 컬럼이름과 무조건 일치해야한다.
-     */
     private MapSqlParameterSource convertToSqlParameterSource(Region region) {
         return new MapSqlParameterSource()
                 .addValue("code", region.getAddress().getCode())
