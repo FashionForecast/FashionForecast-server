@@ -27,6 +27,7 @@ repositories {
 val snippetsDir = file("build/generated-snippets")
 
 dependencies {
+    implementation("com.opencsv:opencsv:5.5.2")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
