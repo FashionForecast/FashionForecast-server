@@ -1,7 +1,7 @@
 package com.example.fashionforecastbackend.region.config;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -22,10 +22,10 @@ public class NationalForecastRegionReader {
 		this.csvReader = csvReader;
 	}
 
-	public List<Region> read() {
+	public Set<Region> read() {
 
 		try {
-			List<Region> regions = new ArrayList<>();
+			Set<Region> regions = new HashSet<>();
 			String[] fields;
 
 			// 첫 번째 줄(헤더)을 읽고 무시
