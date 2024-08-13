@@ -1,4 +1,4 @@
-package com.example.fashionforecastbackend.global;
+package com.example.fashionforecastbackend.global.restdocs;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RestDocsTestController {
 
-    @GetMapping("/api/test")
-    public String test() {
-        return "Hello";
-    }
+	@GetMapping("/api/test")
+	public String test() {
+		return "Hello";
+	}
 }
