@@ -1,8 +1,0 @@
-spring:
-  profiles:
-    active: dev
-
-national-forecast-regions: national_forecast_regions.csv
-
-initialize-region:
-  enabled: true
