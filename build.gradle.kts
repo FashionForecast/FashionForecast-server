@@ -27,16 +27,18 @@ repositories {
 val snippetsDir = file("build/generated-snippets")
 
 dependencies {
+    implementation("org.springframework.retry:spring-retry")
     implementation("com.opencsv:opencsv:5.5.2")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
-    compileOnly("org.projectlombok:lombok")
+    testImplementation("org.springframework.restdocs:spring-restdocs-asciidoctor")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("com.mysql:mysql-connector-j")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("io.rest-assured:rest-assured:5.1.1")
 }
 
 tasks.withType<Test> {
@@ -53,6 +55,10 @@ tasks {
     asciidoctor {
         // test 가 성공해야만, 아래 Task 실행
         dependsOn(test)
+
+        attributes(mapOf(
+                "snippets" to snippetsDir.absolutePath
+        ))
 
         // 기존에 존재하는 Docs 삭제(문서 최신화를 위해)
         doFirst {
