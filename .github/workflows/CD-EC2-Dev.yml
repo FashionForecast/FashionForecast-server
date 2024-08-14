@@ -22,6 +22,6 @@ jobs:
           script_stop: true
 
           script: |
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/github-action-test:latest
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-dev:latest
             sudo docker compose -f docker-compose-dev.yml down
             sudo docker compose -f docker-compose-dev.yml up -d
