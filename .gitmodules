@@ -1,0 +1,3 @@
+[submodule "FashionForecast-server-submodule"]
+	path = FashionForecast-server-submodule
+	url = https://github.com/FashionForecast/FashionForecast-server-submodule.git
