@@ -41,6 +41,21 @@ dependencies {
     testImplementation("io.rest-assured:rest-assured:5.1.1")
 }
 
+tasks.named<ProcessResources>("processResources") {
+    dependsOn("copySecret")
+}
+
+tasks.register<Copy>("copySecret") {
+    from(file("./FashionForecast-server-submodule"))
+    include("application*.yml")
+    into("src/main/resources")
+}
+
+tasks.withType<Test> {
+    dependsOn("copySecret")
+    useJUnitPlatform()
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }
