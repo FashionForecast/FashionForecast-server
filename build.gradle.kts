@@ -96,4 +96,19 @@ tasks {
         // Ascii Doc 파일 생성이 성공해야만, Build 진행
         dependsOn(asciidoctor)
     }
+
+    // REST Docs 파일을 JAR에 포함
+    register<Copy>("copyDocs") {
+        val output = file("build/docs/asciidoc")
+        val input = file("src/main/resources/static/docs")
+
+        from(output)
+        into(input)
+    }
+
+    named("jar") {
+        dependsOn("copyDocs")
+    }
+
+
 }
