@@ -1,0 +1,27 @@
+name: Java CD with Gradle
+
+on:
+  workflow_run:
+    workflows: [ "Java CI with Gradle" ]
+    types:
+      - completed
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.head_branch == 'develop' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: EC2 원격 접속 및 Docker compose
+        uses: appleboy/ssh-action@master
+        with:
+          username: ${{ secrets.EC2_DEV_USERNAME }}
+          host: ${{ secrets.EC2_DEV_HOST }}
+          key: ${{ secrets.EC2_DEV_PRIVATE_KEY }}
+          script_stop: true
+
+          script: |
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/github-action-test:latest
+            sudo docker compose -f docker-compose-dev.yml up -d
