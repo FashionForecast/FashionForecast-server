@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   deploy:
+    if: github.ref == "refs/heads/develop"
     runs-on: ubuntu-latest
     steps:
       - name: EC2 원격 접속 및 Docker compose
@@ -24,4 +25,5 @@ jobs:
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-dev:latest
             sudo docker compose -f docker-compose-dev.yml down
             sudo docker compose -f docker-compose-dev.yml up -d
+            sudo docker image prune -f
             

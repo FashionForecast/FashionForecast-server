@@ -2,9 +2,9 @@ name: Java CI with Gradle
 
 on:
   pull_request:
-    branches: [ develop ]
+    branches: [ main, develop ]
   push:
-    branches: [ develop ]
+    branches: [ main, develop ]
 
 permissions:
   contents: read
