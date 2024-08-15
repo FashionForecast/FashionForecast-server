@@ -31,59 +31,53 @@ dependencies {
     implementation("com.opencsv:opencsv:5.5.2")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
-    testImplementation("org.springframework.restdocs:spring-restdocs-asciidoctor")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("com.mysql:mysql-connector-j")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+    testImplementation("org.springframework.restdocs:spring-restdocs-asciidoctor")
     testImplementation("io.rest-assured:rest-assured:5.1.1")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-tasks.named<ProcessResources>("processResources") {
-    dependsOn("copySecret")
-}
-
+// 서브모듈 설정파일 복사
 tasks.register<Copy>("copySecret") {
     from(file("./FashionForecast-server-submodule"))
     include("application*.yml")
     into("src/main/resources")
 }
 
-tasks.withType<Test> {
+tasks.named<ProcessResources>("processResources") {
     dependsOn("copySecret")
-    useJUnitPlatform()
 }
 
 tasks.withType<Test> {
-    useJUnitPlatform()
+    dependsOn("copySecret") // copySecret이 선행되어야함
+    useJUnitPlatform() // 테스트 진행
+
+    // Test 결과를 snippets 디렉터리에 출력
+    outputs.dir(snippetsDir)
 }
 
-// Ascii Doc Create Tasks
+// AsciiDoc 생성 및 빌드 관련 Task
 tasks {
-    // Test 결과를 snippet Directory에 출력
-    test {
-        outputs.dir(snippetsDir)
-    }
-
     asciidoctor {
-        // test 가 성공해야만, 아래 Task 실행
-        dependsOn(test)
+        dependsOn(test)  // test가 성공해야 asciidoctor가 실행됨
 
         attributes(mapOf(
                 "snippets" to snippetsDir.absolutePath
         ))
 
-        // 기존에 존재하는 Docs 삭제(문서 최신화를 위해)
+        // 기존 Docs 삭제 (문서 최신화를 위해)
         doFirst {
             delete(file("src/main/resources/static/docs"))
         }
 
-        // snippet Directory 설정
+        // snippet 디렉터리 설정
         inputs.dir(snippetsDir)
 
-        // Ascii Doc 파일 생성
+        // AsciiDoc 파일 생성
         doLast {
             copy {
                 from("build/docs/asciidoc")
@@ -93,7 +87,7 @@ tasks {
     }
 
     build {
-        // Ascii Doc 파일 생성이 성공해야만, Build 진행
+        // AsciiDoc 파일 생성이 완료되어야 build 진행
         dependsOn(asciidoctor)
     }
 }
