@@ -17,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.fashionforecastbackend.global.ControllerTest;
@@ -37,6 +38,7 @@ class WeatherControllerTest extends ControllerTest {
 	private WeatherService weatherService;
 
 	@Test
+	@WithMockUser
 	void getWeatherTest() throws Exception {
 
 		final List<WeatherResponseDto> response = WeatherFixture.WEATHER_RESPONSE_DTOS;
