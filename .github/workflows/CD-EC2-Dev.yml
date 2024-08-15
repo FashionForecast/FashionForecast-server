@@ -20,9 +20,9 @@ jobs:
           host: ${{ secrets.EC2_DEV_HOST }}
           key: ${{ secrets.EC2_DEV_PRIVATE_KEY }}
           script_stop: true
-
+          ## 기존에 사용하지 않는 이미지 제거
           script: |
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-dev:latest
             sudo docker compose -f docker-compose-dev.yml down
-            sudo docker image prune -af
             sudo docker compose -f docker-compose-dev.yml up -d
+            sudo docker image prune -af
