@@ -39,5 +39,3 @@ out/
 ### application.yml ###
 application*.yml
 
-### RestDocs ###
-src/main/resources/static/docs/
