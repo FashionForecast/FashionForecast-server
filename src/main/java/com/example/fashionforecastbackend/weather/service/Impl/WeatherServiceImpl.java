@@ -57,6 +57,13 @@ public class WeatherServiceImpl implements WeatherService {
 
 			List<WeatherApiResponse> responses = weatherMapper.convertToWeatherApiResponse(weatherForecast,
 				"/response/body/items/item");
+
+			responses.sort((r1, r2) -> {
+				String dateTime1 = r1.fcstDate() + r1.fcstTime();
+				String dateTime2 = r2.fcstDate() + r2.fcstTime();
+				return dateTime1.compareTo(dateTime2);
+			});
+
 			weathers = weatherMapper.convertToWeathers(responses, region, "short");
 			weatherRepository.saveAll(weathers);
 			return weatherMapper.convertToWeatherResponseDto(weathers);
