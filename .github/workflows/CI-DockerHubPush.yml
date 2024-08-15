@@ -2,9 +2,9 @@ name: Java CI with Gradle
 
 on:
   pull_request:
-    branches: [ develop, main ]
+    branches: [ develop ]
   push:
-    branches: [ develop, main ]
+    branches: [ develop ]
 
 permissions:
   contents: read
@@ -40,15 +40,15 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Docker 이미지 이름 설정
-        run: |
-          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-          echo "IMAGE_NAME=fashion-forecast-prod" >> $GITHUB_ENV
-          else
-          echo "IMAGE_NAME=fashion-forecast-dev" >> $GITHUB_ENV
-          fi
+#      - name: Docker 이미지 이름 설정
+#        run: |
+#          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+#          echo "IMAGE_NAME=fashion-forecast-prod" >> $GITHUB_ENV
+#          else
+#          echo "IMAGE_NAME=fashion-forecast-dev" >> $GITHUB_ENV
+#          fi
 
       - name: Docker 이미지 빌드 및 푸시
         run: |
-          docker build --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME:latest
+          docker build --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-dev .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-dev:latest
