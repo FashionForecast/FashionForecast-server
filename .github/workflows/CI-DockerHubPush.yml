@@ -50,5 +50,5 @@ jobs:
 
       - name: Docker 이미지 빌드 및 푸시
         run: |
-          sudo docker build --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-dev .
-          sudo docker push ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-dev:latest
+          docker build --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-dev .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-dev:latest
