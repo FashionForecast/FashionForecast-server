@@ -47,7 +47,7 @@ jobs:
 #          else
 #          echo "IMAGE_NAME=fashion-forecast-dev" >> $GITHUB_ENV
 #          fi
-
+# ci 테스트
       - name: Docker 이미지 빌드 및 푸시
         run: |
           docker build --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-dev .
