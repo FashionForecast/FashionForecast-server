@@ -24,4 +24,5 @@ jobs:
           script: |
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-dev:latest
             sudo docker compose -f docker-compose-dev.yml down
+            sudo docker image prune -af
             sudo docker compose -f docker-compose-dev.yml up -d
