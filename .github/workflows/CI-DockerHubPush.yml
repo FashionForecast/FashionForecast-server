@@ -43,9 +43,9 @@ jobs:
       - name: Docker 이미지 이름 설정
         run: |
           if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-          echo "IMAGE_NAME=fashion-forecast-prod" >> $GITHUB_ENV
+            echo "IMAGE_NAME=fashion-forecast-prod" >> $GITHUB_ENV
           else
-          echo "IMAGE_NAME=fashion-forecast-dev" >> $GITHUB_ENV
+            echo "IMAGE_NAME=fashion-forecast-dev" >> $GITHUB_ENV
           fi
 
       - name: 메타데이터 설정
@@ -66,19 +66,12 @@ jobs:
 
       - name: 빌드된 JAR 파일에서 정적 파일 확인
         run: |
-               JAR_FILE=$(find build/libs -name "*.jar" | head -n 1)
-               echo "Checking for static files in $JAR_FILE"
+          JAR_FILE=$(find build/libs -name "*.jar" | head -n 1)
+          echo "Checking for static files in $JAR_FILE"
           
           # JAR 파일에서 static 파일 목록 출력
-               unzip -l $JAR_FILE | grep 'build/resources/main/static' || {
-               echo "No static files found in $JAR_FILE under build/resources/main/static";
-               exit 1;
-               }
-               echo "Static files found in $JAR_FILE under build/resources/main/static"
-
-
-
-
-
-
-
+          unzip -l "$JAR_FILE" | grep 'build/resources/main/static' || {
+            echo "No static files found in $JAR_FILE under build/resources/main/static";
+            exit 1;
+          }
+          echo "Static files found in $JAR_FILE under build/resources/main/static"
