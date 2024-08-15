@@ -21,7 +21,7 @@ jobs:
           key: ${{ secrets.EC2_DEV_PRIVATE_KEY }}
           script_stop: true
           script: |
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-dev:latest
-            sudo docker compose -f docker-compose-dev.yml down
-            sudo docker compose -f docker-compose-dev.yml up -d
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-dev:latest
+            docker compose -f docker-compose-dev.yml down
+            docker compose -f docker-compose-dev.yml up -d
             
