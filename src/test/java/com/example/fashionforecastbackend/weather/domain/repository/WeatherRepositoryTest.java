@@ -30,8 +30,8 @@ class WeatherRepositoryTest {
 		Weather weather4 = WeatherFixture.createWeather("20240812", "1400", "20240812", "1600", 120, 67);
 		//when
 		weatherRepository.saveAll(List.of(weather1, weather2, weather3, weather4));
-		List<Weather> records1 = weatherRepository.findByBaseDateAndBaseTimeAndNxAndNy("20240811", "1400", 120, 67);
-		List<Weather> records2 = weatherRepository.findByBaseDateAndBaseTimeAndNxAndNy("20240812", "1400", 120, 67);
+		List<Weather> records1 = weatherRepository.findWeather("20240811", "1400", 120, 67);
+		List<Weather> records2 = weatherRepository.findWeather("20240812", "1400", 120, 67);
 		//then
 		assertThat(records1).isNotEmpty();
 		assertThat(records2).isNotEmpty();

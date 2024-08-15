@@ -39,11 +39,6 @@ public class WeatherMapper {
 	public List<WeatherResponseDto> convertToWeatherResponseDto(Collection<Weather> weathers) {
 		return weathers.stream()
 			.map(WeatherResponseDto::from)
-			.sorted((d1, d2) -> {
-				String dateTime1 = d1.fcstDate() + d1.fcstTime();
-				String dateTime2 = d2.fcstDate() + d2.fcstTime();
-				return dateTime1.compareTo(dateTime2);
-			})
 			.collect(Collectors.toList());
 
 	}

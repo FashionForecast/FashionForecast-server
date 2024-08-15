@@ -51,7 +51,7 @@ class WeatherServiceTest {
 		List<WeatherResponseDto> responseDtos = WeatherFixture.WEATHER_RESPONSE_DTOS;
 
 		given(regionRepository.findByNxAndNy(60, 127)).willReturn(Optional.of(region));
-		given(weatherRepository.findByBaseDateAndBaseTimeAndNxAndNy("20240811", "1400", 60, 127)).willReturn(weathers);
+		given(weatherRepository.findWeather("20240811", "1400", 60, 127)).willReturn(weathers);
 		given(weatherMapper.convertToWeatherResponseDto(weathers)).willReturn(responseDtos);
 		//when
 		List<WeatherResponseDto> result = weatherService.getWeather(requestDto);
@@ -62,7 +62,7 @@ class WeatherServiceTest {
 		assertThat(result).isEqualTo(responseDtos);
 
 		verify(regionRepository).findByNxAndNy(60, 127);
-		verify(weatherRepository).findByBaseDateAndBaseTimeAndNxAndNy("20240811", "1400", 60, 127);
+		verify(weatherRepository).findWeather("20240811", "1400", 60, 127);
 		verify(weatherMapper).convertToWeatherResponseDto(weathers);
 
 	}
@@ -81,7 +81,7 @@ class WeatherServiceTest {
 		List<Weather> weathers = WeatherFixture.WEATHERS;
 
 		given(regionRepository.findByNxAndNy(60, 127)).willReturn(Optional.of(region));
-		given(weatherRepository.findByBaseDateAndBaseTimeAndNxAndNy("20240811", "1400", 60, 127)).willReturn(weathers);
+		given(weatherRepository.findWeather("20240811", "1400", 60, 127)).willReturn(weathers);
 		given(weatherMapper.convertToWeatherResponseDto(weathers)).willThrow(
 			new RuntimeException("날씨 데이터를 변환하는 과정중에 에러가 발생"));
 
@@ -91,7 +91,7 @@ class WeatherServiceTest {
 			.hasMessageContaining("날씨 데이터를 변환하는 과정중에 에러가 발생");
 
 		verify(regionRepository).findByNxAndNy(60, 127);
-		verify(weatherRepository).findByBaseDateAndBaseTimeAndNxAndNy("20240811", "1400", 60, 127);
+		verify(weatherRepository).findWeather("20240811", "1400", 60, 127);
 
 	}
 

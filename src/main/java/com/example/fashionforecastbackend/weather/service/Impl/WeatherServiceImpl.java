@@ -40,8 +40,8 @@ public class WeatherServiceImpl implements WeatherService {
 		String baseTime = getBaseTime(now);
 		Region region = findRegion(dto.nx(), dto.ny());
 
-		Collection<Weather> weathers = weatherRepository.findByBaseDateAndBaseTimeAndNxAndNy(baseDate,
-			baseTime, region.getNx(), region.getNy());
+		Collection<Weather> weathers = weatherRepository.findWeather(baseDate, baseTime, region.getNx(),
+			region.getNy());
 
 		log.info(baseDate);
 		log.info(baseTime);
