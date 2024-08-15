@@ -66,9 +66,16 @@ jobs:
 
       - name: 빌드된 JAR 파일에서 정적 파일 확인
         run: |
-          JAR_FILE=$(find build/libs -name "*.jar" | head -n 1)
-          echo "Checking for static files in $JAR_FILE"
-          unzip -l $JAR_FILE | grep -E 'static/|public/'
+               JAR_FILE=$(find build/libs -name "*.jar" | head -n 1)
+               echo "Checking for static files in $JAR_FILE"
+          
+          # JAR 파일에서 static 파일 목록 출력
+               unzip -l $JAR_FILE | grep 'build/resources/main/static' || {
+               echo "No static files found in $JAR_FILE under build/resources/main/static";
+               exit 1;
+               }
+               echo "Static files found in $JAR_FILE under build/resources/main/static"
+
 
 
 
