@@ -40,15 +40,32 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-#      - name: Docker 이미지 이름 설정
-#        run: |
-#          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-#          echo "IMAGE_NAME=fashion-forecast-prod" >> $GITHUB_ENV
-#          else
-#          echo "IMAGE_NAME=fashion-forecast-dev" >> $GITHUB_ENV
-#          fi
-# ci 테스트
-      - name: Docker 이미지 빌드 및 푸시
+      - name: Docker 이미지 이름 설정
         run: |
-          docker build --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-dev .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-dev:latest
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+          echo "IMAGE_NAME=fashion-forecast-prod" >> $GITHUB_ENV
+          else
+          echo "IMAGE_NAME=fashion-forecast-dev" >> $GITHUB_ENV
+          fi
+
+      - name: 메타데이터 설정
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.IMAGE_NAME }}
+
+      - name: 도커 빌드 & 푸시
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          platforms: linux/amd64
+          tags: ${{ env.IMAGE_NAME }}:latest
+          labels: ${{ steps.meta.outputs.labels }}
+
+
+
+
+
+
