@@ -11,6 +11,6 @@ import com.example.fashionforecastbackend.weather.domain.Weather;
 @Repository
 public interface WeatherRepository extends JpaRepository<Weather, Long>, WeatherCustomRepository {
 
-	@Query("SELECT w FROM Weather w WHERE w.baseDate = :baseDate AND w.baseTime = :baseTime AND w.nx = :nx AND w.ny = :ny ORDER BY w.baseDate ASC, w.baseTime ASC")
+	@Query("SELECT w FROM Weather w WHERE w.baseDate = :baseDate AND w.baseTime = :baseTime AND w.nx = :nx AND w.ny = :ny ORDER BY w.fcstDate ASC, w.fcstTime ASC")
 	List<Weather> findWeather(String baseDate, String baseTime, int nx, int ny);
 }
