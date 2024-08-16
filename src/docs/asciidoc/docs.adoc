@@ -55,3 +55,48 @@ include::{snippets}/weather-controller-test/get-weather-test/http-response.adoc[
 ==== Field
 
 include::{snippets}/weather-controller-test/get-weather-test/response-fields.adoc[]
+
+===== rainType, skyStatus
+
+===== rainType
+|===
+| 값 | 설명
+
+| `CLEAR`
+| 맑음
+
+| `PARTLY_CLOUDY`
+| 구름 많음
+
+| `CLOUDY`
+| 흐림
+|===
+
+===== skyStatus
+|===
+| 값 | 설명
+
+| `NONE`
+| 없음
+
+| `RAIN`
+| 비
+
+| `RAIN_AND_SNOW`
+| 비/눈
+
+| `SNOW`
+| 눈
+
+| `SHOWER`
+| 소나기
+
+| `RAIN_DROP`
+| 빗방울
+
+| `RAIN_AND_SNOW_FLURRIES`
+| 빗방울눈날림
+
+| `SNOW_FLURRIES`
+| 눈날림
+|===
