@@ -9,6 +9,7 @@ on:
 permissions:
   contents: read
 
+#develop 브랜치 트리거 제거
 jobs:
   deploy:
     runs-on: ubuntu-latest
