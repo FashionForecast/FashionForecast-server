@@ -60,6 +60,8 @@ public class WeatherFixture {
 			.baseTime(baseTime)
 			.reh("10")
 			.tmp("36")
+			.pcp("강수없음")
+			.pop("30")
 			.rainType(RainType.NONE)
 			.skyStatus(SkyStatus.CLEAR)
 			.wsd("1")

@@ -30,9 +30,9 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class WeatherMapper {
 
-	private final String ULTRA_FORECAST_RAINFALL_AMOUNT = "RN1";
+	private final String ULTRA_FORECAST_PCP = "RN1";
 	private final String ULTRA_FORECAST_TMP = "T1H";
-	private final String SHORT_FORECAST_RAINFALL_AMOUNT = "PCP";
+	private final String SHORT_FORECAST_PCP = "PCP";
 	private final String SHORT_FORECAST_TMP = "TMP";
 	private final ObjectMapper objectMapper;
 
@@ -92,14 +92,16 @@ public class WeatherMapper {
 		String tmp = "";
 
 		if (Objects.equals(forecastType, "ultra")) {
-			rainfallAmount = ULTRA_FORECAST_RAINFALL_AMOUNT;
+			rainfallAmount = ULTRA_FORECAST_PCP;
 			tmp = ULTRA_FORECAST_TMP;
 		} else if (Objects.equals(forecastType, "short")) {
-			rainfallAmount = SHORT_FORECAST_RAINFALL_AMOUNT;
+			rainfallAmount = SHORT_FORECAST_PCP;
 			tmp = SHORT_FORECAST_TMP;
 		}
 
 		switch (response.category()) {
+			case "POP":
+				weather.setPop(response.fcstValue());
 			case "PTY":
 				weather.setRainType(RainType.from(response.fcstValue()));
 				break;
@@ -114,7 +116,7 @@ public class WeatherMapper {
 				break;
 			default:
 				if (Objects.equals(response.category(), rainfallAmount)) {
-					weather.setRainfallAmount(response.fcstValue());
+					weather.setPcp(response.fcstValue());
 				} else if (Objects.equals(response.category(), tmp)) {
 					weather.setTmp(response.fcstValue());
 				}
