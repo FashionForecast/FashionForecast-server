@@ -67,6 +67,8 @@ class WeatherControllerTest extends ControllerTest {
 						fieldWithPath("tmp").type(JsonFieldType.STRING).description("온도"),
 						fieldWithPath("reh").type(JsonFieldType.STRING).description("습도"),
 						fieldWithPath("wsd").type(JsonFieldType.STRING).description("풍속"),
+						fieldWithPath("pop").type(JsonFieldType.STRING).description("강수확률"),
+						fieldWithPath("pcp").type(JsonFieldType.STRING).description("강수량"),
 						fieldWithPath("rainType").type(JsonFieldType.STRING).description("강수 유형"),
 						fieldWithPath("skyStatus").type(JsonFieldType.STRING).description("하늘 상태"),
 						fieldWithPath("nx").type(JsonFieldType.NUMBER).description("위도"),

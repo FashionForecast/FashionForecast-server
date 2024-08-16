@@ -22,9 +22,9 @@ public class WeatherCustomRepositoryImpl implements WeatherCustomRepository {
 
 		String sql =
 			"INSERT INTO weather (base_date, base_time, reh, tmp, wsd, sky_status, rain_type, fcst_date, fcst_time,"
-				+ "rainfall_amount, nx, ny, created_at, modified_at)"
+				+ "pcp, pop, nx, ny, created_at, modified_at)"
 				+ " VALUES (:base_date, :base_time, :reh, :tmp, :wsd, :sky_status, :rain_type, :fcst_date, :fcst_time,"
-				+ ":rainfall_amount, :nx, :ny, :created_at, :modified_at)";
+				+ ":pcp, :pop, :nx, :ny, :created_at, :modified_at)";
 
 		namedParameterJdbcTemplate.batchUpdate(sql, getRegionParameterSource(weathers));
 
@@ -43,7 +43,8 @@ public class WeatherCustomRepositoryImpl implements WeatherCustomRepository {
 			.addValue("wsd", weather.getWsd())
 			.addValue("fcst_date", weather.getFcstDate())
 			.addValue("fcst_time", weather.getFcstTime())
-			.addValue("rainfall_amount", weather.getRainfallAmount())
+			.addValue("pcp", weather.getPcp())
+			.addValue("pop", weather.getPop())
 			.addValue("sky_status", weather.getSkyStatus().ordinal())
 			.addValue("rain_type", weather.getRainType().ordinal())
 			.addValue("nx", weather.getNx())

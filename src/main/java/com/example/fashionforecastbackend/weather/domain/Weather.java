@@ -65,7 +65,11 @@ public class Weather extends BaseTimeEntity {
 	/**
 	 * 강수량
 	 */
-	private String rainfallAmount;
+	private String pcp;
+	/**
+	 * 강수확률
+	 */
+	private String pop;
 	/**
 	 * 예보 날짜
 	 */
@@ -92,6 +96,8 @@ public class Weather extends BaseTimeEntity {
 		String wsd,
 		String fcstDate,
 		String fcstTime,
+		String pcp,
+		String pop,
 		SkyStatus skyStatus,
 		RainType rainType,
 		int nx,
@@ -104,6 +110,8 @@ public class Weather extends BaseTimeEntity {
 		this.wsd = wsd;
 		this.fcstDate = fcstDate;
 		this.fcstTime = fcstTime;
+		this.pcp = pcp;
+		this.pop = pop;
 		this.skyStatus = skyStatus;
 		this.rainType = rainType;
 		this.nx = nx;
