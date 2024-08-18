@@ -22,6 +22,7 @@ import com.example.fashionforecastbackend.weather.dto.WeatherRequestDto;
 import com.example.fashionforecastbackend.weather.dto.WeatherResponseDto;
 import com.example.fashionforecastbackend.weather.service.WeatherMapper;
 import com.example.fashionforecastbackend.weather.service.WeatherService;
+import com.example.fashionforecastbackend.weather.util.WeatherValidator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,11 +36,12 @@ public class WeatherServiceImpl implements WeatherService {
 	private final RegionRepository regionRepository;
 	private final WeatherMapper weatherMapper;
 	private final WeatherRepository weatherRepository;
+	private final WeatherValidator validator;
 
 	@Override
 	public List<WeatherResponseDto> getWeather(final WeatherRequestDto dto) {
 		LocalDateTime now = dto.now();
-		validateDateTime(now);
+		validator.validateDateTime(now);
 		String baseDate = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 		String baseTime = getBaseTime(now);
 		Region region = findRegion(dto.nx(), dto.ny());
@@ -128,10 +130,4 @@ public class WeatherServiceImpl implements WeatherService {
 		return region;
 	}
 
-	private void validateDateTime(LocalDateTime dateTime) {
-		LocalDateTime now = LocalDateTime.now();
-		if (dateTime.isBefore(now.minusMinutes(5))) {
-			throw new InvalidWeatherRequestException(ErrorCode.INVALID_WEATHER_REQUEST_TIME);
-		}
-	}
 }
