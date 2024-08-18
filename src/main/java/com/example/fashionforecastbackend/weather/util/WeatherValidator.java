@@ -2,8 +2,6 @@ package com.example.fashionforecastbackend.weather.util;
 
 import java.time.LocalDateTime;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import com.example.fashionforecastbackend.global.error.ErrorCode;
