@@ -9,6 +9,9 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
+import com.example.fashionforecastbackend.global.error.ErrorCode;
+import com.example.fashionforecastbackend.global.error.GeneralException;
+import com.example.fashionforecastbackend.global.error.exception.InvalidWeatherRequestException;
 import com.example.fashionforecastbackend.region.domain.Region;
 import com.example.fashionforecastbackend.region.domain.repository.RegionRepository;
 import com.example.fashionforecastbackend.weather.api.RestClientWeatherRequester;
@@ -34,8 +37,9 @@ public class WeatherServiceImpl implements WeatherService {
 	private final WeatherRepository weatherRepository;
 
 	@Override
-	public List<WeatherResponseDto> getWeather(WeatherRequestDto dto) {
+	public List<WeatherResponseDto> getWeather(final WeatherRequestDto dto) {
 		LocalDateTime now = dto.now();
+		validateDateTime(now);
 		String baseDate = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 		String baseTime = getBaseTime(now);
 		Region region = findRegion(dto.nx(), dto.ny());
@@ -43,8 +47,6 @@ public class WeatherServiceImpl implements WeatherService {
 		Collection<Weather> weathers = weatherRepository.findWeather(baseDate, baseTime, region.getNx(),
 			region.getNy());
 
-		log.info(baseDate);
-		log.info(baseTime);
 		if (!weathers.isEmpty()) {
 			return weatherMapper.convertToWeatherResponseDto(weathers);
 		}
@@ -126,4 +128,10 @@ public class WeatherServiceImpl implements WeatherService {
 		return region;
 	}
 
+	private void validateDateTime(LocalDateTime dateTime) {
+		LocalDateTime now = LocalDateTime.now();
+		if (dateTime.isBefore(now.minusMinutes(5))) {
+			throw new InvalidWeatherRequestException(ErrorCode.INVALID_WEATHER_REQUEST_TIME);
+		}
+	}
 }
