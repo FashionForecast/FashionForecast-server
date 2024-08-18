@@ -6,10 +6,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record WeatherRequestDto(
+
 	@NotNull(message = "시간을 입력해주세요.")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	LocalDateTime now,
