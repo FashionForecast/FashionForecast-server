@@ -1,6 +1,6 @@
 package com.example.fashionforecastbackend.weather.presentation;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.hamcrest.Matchers.containsString;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -29,6 +30,7 @@ import com.example.fashionforecastbackend.weather.service.WeatherService;
 @WebMvcTest(WeatherController.class)
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
+@WithMockUser
 class WeatherControllerTest extends ControllerTest {
 
 	@Autowired
@@ -38,7 +40,6 @@ class WeatherControllerTest extends ControllerTest {
 	private WeatherService weatherService;
 
 	@Test
-	@WithMockUser
 	void getWeatherTest() throws Exception {
 
 		final List<WeatherResponseDto> response = WeatherFixture.WEATHER_RESPONSE_DTOS;
@@ -74,6 +75,29 @@ class WeatherControllerTest extends ControllerTest {
 						fieldWithPath("nx").type(JsonFieldType.NUMBER).description("위도"),
 						fieldWithPath("ny").type(JsonFieldType.NUMBER).description("경도"))
 			));
+	}
+
+	@DisplayName("잘못된 날씨 요청값으로 에러가 발생한다.")
+	@Test
+	void getWeatherErrorTest() throws Exception {
+		// given
+		String invalidNx = "0";
+		String invalidNy = "1001";
+		String invalidDateTime = null;
+
+		// when
+		mockMvc.perform(get("/api/v1/weather/forecast")
+				.param("now", invalidDateTime)
+				.param("nx", invalidNx)
+				.param("ny", invalidNy)
+				.contentType(MediaType.APPLICATION_JSON))
+			// then
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.code").value("E001"))
+			.andExpect(jsonPath("$.message").value(containsString("잘못된 요청")))
+			.andExpect(jsonPath("$.data.nx").value("위도는 1 이상이어야 합니다."))
+			.andExpect(jsonPath("$.data.ny").value("경도는 999 이하여야 합니다."))
+			.andExpect(jsonPath("$.data.now").value("시간을 입력해주세요."));
 	}
 }
 
