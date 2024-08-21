@@ -1,6 +1,7 @@
 package com.example.fashionforecastbackend.weather.domain.repository;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
@@ -35,6 +36,28 @@ class WeatherRepositoryTest {
 		//then
 		assertThat(records1).isNotEmpty();
 		assertThat(records2).isNotEmpty();
+	}
+	
+	@DisplayName("baseDate = 20240812, baseTime = 1500 보다 과거인 날씨 데이터를 삭제한다.")
+	@Test
+	void deletePastWeathersTest() throws Exception {
+	    //given
+		Weather weather1 = WeatherFixture.createWeather("20240811", "1400", "20240811", "1500", 120, 67);
+		Weather weather2 = WeatherFixture.createWeather("20240811", "1400", "20240811", "1600", 120, 67);
+		Weather weather3 = WeatherFixture.createWeather("20240812", "1400", "20240812", "1500", 120, 67);
+		Weather weather4 = WeatherFixture.createWeather("20240812", "1400", "20240812", "1600", 120, 67);
+		weatherRepository.saveAll(List.of(weather1, weather2, weather3, weather4));
+		//when
+		weatherRepository.deletePastWeathers("20240812", "1500");
+
+		//then
+		List<Weather> pastWeathers1 = weatherRepository.findWeather("20240811", "1400", 120, 67);
+		List<Weather> pastWeathers2 = weatherRepository.findWeather("20240812", "1400", 120, 67);
+		assertAll(
+			() -> assertThat(pastWeathers1).isEmpty(),
+			() -> assertThat(pastWeathers2).isEmpty()
+		);
+
 	}
 
 }
