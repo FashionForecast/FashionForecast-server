@@ -1,5 +1,7 @@
 package com.example.fashionforecastbackend.weather.service.Impl;
 
+import static org.springframework.transaction.annotation.Propagation.*;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
@@ -7,11 +9,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.example.fashionforecastbackend.global.error.ErrorCode;
-import com.example.fashionforecastbackend.global.error.GeneralException;
-import com.example.fashionforecastbackend.global.error.exception.InvalidWeatherRequestException;
 import com.example.fashionforecastbackend.region.domain.Region;
 import com.example.fashionforecastbackend.region.domain.repository.RegionRepository;
 import com.example.fashionforecastbackend.weather.api.RestClientWeatherRequester;
@@ -38,6 +40,7 @@ public class WeatherServiceImpl implements WeatherService {
 	private final WeatherRepository weatherRepository;
 	private final WeatherValidator validator;
 
+	@Transactional
 	@Override
 	public List<WeatherResponseDto> getWeather(final WeatherRequestDto dto) {
 		LocalDateTime now = dto.now();
@@ -77,6 +80,16 @@ public class WeatherServiceImpl implements WeatherService {
 			log.error("날씨 저장하는 과정에서 문제가 발생했습니다.", e);
 			throw new RuntimeException("날씨를 조회하지 못하였습니다.");
 		}
+	}
+
+	@Async
+	@Transactional(propagation = REQUIRES_NEW)
+	@Scheduled(cron = "0 0 5 * * ?")
+	public void deletePastWeathers() {
+		LocalDateTime now = LocalDateTime.now();
+		String baseDate = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+		String baseTime = getBaseTime(now);
+		weatherRepository.deletePastWeathers(baseDate, baseTime);
 	}
 
 	private String getBaseTime(LocalDateTime dateTime) {
