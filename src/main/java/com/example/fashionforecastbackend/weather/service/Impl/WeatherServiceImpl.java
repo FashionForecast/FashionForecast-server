@@ -1,11 +1,13 @@
 package com.example.fashionforecastbackend.weather.service.Impl;
 
+import static com.example.fashionforecastbackend.global.error.ErrorCode.*;
 import static org.springframework.transaction.annotation.Propagation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,6 +16,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.fashionforecastbackend.global.error.exception.InvalidWeatherRequestException;
+import com.example.fashionforecastbackend.recommend.dto.RecommendRequest;
 import com.example.fashionforecastbackend.region.domain.Region;
 import com.example.fashionforecastbackend.region.domain.repository.RegionRepository;
 import com.example.fashionforecastbackend.weather.api.RestClientWeatherRequester;
@@ -22,6 +26,7 @@ import com.example.fashionforecastbackend.weather.domain.repository.WeatherRepos
 import com.example.fashionforecastbackend.weather.dto.WeatherApiResponse;
 import com.example.fashionforecastbackend.weather.dto.WeatherRequestDto;
 import com.example.fashionforecastbackend.weather.dto.WeatherResponseDto;
+import com.example.fashionforecastbackend.weather.dto.WeatherSummaryResponse;
 import com.example.fashionforecastbackend.weather.service.WeatherMapper;
 import com.example.fashionforecastbackend.weather.service.WeatherService;
 import com.example.fashionforecastbackend.weather.util.WeatherValidator;
@@ -150,6 +155,63 @@ public class WeatherServiceImpl implements WeatherService {
 			region = regions.get(0);
 		}
 		return region;
+	}
+
+	@Transactional
+	public WeatherSummaryResponse getWeatherByTime(RecommendRequest dto) {
+		LocalDateTime now = LocalDateTime.now();
+		validator.validateDateTime(now);
+		String baseDate = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+		String baseTime = getBaseTime(now);
+		Region region = findRegion(dto.nx(), dto.ny());
+
+		Collection<Weather> weathers = weatherRepository.findWeather(baseDate, baseTime, region.getNx(),
+			region.getNy());
+
+		if (weathers.isEmpty()) {
+			getWeather(new WeatherRequestDto(now, dto.nx(), dto.nx()));
+			weathers = weatherRepository.findWeather(baseDate, baseTime, region.getNx(),
+				region.getNy());
+		}
+
+		weathers = weathers.stream()
+			.filter(weather -> {
+				LocalDateTime weatherDateTime = convertToDateTime(weather.getFcstDate(), weather.getFcstTime());
+				return !weatherDateTime.isBefore(dto.startTime()) && !weatherDateTime.isAfter(dto.endTime());
+			})
+			.toList();
+
+		Integer min = weathers.stream().map(weather -> Integer.parseInt(weather.getTmp()))
+			.min(Comparator.naturalOrder()).orElseThrow(() -> new InvalidWeatherRequestException(
+				MIN_MAX_TEMP_NOT_FOUND));
+		Integer max = weathers.stream().map(weather -> Integer.parseInt(weather.getTmp()))
+			.max(Comparator.naturalOrder()).orElseThrow(() -> new InvalidWeatherRequestException(
+				MIN_MAX_TEMP_NOT_FOUND));
+
+		boolean isHighPrecipitationProb = weathers.stream()
+			.anyMatch(weather -> Integer.parseInt(weather.getPop()) > 30);
+		boolean isHeavyRainfall = weathers.stream()
+			.anyMatch(weather -> getPcp(weather.getPcp()) > 30);
+
+		return new WeatherSummaryResponse(min, max, isHighPrecipitationProb, isHeavyRainfall);
+	}
+
+	private LocalDateTime convertToDateTime(String fcstDate, String fcstTime) {
+		return LocalDateTime.parse(fcstDate + fcstTime, DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
+	}
+
+	private int getPcp(String pcp) {
+		if (pcp == null || pcp.trim().isEmpty()) {
+			return 0;
+		} else if (pcp.equalsIgnoreCase("강수없음")) {
+			return 0;
+		} else if (pcp.equalsIgnoreCase("1mm 미만")) {
+			return 1;
+		}
+
+		String[] parts = pcp.split(".");
+		String value = parts[0].trim();
+		return Integer.parseInt(value);
 	}
 
 }

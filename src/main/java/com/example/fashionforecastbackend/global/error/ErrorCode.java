@@ -16,8 +16,15 @@ public enum ErrorCode {
 	/**
 	 * 날씨
 	 */
-	INVALID_WEATHER_REQUEST_TIME(HttpStatus.BAD_REQUEST, "W001", "날씨 요청 시간은 과거일 수 없습니다.");
+	INVALID_WEATHER_REQUEST_TIME(HttpStatus.BAD_REQUEST, "W001", "날씨 요청 시간은 과거일 수 없습니다."),
+	TEMP_LEVEL_NOT_FOUND(HttpStatus.BAD_REQUEST, "W002", "날씨에 맞는 온도 단계를 찾을 수 없습니다."),
+	MIN_MAX_TEMP_NOT_FOUND(HttpStatus.BAD_REQUEST, "W003", "최소/최대 기온을 가져오지 못했습니다."),
 
+	/**
+	 * 옷
+	 */
+	UMBRELLA_NOT_FOUND(HttpStatus.BAD_REQUEST, "O001", "맞는 우산 타입을 찾을 수 없습니다."),
+	LAYERED_NOT_FOUND(HttpStatus.BAD_REQUEST, "O002", "맞는 레이어드 타입을 찾을 수 없습니다.");
 
 	private final HttpStatus httpStatus;
 	private final String code;
