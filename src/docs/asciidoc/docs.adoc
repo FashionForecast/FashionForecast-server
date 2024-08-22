@@ -56,9 +56,9 @@ include::{snippets}/weather-controller-test/get-weather-test/http-response.adoc[
 
 include::{snippets}/weather-controller-test/get-weather-test/response-fields.adoc[]
 
-===== rainType, skyStatus
+===== skyStatus, rainType
 
-===== rainType
+===== skyStatus
 |===
 | 값 | 설명
 
@@ -72,7 +72,7 @@ include::{snippets}/weather-controller-test/get-weather-test/response-fields.ado
 | 흐림
 |===
 
-===== skyStatus
+===== rainType
 |===
 | 값 | 설명
 
