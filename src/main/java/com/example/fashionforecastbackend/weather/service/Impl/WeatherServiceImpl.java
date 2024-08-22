@@ -45,8 +45,9 @@ public class WeatherServiceImpl implements WeatherService {
 	public List<WeatherResponseDto> getWeather(final WeatherRequestDto dto) {
 		LocalDateTime now = dto.now();
 		validator.validateDateTime(now);
-		String baseDate = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+		String baseDate = getBaseDate(now);
 		String baseTime = getBaseTime(now);
+
 		Region region = findRegion(dto.nx(), dto.ny());
 
 		Collection<Weather> weathers = weatherRepository.findWeather(baseDate, baseTime, region.getNx(),
@@ -90,6 +91,14 @@ public class WeatherServiceImpl implements WeatherService {
 		String baseDate = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 		String baseTime = getBaseTime(now);
 		weatherRepository.deletePastWeathers(baseDate, baseTime);
+	}
+
+	private String getBaseDate(LocalDateTime dateTime) {
+		int hour = dateTime.getHour();
+		if (hour < 2) {
+			dateTime = dateTime.minusDays(1);
+		}
+		return dateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 	}
 
 	private String getBaseTime(LocalDateTime dateTime) {
