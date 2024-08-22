@@ -12,7 +12,7 @@ permissions:
 #develop 브랜치 트리거 제거
 jobs:
   deploy:
-    if: false
+#    if: false
     runs-on: ubuntu-latest
     steps:
       - name: EC2 원격 접속 및 Docker compose
