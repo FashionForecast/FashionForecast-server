@@ -25,4 +25,8 @@ public class ApiResponse<T> {
 		return new ApiResponse<>(data, 200, "OK");
 	}
 
+	public static <T> ApiResponse<T> created(T data) {
+		return new ApiResponse<>(data, 201, "CREATED");
+	}
+
 }
