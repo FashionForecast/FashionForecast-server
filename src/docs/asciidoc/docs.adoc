@@ -36,7 +36,7 @@
 
 ==== Description
 
-현재 시간을 기준으로 금일, 명일의 날씨데이터
+외출 시간대의 날씨 정보 조회 API
 
 ==== Request
 
@@ -109,7 +109,7 @@ include::{snippets}/weather-controller-test/get-weather-test/response-fields.ado
 
 ==== Description
 
-게스트 로그인 요청
+게스트 로그인 요청 API
 
 ==== Request
 
