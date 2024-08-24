@@ -19,11 +19,23 @@ public class RestDocsConfiguration {
 		return MockMvcRestDocumentation.document(
 			"{class-name}/{method-name}",
 			Preprocessors.preprocessRequest(
-				Preprocessors.removeHeaders("Content-Length", "Host"),
+				Preprocessors.removeHeaders("Content-Length", "Host", "X-CSRF-TOKEN"),
 				Preprocessors.prettyPrint()
 			),
 			Preprocessors.preprocessResponse(
-				Preprocessors.removeHeaders("Transfer-Encoding", "Date", "Keep-Alive", "Connection"),
+				Preprocessors.modifyHeaders()
+					.remove("Vary")
+					.remove("Content-Length")
+					.remove("X-Content-Type-Options")
+					.remove("X-XSS-Protection")
+					.remove("Cache-Control")
+					.remove("Pragma")
+					.remove("Expires")
+					.remove("X-Frame-Options")
+					.remove("Transfer-Encoding")
+					.remove("Date")
+					.remove("Keep-Alive")
+					.remove("Connection"),
 				Preprocessors.prettyPrint()
 			)
 		);

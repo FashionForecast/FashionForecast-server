@@ -1,5 +1,6 @@
 package com.example.fashionforecastbackend.weather.presentation;
 
+import static com.example.fashionforecastbackend.global.restdocs.RestDocsConfiguration.*;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
@@ -52,10 +53,13 @@ class WeatherControllerTest extends ControllerTest {
 			.andExpect(status().isOk())
 			.andDo(restDocs.document(
 				queryParameters(
-					parameterWithName("now").description(
-						"현재시간 (예: '2024-08-11T15:00:00', ISO 8601 형식의 문자열, ':'는 '%3A'로 인코딩됨)"),
-					parameterWithName("nx").description("위도 (정수값)"),
-					parameterWithName("ny").description("경도 (정수값)")
+					parameterWithName("now")
+						.optional()
+						.attributes(field("format", "yyyy-mm-ddTHH:mm:ss"))
+						.description("현재 시간"),
+
+					parameterWithName("nx").optional().attributes(field("format", "1~999 사이 정수값")).description("위도"),
+					parameterWithName("ny").optional().attributes(field("format", "1~999 사이 정수값")).description("경도")
 				),
 				responseFields(
 					fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),

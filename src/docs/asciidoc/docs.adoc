@@ -100,3 +100,27 @@ include::{snippets}/weather-controller-test/get-weather-test/response-fields.ado
 | `SNOW_FLURRIES`
 | 눈날림
 |===
+
+== 게스트 로그인 (POST /api/v1/guest/login)
+
+==== Description
+
+게스트 로그인 요청
+
+==== Request
+
+include::{snippets}/guest-controller-test/login-test/http-request.adoc[]
+
+==== Field
+
+include::{snippets}/guest-controller-test/login-test/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/guest-controller-test/login-test/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/guest-controller-test/login-test/response-fields.adoc[]
+
+
