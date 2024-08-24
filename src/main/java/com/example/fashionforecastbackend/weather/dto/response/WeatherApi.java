@@ -1,8 +1,8 @@
-package com.example.fashionforecastbackend.weather.dto;
+package com.example.fashionforecastbackend.weather.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record WeatherApiResponse(
+public record WeatherApi(
 	@JsonProperty("baseDate") String baseDate,
 	@JsonProperty("baseTime") String baseTime,
 	@JsonProperty("category") String category,
