@@ -55,13 +55,18 @@ public class Weather extends BaseTimeEntity {
 	/**
 	 * 하늘 상태를 나타내는 enum 타입
 	 */
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private SkyStatus skyStatus;
 	/**
 	 * 강수 형태를 나타내는 enum 타입
 	 */
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private RainType rainType;
+	/**
+	 * 계절
+	 */
+	@Enumerated(EnumType.STRING)
+	private Season season;
 	/**
 	 * 강수량
 	 */
@@ -98,6 +103,7 @@ public class Weather extends BaseTimeEntity {
 		String fcstTime,
 		String pcp,
 		String pop,
+		Season season,
 		SkyStatus skyStatus,
 		RainType rainType,
 		int nx,
@@ -112,6 +118,7 @@ public class Weather extends BaseTimeEntity {
 		this.fcstTime = fcstTime;
 		this.pcp = pcp;
 		this.pop = pop;
+		this.season = season;
 		this.skyStatus = skyStatus;
 		this.rainType = rainType;
 		this.nx = nx;
