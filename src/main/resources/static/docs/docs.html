@@ -532,7 +532,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_request"><a class="link" href="#_request">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/weather/forecast?now=2024-08-11T15%3A00%3A00&amp;nx=60&amp;ny=127 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/weather/forecast?nowDateTime=2024-08-11T14%3A21%3A11&amp;startDateTime=2024-08-11T16%3A00%3A00&amp;endDateTime=2024-08-11T21%3A00%3A00&amp;nx=60&amp;ny=127 HTTP/1.1
 Content-Type: application/json;charset=UTF-8</code></pre>
 </div>
 </div>
@@ -556,10 +556,22 @@ Content-Type: application/json;charset=UTF-8</code></pre>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>now</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nowDateTime</code></p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yyyy-mm-ddTHH:mm:ss</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">현재 시간</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>startDateTime</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yyyy-mm-ddTHH:mm:ss</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">외출 시작 시간</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>endDateTime</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yyyy-mm-ddTHH:mm:ss</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">외출 끝 시간</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nx</code></p></td>
@@ -579,7 +591,13 @@ Content-Type: application/json;charset=UTF-8</code></pre>
 <div class="sect3">
 <h4 id="_response"><a class="link" href="#_response">Response</a></h4>
 <div class="paragraph">
-<p>아래 응답은 20240811 16시 전에 조회했을때</p>
+<p>Case</p>
+</div>
+<div class="paragraph">
+<p>외출 시작 시간(startDateTime) : 20240811T16:00:00</p>
+</div>
+<div class="paragraph">
+<p>외출 끝 시간(endDateTime) : 20240811T21:00:00</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -587,403 +605,85 @@ Content-Type: application/json;charset=UTF-8</code></pre>
 Content-Type: application/json
 
 {
-  "data" : [ {
-    "fcstDate" : "20240811",
-    "fcstTime" : "1500",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240811",
-    "fcstTime" : "1600",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240811",
-    "fcstTime" : "1700",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240811",
-    "fcstTime" : "1800",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240811",
-    "fcstTime" : "1900",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240811",
-    "fcstTime" : "2000",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240811",
-    "fcstTime" : "2100",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240811",
-    "fcstTime" : "2200",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240811",
-    "fcstTime" : "2300",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "0000",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "0100",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "0200",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "0300",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "0400",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "0500",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "0600",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "0700",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "0800",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "0900",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "1000",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "1100",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "1200",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "1300",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "1400",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "1500",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "1600",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "1700",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "1800",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "1900",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "2000",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "2100",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "2200",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  }, {
-    "fcstDate" : "20240812",
-    "fcstTime" : "2300",
-    "tmp" : "36",
-    "reh" : "10",
-    "wsd" : "1",
-    "pop" : "30",
-    "pcp" : "강수없음",
-    "rainType" : "NONE",
-    "skyStatus" : "CLEAR",
-    "nx" : 60,
-    "ny" : 127
-  } ],
+  "data" : {
+    "season" : "SUMMER",
+    "extremumTmp" : 36,
+    "maximumPop" : 30,
+    "maximumPcp" : 0.0,
+    "forecasts" : [ {
+      "fcstDate" : "20240811",
+      "fcstTime" : "1600",
+      "tmp" : "36",
+      "reh" : "10",
+      "wsd" : "1",
+      "pop" : "30",
+      "pcp" : "0.0mm",
+      "rainType" : "NONE",
+      "skyStatus" : "CLEAR",
+      "nx" : 60,
+      "ny" : 127
+    }, {
+      "fcstDate" : "20240811",
+      "fcstTime" : "1700",
+      "tmp" : "36",
+      "reh" : "10",
+      "wsd" : "1",
+      "pop" : "30",
+      "pcp" : "0.0mm",
+      "rainType" : "NONE",
+      "skyStatus" : "CLEAR",
+      "nx" : 60,
+      "ny" : 127
+    }, {
+      "fcstDate" : "20240811",
+      "fcstTime" : "1800",
+      "tmp" : "36",
+      "reh" : "10",
+      "wsd" : "1",
+      "pop" : "30",
+      "pcp" : "0.0mm",
+      "rainType" : "NONE",
+      "skyStatus" : "CLEAR",
+      "nx" : 60,
+      "ny" : 127
+    }, {
+      "fcstDate" : "20240811",
+      "fcstTime" : "1900",
+      "tmp" : "36",
+      "reh" : "10",
+      "wsd" : "1",
+      "pop" : "30",
+      "pcp" : "0.0mm",
+      "rainType" : "NONE",
+      "skyStatus" : "CLEAR",
+      "nx" : 60,
+      "ny" : 127
+    }, {
+      "fcstDate" : "20240811",
+      "fcstTime" : "2000",
+      "tmp" : "36",
+      "reh" : "10",
+      "wsd" : "1",
+      "pop" : "30",
+      "pcp" : "0.0mm",
+      "rainType" : "NONE",
+      "skyStatus" : "CLEAR",
+      "nx" : 60,
+      "ny" : 127
+    }, {
+      "fcstDate" : "20240811",
+      "fcstTime" : "2100",
+      "tmp" : "36",
+      "reh" : "10",
+      "wsd" : "1",
+      "pop" : "30",
+      "pcp" : "0.0mm",
+      "rainType" : "NONE",
+      "skyStatus" : "CLEAR",
+      "nx" : 60,
+      "ny" : 127
+    } ]
+  },
   "status" : 200,
   "message" : "OK"
 }</code></pre>
@@ -1018,61 +718,86 @@ Content-Type: application/json
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">날씨 데이터</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].fcstDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.season</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">계절</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.extremumTmp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">최고 또는 최저 기온</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.maximumPop</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">최대 강수확률</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.maximumPcp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">최대 강수량</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.forecasts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">날씨 예보 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.forecasts[].fcstDate</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">예보 날짜</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].fcstTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.forecasts[].fcstTime</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">예보 시간</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].tmp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.forecasts[].tmp</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">온도</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].reh</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.forecasts[].reh</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">습도</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].wsd</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.forecasts[].wsd</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">풍속</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].pop</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.forecasts[].pop</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">강수확률</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].pcp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.forecasts[].pcp</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">강수량</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].rainType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.forecasts[].rainType</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">강수 유형</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].skyStatus</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.forecasts[].skyStatus</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">하늘 상태</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].nx</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.forecasts[].nx</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">위도</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].ny</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.forecasts[].ny</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">경도</p></td>
 </tr>
@@ -1180,7 +905,7 @@ Content-Type: application/json
 Content-Type: application/json;charset=UTF-8
 
 {
-  "uuid" : "6ed4ae83-e682-40d9-b284-ac07b87f18ab"
+  "uuid" : "6601fa58-c60d-4b3b-ac6a-7efebe1007ff"
 }</code></pre>
 </div>
 </div>
@@ -1224,7 +949,7 @@ Content-Type: application/json
 
 {
   "data" : {
-    "uuid" : "6ed4ae83-e682-40d9-b284-ac07b87f18ab",
+    "uuid" : "6601fa58-c60d-4b3b-ac6a-7efebe1007ff",
     "isNewGuest" : false
   },
   "status" : 200,
@@ -1283,7 +1008,7 @@ Content-Type: application/json
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-08-23 19:41:14 +0900
+Last updated 2024-08-24 21:34:05 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
