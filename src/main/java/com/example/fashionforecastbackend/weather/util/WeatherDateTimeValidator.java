@@ -22,14 +22,22 @@ public class WeatherDateTimeValidator {
 
 	public void validateStartDateTime(LocalDateTime startDateTime, LocalDateTime endDateTime) {
 
-		if (startDateTime.isBefore(now) || startDateTime.isAfter(endDateTime)) {
+		int nowHour = now.getHour();
+		int startHour = startDateTime.getHour();
+		int endHour = endDateTime.getHour();
+
+		if (startHour < nowHour || startHour > endHour) {
 			throw new InvalidWeatherRequestException(ErrorCode.INVALID_WEATHER_START_DATE_TIME);
 		}
 	}
 
 	public void validateEndDateTime(LocalDateTime startDateTime, LocalDateTime endDateTime) {
 
-		if (endDateTime.isBefore(now) || endDateTime.isBefore(startDateTime)) {
+		int nowHour = now.getHour();
+		int startHour = startDateTime.getHour();
+		int endHour = endDateTime.getHour();
+
+		if (endHour <= nowHour || endHour <= startHour) {
 			throw new InvalidWeatherRequestException(ErrorCode.INVALID_WEATHER_END_DATE_TIME);
 		}
 	}
