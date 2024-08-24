@@ -21,9 +21,9 @@ public class WeatherCustomRepositoryImpl implements WeatherCustomRepository {
 	public void saveAll(Collection<Weather> weathers) {
 
 		String sql =
-			"INSERT INTO weather (base_date, base_time, reh, tmp, wsd, sky_status, rain_type, fcst_date, fcst_time,"
+			"INSERT INTO weather (base_date, base_time, reh, tmp, wsd, season, sky_status, rain_type, fcst_date, fcst_time,"
 				+ "pcp, pop, nx, ny, created_at, modified_at)"
-				+ " VALUES (:base_date, :base_time, :reh, :tmp, :wsd, :sky_status, :rain_type, :fcst_date, :fcst_time,"
+				+ " VALUES (:base_date, :base_time, :reh, :tmp, :wsd, :season, :sky_status, :rain_type, :fcst_date, :fcst_time,"
 				+ ":pcp, :pop, :nx, :ny, :created_at, :modified_at)";
 
 		namedParameterJdbcTemplate.batchUpdate(sql, getRegionParameterSource(weathers));
@@ -45,8 +45,9 @@ public class WeatherCustomRepositoryImpl implements WeatherCustomRepository {
 			.addValue("fcst_time", weather.getFcstTime())
 			.addValue("pcp", weather.getPcp())
 			.addValue("pop", weather.getPop())
-			.addValue("sky_status", weather.getSkyStatus().ordinal())
-			.addValue("rain_type", weather.getRainType().ordinal())
+			.addValue("season", weather.getSeason().name())
+			.addValue("sky_status", weather.getSkyStatus().name())
+			.addValue("rain_type", weather.getRainType().name())
 			.addValue("nx", weather.getNx())
 			.addValue("ny", weather.getNy())
 			.addValue("created_at", now)

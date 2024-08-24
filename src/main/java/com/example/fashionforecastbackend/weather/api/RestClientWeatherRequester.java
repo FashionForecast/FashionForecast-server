@@ -5,6 +5,8 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.example.fashionforecastbackend.weather.dto.request.WeatherFilter;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,8 +18,9 @@ public class RestClientWeatherRequester {
 	private final RestClient restClient;
 	private final WeatherApiProperties apiProperties;
 
-	public String getWeatherForecast(String forecastType, String baseDate, String baseTime, int nx, int ny) {
-		String url = getUrl(forecastType, baseDate, baseTime, nx, ny);
+	public String getWeatherForecast(String forecastType, WeatherFilter weatherFilter) {
+
+		String url = getUrl(forecastType, weatherFilter);
 		log.info(url);
 		try {
 			return restClient.get()
@@ -30,7 +33,11 @@ public class RestClientWeatherRequester {
 		}
 	}
 
-	private String getUrl(String forecastType, String baseDate, String baseTime, int nx, int ny) {
+	private String getUrl(String forecastType, WeatherFilter weatherFilter) {
+		String baseDate = weatherFilter.baseDate();
+		String baseTime = weatherFilter.baseTime();
+		int nx = weatherFilter.nx();
+		int ny = weatherFilter.ny();
 		return UriComponentsBuilder.fromHttpUrl(apiProperties.getBaseUrl())
 			.path(forecastType)
 			.queryParam("serviceKey", apiProperties.getKey())
