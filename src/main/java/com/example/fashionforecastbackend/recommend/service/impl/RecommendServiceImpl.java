@@ -22,7 +22,6 @@ import com.example.fashionforecastbackend.recommend.dto.RecommendResponse;
 import com.example.fashionforecastbackend.recommend.service.RecommendService;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
 import com.example.fashionforecastbackend.tempStage.domain.repository.TempStageRepository;
-import com.example.fashionforecastbackend.weather.domain.Season;
 import com.example.fashionforecastbackend.weather.dto.request.WeatherRequest;
 import com.example.fashionforecastbackend.weather.dto.response.WeatherResponse;
 import com.example.fashionforecastbackend.weather.service.WeatherService;
@@ -48,34 +47,34 @@ public class RecommendServiceImpl implements RecommendService {
 		WeatherResponse weather = weatherService.getWeather(weatherRequest);
 
 		TempStage tempStage;
-		if (weather.season() == Season.SUMMER) {
+		if (weather.extremumTmp() < 5) {
 			if (recommendRequest.tempCondition() == TempCondition.COOL) {
-				tempStage = tempStageRepository.findByWeatherAndCoolOption(weather.extremumTmp())
-					.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
-			} else if (recommendRequest.tempCondition() == TempCondition.NORMAL) {
-				tempStage = tempStageRepository.findByWeather(weather.extremumTmp())
-					.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
-			} else {
 				throw new InvalidWeatherRequestException(INVALID_TEMP_CONDITION);
 			}
-
-		} else {
+		}
+		if (weather.extremumTmp() >= 28) {
 			if (recommendRequest.tempCondition() == TempCondition.WARM) {
-				tempStage = tempStageRepository.findByWeatherAndWarmOption(weather.extremumTmp())
-					.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
-			} else if (recommendRequest.tempCondition() == TempCondition.NORMAL) {
-				tempStage = tempStageRepository.findByWeatherAndWarmOption(weather.extremumTmp())
-					.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
-			} else {
 				throw new InvalidWeatherRequestException(INVALID_TEMP_CONDITION);
 			}
+		}
+		if (recommendRequest.tempCondition() == TempCondition.COOL) {
+			tempStage = tempStageRepository.findByWeatherAndCoolOption(weather.extremumTmp())
+				.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
+		} else if (recommendRequest.tempCondition() == TempCondition.NORMAL) {
+			tempStage = tempStageRepository.findByWeather(weather.extremumTmp())
+				.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
+		} else if (recommendRequest.tempCondition() == TempCondition.WARM) {
+			tempStage = tempStageRepository.findByWeatherAndWarmOption(weather.extremumTmp())
+				.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
+		} else {
+			throw new InvalidWeatherRequestException(INVALID_TEMP_CONDITION);
 		}
 
 		List<Outfit> outfits = new ArrayList<>(tempStage.getRecommendations().stream()
 			.map(Recommendation::getOutfit).toList());
 
 		determineUmbrella(weather, outfits);
-		// determineLayered(tempStage, weather, outfits);
+		determineLayered(weather, outfits);
 
 		return outfits.stream().map(RecommendResponse::of).toList();
 	}
@@ -101,14 +100,11 @@ public class RecommendServiceImpl implements RecommendService {
 
 	}
 
-	// private void determineLayered(TempStage tempStage, WeatherResponse weatherSummary, List<Outfit> outfits) {
-	// 	if (tempStage.getLevel() == 6 || tempStage.getLevel() == 7 || tempStage.getLevel() == 8) {
-	// 		return;
-	// 	}
-	// 	if (weatherSummary.max() - weatherSummary.min() >= 10) {
-	// 		Outfit outfit = outfitRepository.findByUmbrellaType(OutfitType.LAYERED)
-	// 			.orElseThrow(() -> new OutfitTypeNotFoundException(UMBRELLA_NOT_FOUND));
-	// 		outfits.add(outfit);
-	// 	}
-	// }
+	private void determineLayered(WeatherResponse weather, List<Outfit> outfits) {
+		if (weather.maxMinTmpDiff() >= 10) {
+			Outfit outfit = outfitRepository.findByUmbrellaType(OutfitType.LAYERED)
+				.orElseThrow(() -> new OutfitTypeNotFoundException(UMBRELLA_NOT_FOUND));
+			outfits.add(outfit);
+		}
+	}
 }

@@ -15,28 +15,20 @@ public interface TempStageRepository extends JpaRepository<TempStage, Long> {
 		+ "where t.maxTemp >= :temp and t.minTemp <= :temp")
 	Optional<TempStage> findByWeather(@Param("temp") int temp);
 
-	@Query("select coalesce( "
-		+ "   (select t1 from TempStage t1 "
-		+ "    where t1.level = ( "
-		+ "        select t2.level + 1 from TempStage t2 "
-		+ "        where t2.minTemp <= :temp and t2.maxTemp >= :temp "
-		+ "    ) "
-		+ "   ), "
-		+ "   (select t from TempStage t "
-		+ "    where t.minTemp <= :temp and t.maxTemp >= :temp) "
-		+ ") from TempStage t3")
+	@Query("select t1 "
+		+ "from TempStage t1 "
+		+ "where t1.level = ( "
+		+ "		select t2.level + 1 from TempStage t2 "
+		+ "     where t2.minTemp <= :temp and t2.maxTemp >= :temp "
+		+ ") ")
 	Optional<TempStage> findByWeatherAndCoolOption(@Param("temp") int temp);
 
-	@Query("select coalesce( "
-		+ "   (select t1 from TempStage t1 "
-		+ "    where t1.level = ( "
-		+ "        select t2.level - 1 from TempStage t2 "
-		+ "        where t2.minTemp <= :temp and t2.maxTemp >= :temp "
-		+ "    ) "
-		+ "   ), "
-		+ "   (select t from TempStage t "
-		+ "    where t.minTemp <= :temp and t.maxTemp >= :temp) "
-		+ ") from TempStage t3")
+	@Query("select t1 "
+		+ "from TempStage t1 "
+		+ "where t1.level = ( "
+		+ "		select t2.level - 1 from TempStage t2 "
+		+ "     where t2.minTemp <= :temp and t2.maxTemp >= :temp "
+		+ ") ")
 	Optional<TempStage> findByWeatherAndWarmOption(@Param("temp") int temp);
 
 }
