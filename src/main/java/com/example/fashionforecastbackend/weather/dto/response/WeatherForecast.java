@@ -1,10 +1,10 @@
-package com.example.fashionforecastbackend.weather.dto;
+package com.example.fashionforecastbackend.weather.dto.response;
 
 import com.example.fashionforecastbackend.weather.domain.RainType;
 import com.example.fashionforecastbackend.weather.domain.SkyStatus;
 import com.example.fashionforecastbackend.weather.domain.Weather;
 
-public record WeatherResponseDto(
+public record WeatherForecast(
 	String fcstDate,
 	String fcstTime,
 	String tmp,
@@ -17,8 +17,8 @@ public record WeatherResponseDto(
 	int nx,
 	int ny
 ) {
-	public static WeatherResponseDto from(Weather weather) {
-		return new WeatherResponseDto(
+	public static WeatherForecast from(Weather weather) {
+		return new WeatherForecast(
 			weather.getFcstDate(),
 			weather.getFcstTime(),
 			weather.getTmp(),

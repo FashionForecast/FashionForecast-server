@@ -9,34 +9,34 @@ import org.springframework.data.repository.query.Param;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
 
 public interface TempStageRepository extends JpaRepository<TempStage, Long> {
+
 	@Query("select t "
 		+ "from TempStage t "
-		+ "where t.level = ( "
-		+ "select min(t2.level) "
-		+ "from TempStage t2 "
-		+ "where t2.minTemp <= :maxTemp "
-		+ "and t2.maxTemp >= :minTemp"
-		+ ")")
-	Optional<TempStage> findMinByWeather(@Param("minTemp") int minTemp, @Param("maxTemp") int maxTemp);
+		+ "where t.maxTemp >= :temp and t.minTemp <= :temp")
+	Optional<TempStage> findByWeather(@Param("temp") int temp);
 
-	@Query("select t from TempStage t "
-		+ "where t.level = ("
-		+ "select max(t2.level) from TempStage t2 "
-		+ "where t2.minTemp <= :maxTemp and t2.maxTemp >= :minTemp)")
-	Optional<TempStage> findMaxByWeather(@Param("minTemp") int minTemp, @Param("maxTemp") int maxTemp);
+	@Query("select coalesce( "
+		+ "   (select t1 from TempStage t1 "
+		+ "    where t1.level = ( "
+		+ "        select t2.level + 1 from TempStage t2 "
+		+ "        where t2.minTemp <= :temp and t2.maxTemp >= :temp "
+		+ "    ) "
+		+ "   ), "
+		+ "   (select t from TempStage t "
+		+ "    where t.minTemp <= :temp and t.maxTemp >= :temp) "
+		+ ") from TempStage t3")
+	Optional<TempStage> findByWeatherAndCoolOption(@Param("temp") int temp);
 
-	@Query("select t from TempStage t "
-		+ "where t.level <= ("
-		+ "select max(t2.level) - 1 from TempStage t2 "
-		+ "where t2.minTemp <= :maxTemp and t2.maxTemp >= :minTemp) "
-		+ "order by t.level")
-	Optional<TempStage> findByWeatherAndCoolOption(@Param("minTemp") int minTemp, @Param("maxTemp") int maxTemp);
-
-	@Query("select t from TempStage t "
-		+ "where t.level <= ("
-		+ "select min(t2.level) + 1 from TempStage t2 "
-		+ "where t2.minTemp <= :maxTemp and t2.maxTemp >= :minTemp) "
-		+ "order by t.level desc")
-	Optional<TempStage> findByWeatherAndWarmOption(@Param("minTemp") int minTemp, @Param("maxTemp") int maxTemp);
+	@Query("select coalesce( "
+		+ "   (select t1 from TempStage t1 "
+		+ "    where t1.level = ( "
+		+ "        select t2.level - 1 from TempStage t2 "
+		+ "        where t2.minTemp <= :temp and t2.maxTemp >= :temp "
+		+ "    ) "
+		+ "   ), "
+		+ "   (select t from TempStage t "
+		+ "    where t.minTemp <= :temp and t.maxTemp >= :temp) "
+		+ ") from TempStage t3")
+	Optional<TempStage> findByWeatherAndWarmOption(@Param("temp") int temp);
 
 }

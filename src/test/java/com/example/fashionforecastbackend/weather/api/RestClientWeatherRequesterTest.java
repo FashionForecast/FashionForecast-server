@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 
+import com.example.fashionforecastbackend.weather.dto.request.WeatherFilter;
+
 @ExtendWith(MockitoExtension.class)
 class RestClientWeatherRequesterTest {
 	@Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -38,8 +40,15 @@ class RestClientWeatherRequesterTest {
 		String forecastType = "/getVilageFcst";
 		String baseDate = "20240809";
 		String baseTime = "0600";
+		String startDate = "20240809";
+		String startTime = "0800";
+		String endDate = "20240809";
+		String endTime = "1300";
 		int nx = 60;
 		int ny = 127;
+
+		WeatherFilter weatherFilter = WeatherFilter.of(baseDate, baseTime, startDate, startTime, endDate, endTime, nx,
+			ny);
 
 		String path = "/getVilageFcst?serviceKey=";
 		given(restClient.get()
@@ -49,7 +58,7 @@ class RestClientWeatherRequesterTest {
 		).willReturn("ok");
 
 		// when
-		String response = restClientWeatherRequester.getWeatherForecast(forecastType, baseDate, baseTime, nx, ny);
+		String response = restClientWeatherRequester.getWeatherForecast(forecastType, weatherFilter);
 
 		// then
 		assertThat(response).isEqualTo("ok");
@@ -67,8 +76,15 @@ class RestClientWeatherRequesterTest {
 		String errorForecastType = "/getVi";
 		String errorBaseDate = "202409";
 		String errorBaseTime = "060";
+		String startDate = "20240809";
+		String startTime = "0800";
+		String endDate = "20240809";
+		String endTime = "1300";
 		int nx = 60;
 		int ny = 127;
+
+		WeatherFilter errorWeatherFilter = WeatherFilter.of(errorBaseDate, errorBaseTime, startDate, startTime, endDate, endTime, nx,
+			ny);
 
 		given(restClient.get()
 			.uri(anyString())
@@ -79,8 +95,7 @@ class RestClientWeatherRequesterTest {
 
 		// when // then
 		assertThatThrownBy(
-			() -> restClientWeatherRequester.getWeatherForecast(errorForecastType, errorBaseDate, errorBaseTime, nx,
-				ny))
+			() -> restClientWeatherRequester.getWeatherForecast(errorForecastType, errorWeatherFilter))
 			.isInstanceOf(RuntimeException.class)
 			.hasMessageContaining("400 BAD_REQUEST");
 	}

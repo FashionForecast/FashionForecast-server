@@ -1,35 +1,34 @@
 package com.example.fashionforecastbackend.weather.service.Impl;
 
-import static com.example.fashionforecastbackend.global.error.ErrorCode.*;
 import static org.springframework.transaction.annotation.Propagation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.fashionforecastbackend.global.error.exception.InvalidWeatherRequestException;
-import com.example.fashionforecastbackend.recommend.dto.RecommendRequest;
 import com.example.fashionforecastbackend.region.domain.Region;
 import com.example.fashionforecastbackend.region.domain.repository.RegionRepository;
 import com.example.fashionforecastbackend.weather.api.RestClientWeatherRequester;
+import com.example.fashionforecastbackend.weather.domain.Season;
 import com.example.fashionforecastbackend.weather.domain.Weather;
 import com.example.fashionforecastbackend.weather.domain.repository.WeatherRepository;
-import com.example.fashionforecastbackend.weather.dto.WeatherApiResponse;
-import com.example.fashionforecastbackend.weather.dto.WeatherRequestDto;
-import com.example.fashionforecastbackend.weather.dto.WeatherResponseDto;
-import com.example.fashionforecastbackend.weather.dto.WeatherSummaryResponse;
+import com.example.fashionforecastbackend.weather.dto.request.WeatherFilter;
+import com.example.fashionforecastbackend.weather.dto.request.WeatherRequest;
+import com.example.fashionforecastbackend.weather.dto.response.WeatherApi;
+import com.example.fashionforecastbackend.weather.dto.response.WeatherForecast;
+import com.example.fashionforecastbackend.weather.dto.response.WeatherResponse;
 import com.example.fashionforecastbackend.weather.service.WeatherMapper;
 import com.example.fashionforecastbackend.weather.service.WeatherService;
-import com.example.fashionforecastbackend.weather.util.WeatherValidator;
+import com.example.fashionforecastbackend.weather.util.WeatherDateTimeValidator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,53 +38,34 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WeatherServiceImpl implements WeatherService {
 
+	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd");
+
 	private final RestClientWeatherRequester weatherRequester;
 	private final RegionRepository regionRepository;
 	private final WeatherMapper weatherMapper;
 	private final WeatherRepository weatherRepository;
-	private final WeatherValidator validator;
+	private final WeatherDateTimeValidator validator;
 
 	@Transactional
 	@Override
-	public List<WeatherResponseDto> getWeather(final WeatherRequestDto dto) {
-		LocalDateTime now = dto.now();
-		validator.validateDateTime(now);
-		String baseDate = getBaseDate(now);
-		String baseTime = getBaseTime(now);
-
+	public WeatherResponse getWeather(final WeatherRequest dto) {
+		validateDtoDateTime(dto);
 		Region region = findRegion(dto.nx(), dto.ny());
+		WeatherFilter weatherFilter = getWeatherFilter(dto, region);
 
-		Collection<Weather> weathers = weatherRepository.findWeather(baseDate, baseTime, region.getNx(),
-			region.getNy());
+		Collection<Weather> weathers = weatherRepository.findWeather(weatherFilter.baseDate(), weatherFilter.baseTime(),
+			weatherFilter.nx(), weatherFilter.ny());
 
-		if (!weathers.isEmpty()) {
-			return weatherMapper.convertToWeatherResponseDto(weathers);
-		}
-
-		try {
-			int nx = region.getNx();
-			int ny = region.getNy();
-			String weatherForecast = weatherRequester.getWeatherForecast("/getVilageFcst", baseDate, baseTime, nx,
-				ny);
-
-			List<WeatherApiResponse> responses = weatherMapper.convertToWeatherApiResponse(weatherForecast,
-				"/response/body/items/item");
-
-			weathers = weatherMapper.convertToWeathers(responses, region, "short");
+		if (weathers.isEmpty()) {
+			weathers = getWeathersFromExternalApi(weatherFilter, region);
 			weatherRepository.saveAll(weathers);
-			List<WeatherResponseDto> weatherResponseDtos = weatherMapper.convertToWeatherResponseDto(weathers);
-
-			weatherResponseDtos.sort((r1, r2) -> {
-				String dateTime1 = r1.fcstDate() + r1.fcstTime();
-				String dateTime2 = r2.fcstDate() + r2.fcstTime();
-				return dateTime1.compareTo(dateTime2);
-			});
-			return weatherResponseDtos;
-
-		} catch (Exception e) {
-			log.error("날씨 저장하는 과정에서 문제가 발생했습니다.", e);
-			throw new RuntimeException("날씨를 조회하지 못하였습니다.");
 		}
+		List<Weather> filteredWeathers = getFilteredWeathers(weathers, weatherFilter);
+		Season season = filteredWeathers.get(0).getSeason();
+		List<WeatherForecast> weatherForecasts = weatherMapper.convertToWeatherResponseDto(filteredWeathers);
+		sortWeatherForecastsByDateTime(weatherForecasts);
+
+		return getWeatherResponse(weatherForecasts, season);
 	}
 
 	@Async
@@ -98,17 +78,125 @@ public class WeatherServiceImpl implements WeatherService {
 		weatherRepository.deletePastWeathers(baseDate, baseTime);
 	}
 
-	private String getBaseDate(LocalDateTime dateTime) {
-		int hour = dateTime.getHour();
-		if (hour < 2) {
-			dateTime = dateTime.minusDays(1);
-		}
-		return dateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+	private WeatherResponse getWeatherResponse(List<WeatherForecast> weatherForecasts, Season season) {
+		int extremumTmp = getextremumTmp(weatherForecasts, season);
+		int maximumPop = getMaximumPop(weatherForecasts);
+		double maximumPcp = getMaximumPcp(weatherForecasts);
+		return WeatherResponse.of(season, extremumTmp, maximumPop, maximumPcp, weatherForecasts);
 	}
 
-	private String getBaseTime(LocalDateTime dateTime) {
+	private int getextremumTmp(List<WeatherForecast> weatherForecasts, Season season) {
 
-		int hour = dateTime.getHour();
+		int extremumTmp = 0;
+		if (Objects.equals(season, Season.SUMMER)) {
+			extremumTmp = weatherForecasts.stream()
+				.map(weather -> Integer.parseInt(weather.tmp()))
+				.max(Integer::compareTo)
+				.orElse(0);
+		}
+		if (Objects.equals(season, Season.WINTER)) {
+			extremumTmp = weatherForecasts.stream()
+				.map(weather -> Integer.parseInt(weather.tmp()))
+				.min(Integer::compareTo)
+				.orElse(0);
+		}
+
+		return extremumTmp;
+	}
+
+	private int getMaximumPop(List<WeatherForecast> weatherForecasts) {
+		return weatherForecasts.stream()
+			.map(weather -> Integer.parseInt(weather.pop()))
+			.max(Integer::compareTo)
+			.orElse(0);
+	}
+
+	private double getMaximumPcp(List<WeatherForecast> weatherForecasts) {
+		return weatherForecasts.stream()
+			.map(weather -> weather.pcp().replaceAll("[^\\d.]", ""))
+			.mapToDouble(Double::parseDouble)
+			.max()
+			.orElse(0.0);
+	}
+
+	private Collection<Weather> getWeathersFromExternalApi(WeatherFilter weatherFilter, Region region) {
+		try {
+			String weatherForecast = weatherRequester.getWeatherForecast("/getVilageFcst", weatherFilter);
+			List<WeatherApi> responses = weatherMapper.convertToWeatherApiResponse(weatherForecast,
+				"/response/body/items/item");
+			Collection<Weather> weathers = weatherMapper.convertToWeathers(responses, region);
+			return weathers;
+
+		} catch (Exception e) {
+			log.error("외부 API에서 날씨를 가져오는 과정에서 문제가 발생했습니다.", e);
+			throw new RuntimeException("날씨를 조회하지 못하였습니다.");
+		}
+	}
+
+	private void validateDtoDateTime(WeatherRequest dto) {
+
+		LocalDateTime nowDateTime = dto.nowDateTime();
+		LocalDateTime startDateTime = dto.startDateTime();
+		LocalDateTime endDateTime = dto.endDateTime();
+
+		validator.validateNowDateTime(nowDateTime);
+		validator.validateStartDateTime(startDateTime, endDateTime);
+		validator.validateEndDateTime(startDateTime, endDateTime);
+
+	}
+
+	private void sortWeatherForecastsByDateTime(List<WeatherForecast> weatherForecasts) {
+		weatherForecasts.sort((r1, r2) -> {
+			String dateTime1 = r1.fcstDate() + r1.fcstTime();
+			String dateTime2 = r2.fcstDate() + r2.fcstTime();
+			return dateTime1.compareTo(dateTime2);
+		});
+	}
+
+	private List<Weather> getFilteredWeathers(Collection<Weather> weathers, WeatherFilter weatherFilter) {
+		return weathers.stream()
+			.filter(weather -> isInDateTime(weather, weatherFilter))
+			.collect(Collectors.toList());
+	}
+
+	private boolean isInDateTime(Weather weather, WeatherFilter weatherFilter) {
+
+		String startDateTime = weatherFilter.startDate() + weatherFilter.startTime();
+		String endDateTime = weatherFilter.endDate() + weatherFilter.endTime();
+		String fcstDateTime = weather.getFcstDate() + weather.getFcstTime();
+
+		return fcstDateTime.compareTo(startDateTime) >= 0 &&
+			fcstDateTime.compareTo(endDateTime) <= 0;
+	}
+
+	private String getBaseDate(LocalDateTime nowDateTime) {
+		int hour = nowDateTime.getHour();
+		if (hour < 2) {
+			nowDateTime = nowDateTime.minusDays(1);
+		}
+		return nowDateTime.format(DATE_FORMAT);
+	}
+
+	private WeatherFilter getWeatherFilter(WeatherRequest dto, Region region) {
+
+		LocalDateTime nowDateTime = dto.nowDateTime();
+		LocalDateTime startDateTime = dto.startDateTime();
+		LocalDateTime endDateTime = dto.endDateTime();
+
+		String baseDate = getBaseDate(nowDateTime);
+		String baseTime = getBaseTime(nowDateTime);
+		String startDate = startDateTime.format(DATE_FORMAT);
+		String startTime = convertToFormatTime(startDateTime.getHour());
+		String endDate = endDateTime.format(DATE_FORMAT);
+		String endTime = convertToFormatTime(endDateTime.getHour());
+
+		return WeatherFilter.of(baseDate, baseTime, startDate, startTime, endDate, endTime,
+			region.getNx(), region.getNy());
+	}
+
+	private String getBaseTime(LocalDateTime nowDateTime) {
+
+		int hour = nowDateTime.getHour();
 		// 예보는 3시간 기점으로 발표
 		if (hour < 2) {
 			hour = 23;
@@ -129,17 +217,11 @@ public class WeatherServiceImpl implements WeatherService {
 		} else {
 			hour = 23;
 		}
+		return convertToFormatTime(hour);
+	}
 
-		StringBuilder sb = new StringBuilder();
-		if (hour < 10) {
-			sb.append("0").append(hour);
-		} else {
-			sb.append(hour);
-		}
-
-		sb.append("00");
-
-		return sb.toString();
+	private String convertToFormatTime(int hour) {
+		return String.format("%02d00", hour);
 	}
 
 	private Region findRegion(int nx, int ny) {
@@ -155,51 +237,6 @@ public class WeatherServiceImpl implements WeatherService {
 			region = regions.get(0);
 		}
 		return region;
-	}
-
-	@Transactional
-	public WeatherSummaryResponse getWeatherByTime(RecommendRequest dto) {
-		List<WeatherResponseDto> weatherDtos = getWeather(
-			new WeatherRequestDto(LocalDateTime.now(), dto.nx(), dto.nx()));
-
-		weatherDtos = weatherDtos.stream()
-			.filter(weather -> {
-				LocalDateTime weatherDateTime = convertToDateTime(weather.fcstDate(), weather.fcstTime());
-				return !weatherDateTime.isBefore(dto.startTime()) && !weatherDateTime.isAfter(dto.endTime());
-			})
-			.toList();
-
-		Integer min = weatherDtos.stream().map(weather -> Integer.parseInt(weather.tmp()))
-			.min(Comparator.naturalOrder()).orElseThrow(() -> new InvalidWeatherRequestException(
-				MIN_MAX_TEMP_NOT_FOUND));
-		Integer max = weatherDtos.stream().map(weather -> Integer.parseInt(weather.tmp()))
-			.max(Comparator.naturalOrder()).orElseThrow(() -> new InvalidWeatherRequestException(
-				MIN_MAX_TEMP_NOT_FOUND));
-
-		boolean isHighPrecipitationProb = weatherDtos.stream()
-			.anyMatch(weather -> Integer.parseInt(weather.pop()) > 30);
-		boolean isHeavyRainfall = weatherDtos.stream()
-			.anyMatch(weather -> getPcp(weather.pcp()) > 30);
-
-		return new WeatherSummaryResponse(min, max, isHighPrecipitationProb, isHeavyRainfall);
-	}
-
-	private LocalDateTime convertToDateTime(String fcstDate, String fcstTime) {
-		return LocalDateTime.parse(fcstDate + fcstTime, DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
-	}
-
-	private int getPcp(String pcp) {
-		if (pcp == null || pcp.trim().isEmpty()) {
-			return 0;
-		} else if (pcp.equalsIgnoreCase("강수없음")) {
-			return 0;
-		} else if (pcp.equalsIgnoreCase("1mm 미만")) {
-			return 1;
-		}
-
-		String[] parts = pcp.split(".");
-		String value = parts[0].trim();
-		return Integer.parseInt(value);
 	}
 
 }

@@ -2,6 +2,7 @@ package com.example.fashionforecastbackend.recommend.service.impl;
 
 import static com.example.fashionforecastbackend.global.error.ErrorCode.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,9 @@ import com.example.fashionforecastbackend.recommend.dto.RecommendResponse;
 import com.example.fashionforecastbackend.recommend.service.RecommendService;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
 import com.example.fashionforecastbackend.tempStage.domain.repository.TempStageRepository;
-import com.example.fashionforecastbackend.weather.dto.WeatherSummaryResponse;
+import com.example.fashionforecastbackend.weather.domain.Season;
+import com.example.fashionforecastbackend.weather.dto.request.WeatherRequest;
+import com.example.fashionforecastbackend.weather.dto.response.WeatherResponse;
 import com.example.fashionforecastbackend.weather.service.WeatherService;
 
 import lombok.RequiredArgsConstructor;
@@ -40,16 +43,17 @@ public class RecommendServiceImpl implements RecommendService {
 	@Transactional
 	@Override
 	public List<RecommendResponse> getRecommendedOutfit(RecommendRequest recommendRequest) {
-		WeatherSummaryResponse weatherSummary = weatherService.getWeatherByTime(recommendRequest);
+		WeatherRequest weatherRequest = new WeatherRequest(LocalDateTime.now(),
+			recommendRequest.startTime(), recommendRequest.endTime(), recommendRequest.nx(), recommendRequest.ny());
+		WeatherResponse weather = weatherService.getWeather(weatherRequest);
 
 		TempStage tempStage;
-		if (recommendRequest.startTime().getMonth().getValue() >= 5
-			&& recommendRequest.startTime().getMonth().getValue() <= 9) {
+		if (weather.season() == Season.SUMMER) {
 			if (recommendRequest.tempCondition() == TempCondition.COOL) {
-				tempStage = tempStageRepository.findByWeatherAndCoolOption(weatherSummary.min(), weatherSummary.max())
+				tempStage = tempStageRepository.findByWeatherAndCoolOption(weather.extremumTmp())
 					.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
 			} else if (recommendRequest.tempCondition() == TempCondition.NORMAL) {
-				tempStage = tempStageRepository.findMinByWeather(weatherSummary.min(), weatherSummary.max())
+				tempStage = tempStageRepository.findByWeather(weather.extremumTmp())
 					.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
 			} else {
 				throw new InvalidWeatherRequestException(INVALID_TEMP_CONDITION);
@@ -57,10 +61,10 @@ public class RecommendServiceImpl implements RecommendService {
 
 		} else {
 			if (recommendRequest.tempCondition() == TempCondition.WARM) {
-				tempStage = tempStageRepository.findByWeatherAndWarmOption(weatherSummary.min(), weatherSummary.max())
+				tempStage = tempStageRepository.findByWeatherAndWarmOption(weather.extremumTmp())
 					.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
 			} else if (recommendRequest.tempCondition() == TempCondition.NORMAL) {
-				tempStage = tempStageRepository.findMaxByWeather(weatherSummary.min(), weatherSummary.max())
+				tempStage = tempStageRepository.findByWeatherAndWarmOption(weather.extremumTmp())
 					.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
 			} else {
 				throw new InvalidWeatherRequestException(INVALID_TEMP_CONDITION);
@@ -70,16 +74,16 @@ public class RecommendServiceImpl implements RecommendService {
 		List<Outfit> outfits = new ArrayList<>(tempStage.getRecommendations().stream()
 			.map(Recommendation::getOutfit).toList());
 
-		determineUmbrella(weatherSummary, outfits);
-		determineLayered(tempStage, weatherSummary, outfits);
+		determineUmbrella(weather, outfits);
+		// determineLayered(tempStage, weather, outfits);
 
 		return outfits.stream().map(RecommendResponse::of).toList();
 	}
 
-	private void determineUmbrella(WeatherSummaryResponse weatherSummary, List<Outfit> outfits) {
-		if (weatherSummary.isHighPrecipitationProb()) {
+	private void determineUmbrella(WeatherResponse weather, List<Outfit> outfits) {
+		if (weather.maximumPop() >= 30) {
 			Outfit outfit;
-			if (weatherSummary.isHeavyRainfall()) {
+			if (weather.maximumPcp() >= 3) {
 				outfit = outfitRepository.findByUmbrellaType(OutfitType.BASIC_UMBRELLA)
 					.orElseThrow(() -> new OutfitTypeNotFoundException(UMBRELLA_NOT_FOUND));
 			} else {
@@ -88,7 +92,7 @@ public class RecommendServiceImpl implements RecommendService {
 			}
 			outfits.add(outfit);
 		} else {
-			if (weatherSummary.isHeavyRainfall()) {
+			if (weather.maximumPcp() >= 3) {
 				Outfit outfit = outfitRepository.findByUmbrellaType(OutfitType.FOLDING_UMBRELLA)
 					.orElseThrow(() -> new OutfitTypeNotFoundException(UMBRELLA_NOT_FOUND));
 				outfits.add(outfit);
@@ -97,14 +101,14 @@ public class RecommendServiceImpl implements RecommendService {
 
 	}
 
-	private void determineLayered(TempStage tempStage, WeatherSummaryResponse weatherSummary, List<Outfit> outfits) {
-		if (tempStage.getLevel() == 6 || tempStage.getLevel() == 7 || tempStage.getLevel() == 8) {
-			return;
-		}
-		if (weatherSummary.max() - weatherSummary.min() >= 10) {
-			Outfit outfit = outfitRepository.findByUmbrellaType(OutfitType.LAYERED)
-				.orElseThrow(() -> new OutfitTypeNotFoundException(UMBRELLA_NOT_FOUND));
-			outfits.add(outfit);
-		}
-	}
+	// private void determineLayered(TempStage tempStage, WeatherResponse weatherSummary, List<Outfit> outfits) {
+	// 	if (tempStage.getLevel() == 6 || tempStage.getLevel() == 7 || tempStage.getLevel() == 8) {
+	// 		return;
+	// 	}
+	// 	if (weatherSummary.max() - weatherSummary.min() >= 10) {
+	// 		Outfit outfit = outfitRepository.findByUmbrellaType(OutfitType.LAYERED)
+	// 			.orElseThrow(() -> new OutfitTypeNotFoundException(UMBRELLA_NOT_FOUND));
+	// 		outfits.add(outfit);
+	// 	}
+	// }
 }
