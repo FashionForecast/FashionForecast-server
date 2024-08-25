@@ -21,7 +21,7 @@ public class WeatherCustomRepositoryImpl implements WeatherCustomRepository {
 	public void saveAll(Collection<Weather> weathers) {
 
 		String sql =
-			"INSERT INTO weather (base_date, base_time, reh, tmp, wsd, season, sky_status, rain_type, fcst_date, fcst_time,"
+			"INSERT IGNORE INTO weather (base_date, base_time, reh, tmp, wsd, season, sky_status, rain_type, fcst_date, fcst_time,"
 				+ "pcp, pop, nx, ny, created_at, modified_at)"
 				+ " VALUES (:base_date, :base_time, :reh, :tmp, :wsd, :season, :sky_status, :rain_type, :fcst_date, :fcst_time,"
 				+ ":pcp, :pop, :nx, :ny, :created_at, :modified_at)";
