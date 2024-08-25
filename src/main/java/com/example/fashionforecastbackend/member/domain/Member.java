@@ -80,4 +80,5 @@ public class Member extends BaseTimeEntity {
 		this.nickname = nickname;
 	}
 
+	public void updateEmail(final String email) {this.email = email; }
 }
