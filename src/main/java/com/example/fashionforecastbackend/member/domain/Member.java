@@ -28,6 +28,7 @@ public class Member extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	private String username;
 	private String email;
 
 	private String password;
@@ -54,10 +55,11 @@ public class Member extends BaseTimeEntity {
 	private MemberJoinType joinType;
 
 	@Builder
-	public Member(final Long id, final String email, final String password, final String nickname,
+	public Member(final Long id, final String username, final String email, final String password, final String nickname,
 		final MemberBirthday birthday ,final MemberGender gender, final MemberRole role, final MemberJoinType joinType) {
 
 		this.id = id;
+		this.username = username;
 		this.email = email;
 		this.password = password;
 		this.nickname = nickname;
