@@ -11,28 +11,27 @@ import com.example.fashionforecastbackend.global.error.exception.InvalidWeatherR
 @Component
 public class WeatherDateTimeValidator {
 
-	private static final LocalDateTime now = LocalDateTime.now();
 	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd");
-	private static final String NOW_DATE = now.format(DATE_FORMAT);
 
 	public void validateNowDateTime(LocalDateTime nowDateTime) {
 
-		if (nowDateTime.isBefore(now.minusMinutes(5))) {
+		if (nowDateTime.isBefore(LocalDateTime.now().minusMinutes(5))) {
 			throw new InvalidWeatherRequestException(ErrorCode.INVALID_WEATHER_NOW_DATE_TIME);
 		}
 
 	}
 
-	public void validateStartDateTime(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+	public void validateStartDateTime(LocalDateTime nowDateTime, LocalDateTime startDateTime, LocalDateTime endDateTime) {
 
+		String nowDate = nowDateTime.format(DATE_FORMAT);
 		String startDate = startDateTime.format(DATE_FORMAT);
 		String endDate = endDateTime.format(DATE_FORMAT);
 
-		int nowHour = now.getHour();
+		int nowHour = nowDateTime.getHour();
 		int startHour = startDateTime.getHour();
 		int endHour = endDateTime.getHour();
 
-		if (startDate.compareTo(NOW_DATE) < 0 || startDate.compareTo(endDate) > 0) {
+		if (startDate.compareTo(nowDate) < 0 || startDate.compareTo(endDate) > 0) {
 			throw new InvalidWeatherRequestException(ErrorCode.INVALID_WEATHER_START_DATE_TIME);
 		}
 
@@ -41,20 +40,21 @@ public class WeatherDateTimeValidator {
 		}
 	}
 
-	public void validateEndDateTime(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+	public void validateEndDateTime(LocalDateTime nowDateTime, LocalDateTime startDateTime, LocalDateTime endDateTime) {
 
+		String nowDate = nowDateTime.format(DATE_FORMAT);
 		String startDate = startDateTime.format(DATE_FORMAT);
 		String endDate = endDateTime.format(DATE_FORMAT);
 
-		int nowHour = now.getHour();
+		int nowHour = nowDateTime.getHour();
 		int startHour = startDateTime.getHour();
 		int endHour = endDateTime.getHour();
 
-		if (endDate.compareTo(NOW_DATE) < 0 || endDate.compareTo(startDate) < 0) {
+		if (endDate.compareTo(nowDate) < 0 || endDate.compareTo(startDate) < 0) {
 			throw new InvalidWeatherRequestException(ErrorCode.INVALID_WEATHER_END_DATE_TIME);
 		}
 
-		if (endHour <= nowHour || endHour <= startHour) {
+		if (endHour < nowHour || endHour < startHour) {
 			throw new InvalidWeatherRequestException(ErrorCode.INVALID_WEATHER_END_DATE_TIME);
 		}
 	}

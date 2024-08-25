@@ -154,8 +154,8 @@ public class WeatherServiceImpl implements WeatherService {
 		LocalDateTime endDateTime = dto.endDateTime();
 
 		validator.validateNowDateTime(nowDateTime);
-		validator.validateStartDateTime(startDateTime, endDateTime);
-		validator.validateEndDateTime(startDateTime, endDateTime);
+		validator.validateStartDateTime(nowDateTime, startDateTime, endDateTime);
+		validator.validateEndDateTime(nowDateTime, startDateTime, endDateTime);
 
 	}
 
