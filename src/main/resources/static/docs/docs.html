@@ -541,34 +541,48 @@ Content-Type: application/json;charset=UTF-8</code></pre>
 <h4 id="_parameter"><a class="link" href="#_parameter">Parameter</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Format</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nowDateTime</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yyyy-mm-ddTHH:mm:ss</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">현재 시간</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>startDateTime</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yyyy-mm-ddTHH:mm:ss</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">외출 시작 시간</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>endDateTime</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yyyy-mm-ddTHH:mm:ss</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">외출 끝 시간</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nx</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1~999 사이 정수값</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">위도</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ny</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1~999 사이 정수값</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">경도</p></td>
 </tr>
 </tbody>
@@ -594,6 +608,7 @@ Content-Type: application/json
   "data" : {
     "season" : "SUMMER",
     "extremumTmp" : 36,
+    "maxMinTmpDiff" : 0,
     "maximumPop" : 30,
     "maximumPcp" : 0.0,
     "forecasts" : [ {
@@ -716,6 +731,11 @@ Content-Type: application/json
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.extremumTmp</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">최고 또는 최저 기온</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.maxMinTmpDiff</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">최고 최저 기온차</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.maximumPop</code></p></td>
@@ -891,7 +911,7 @@ Content-Type: application/json
 Content-Type: application/json;charset=UTF-8
 
 {
-  "uuid" : "b20d0b06-26d5-424c-83b3-b731955a55b7"
+  "uuid" : "7bcedeb1-a947-405a-89c2-2fd31367fc78"
 }</code></pre>
 </div>
 </div>
@@ -900,14 +920,18 @@ Content-Type: application/json;charset=UTF-8
 <h4 id="_field_2"><a class="link" href="#_field_2">Field</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Path</th>
 <th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Format</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
@@ -915,6 +939,8 @@ Content-Type: application/json;charset=UTF-8
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>uuid</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">문자열 or null</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">UUID 값</p></td>
 </tr>
 </tbody>
@@ -929,7 +955,7 @@ Content-Type: application/json
 
 {
   "data" : {
-    "uuid" : "b20d0b06-26d5-424c-83b3-b731955a55b7",
+    "uuid" : "7bcedeb1-a947-405a-89c2-2fd31367fc78",
     "isNewGuest" : false
   },
   "status" : 200,
@@ -988,7 +1014,7 @@ Content-Type: application/json
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-08-25 23:07:03 +0900
+Last updated 2024-08-24 23:08:07 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

@@ -79,6 +79,7 @@ class WeatherControllerTest extends ControllerTest {
 					.andWithPrefix("data.",
 						fieldWithPath("season").type(JsonFieldType.STRING).description("계절"),
 						fieldWithPath("extremumTmp").type(JsonFieldType.NUMBER).description("최고 또는 최저 기온"),
+						fieldWithPath("maxMinTmpDiff").type(JsonFieldType.NUMBER).description("최고 최저 기온차"),
 						fieldWithPath("maximumPop").type(JsonFieldType.NUMBER).description("최대 강수확률"),
 						fieldWithPath("maximumPcp").type(JsonFieldType.NUMBER).description("최대 강수량"),
 						fieldWithPath("forecasts").type(JsonFieldType.ARRAY).description("날씨 예보 목록")

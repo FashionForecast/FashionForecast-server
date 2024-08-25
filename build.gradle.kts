@@ -25,6 +25,8 @@ repositories {
 }
 
 val snippetsDir = file("build/generated-snippets")
+// QClass 파일 생성 위치 지정
+val generated: String = "src/main/generated"
 
 dependencies {
     implementation("org.springframework.retry:spring-retry")
@@ -36,6 +38,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("com.mysql:mysql-connector-j")
+
+    implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
+    annotationProcessor("com.querydsl:querydsl-apt:5.0.0:jakarta")
+    annotationProcessor("jakarta.annotation:jakarta.annotation-api")
+    annotationProcessor("jakarta.persistence:jakarta.persistence-api")
+
+
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
@@ -44,6 +53,12 @@ dependencies {
     testImplementation("io.rest-assured:rest-assured:5.1.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
+
+// QClass 파일 생성 위치 지정
+tasks.withType<JavaCompile>().configureEach {
+    options.generatedSourceOutputDirectory.set(file(generated))
+}
+
 
 // 서브모듈 설정파일 복사
 tasks.register<Copy>("copySecret") {
@@ -94,4 +109,9 @@ tasks {
         // AsciiDoc 파일 생성이 완료되어야 build 진행
         dependsOn(asciidoctor)
     }
+}
+
+// Gradle clean 시 QClass 디렉토리 삭제
+tasks.clean {
+    delete(file(generated))
 }
