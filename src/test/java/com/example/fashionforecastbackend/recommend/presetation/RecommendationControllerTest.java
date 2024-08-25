@@ -6,7 +6,6 @@ import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -53,16 +52,14 @@ class RecommendationControllerTest extends ControllerTest {
 		given(recommendService.getRecommendedOutfit(any(RecommendRequest.class))).willReturn(response);
 
 		// 테스트용 RecommendRequest 생성
-		RecommendRequest request = new RecommendRequest(60, 128,
-			LocalDateTime.now(),
-			LocalDateTime.now().plusHours(8), TempCondition.NORMAL);
+		RecommendRequest request = new RecommendRequest(29, 7, 30, 3, TempCondition.NORMAL);
 
 		// API 호출 및 검증
 		mockMvc.perform(get("/api/v1/recommend/default")
-				.param("nx", String.valueOf(request.nx()))
-				.param("ny", String.valueOf(request.ny()))
-				.param("startTime", request.startTime().toString())
-				.param("endTime", request.endTime().toString())
+				.param("extremumTmp", String.valueOf(request.extremumTmp()))
+				.param("maxMinTmpDiff", String.valueOf(request.maxMinTmpDiff()))
+				.param("maximumPop", String.valueOf(request.maximumPop()))
+				.param("maximumPcp", String.valueOf(request.maximumPcp()))
 				.param("tempCondition", request.tempCondition().toString())
 				.contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
@@ -74,18 +71,16 @@ class RecommendationControllerTest extends ControllerTest {
 			.andExpect(jsonPath("$.data[2].outfitType").value("BASIC_UMBRELLA"))
 			.andDo(restDocs.document(
 				queryParameters(
-					parameterWithName("nx").description("위도 (정수값)"),
-					parameterWithName("ny").description("경도 (정수값)"),
-					parameterWithName("startTime").description(
-						"시작 시간 (예: '2024-08-11T15:00:00', ISO 8601 형식의 문자열, ':'는 '%3A'로 인코딩됨)"),
-					parameterWithName("endTime").description(
-						"종료 시간 (예: '2024-08-11T20:00:00', ISO 8601 형식의 문자열, ':'는 '%3A'로 인코딩됨)"),
+					parameterWithName("extremumTmp").description("최고 또는 최저 기온"),
+					parameterWithName("maxMinTmpDiff").description("최고 최저 기온차"),
+					parameterWithName("maximumPop").description("최대 강수확률"),
+					parameterWithName("maximumPcp").description("최대 강수량"),
 					parameterWithName("tempCondition").description("시원하게/보통/따뜻하게 옵션")
 				),
 				responseFields(
 					fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),
 					fieldWithPath("message").type(JsonFieldType.STRING).description("요청 성공 여부"),
-					fieldWithPath("data").type(JsonFieldType.ARRAY).description("날씨 데이터")
+					fieldWithPath("data").type(JsonFieldType.ARRAY).description("옷차림 데이터")
 				)
 					.andWithPrefix("data.[].",
 						fieldWithPath("name").type(JsonFieldType.STRING).description("옷 이름"),
