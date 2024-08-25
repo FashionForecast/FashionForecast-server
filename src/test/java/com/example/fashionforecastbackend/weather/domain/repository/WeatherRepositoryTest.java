@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.example.fashionforecastbackend.weather.domain.Weather;
+import com.example.fashionforecastbackend.weather.dto.request.WeatherFilter;
 import com.example.fashionforecastbackend.weather.fixture.WeatherFixture;
 
 @DataJpaTest
@@ -31,8 +32,9 @@ class WeatherRepositoryTest {
 		Weather weather4 = WeatherFixture.createWeather("20240812", "1400", "20240812", "1600", 120, 67);
 		//when
 		weatherRepository.saveAll(List.of(weather1, weather2, weather3, weather4));
-		List<Weather> records1 = weatherRepository.findWeather("20240811", "1400", 120, 67);
-		List<Weather> records2 = weatherRepository.findWeather("20240812", "1400", 120, 67);
+		WeatherFilter weatherFilter = WeatherFixture.WEATHER_FILTER;
+		List<Weather> records1 = weatherRepository.findWeather(weatherFilter);
+		List<Weather> records2 = weatherRepository.findWeather(weatherFilter);
 		//then
 		assertThat(records1).isNotEmpty();
 		assertThat(records2).isNotEmpty();
@@ -47,12 +49,14 @@ class WeatherRepositoryTest {
 		Weather weather3 = WeatherFixture.createWeather("20240812", "1400", "20240812", "1500", 120, 67);
 		Weather weather4 = WeatherFixture.createWeather("20240812", "1400", "20240812", "1600", 120, 67);
 		weatherRepository.saveAll(List.of(weather1, weather2, weather3, weather4));
+		WeatherFilter weatherFilter = WeatherFixture.WEATHER_FILTER;
+
 		//when
-		weatherRepository.deletePastWeathers("20240812", "1500");
+		weatherRepository.deletePastWeathers("20240812" + "1500");
 
 		//then
-		List<Weather> pastWeathers1 = weatherRepository.findWeather("20240811", "1400", 120, 67);
-		List<Weather> pastWeathers2 = weatherRepository.findWeather("20240812", "1400", 120, 67);
+		List<Weather> pastWeathers1 = weatherRepository.findWeather(weatherFilter);
+		List<Weather> pastWeathers2 = weatherRepository.findWeather(weatherFilter);
 		assertAll(
 			() -> assertThat(pastWeathers1).isEmpty(),
 			() -> assertThat(pastWeathers2).isEmpty()
