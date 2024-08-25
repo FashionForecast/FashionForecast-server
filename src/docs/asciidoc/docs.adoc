@@ -107,7 +107,28 @@ include::{snippets}/weather-controller-test/get-weather-test/response-fields.ado
 | 눈날림
 |===
 
-<<<<<<< HEAD
+== 게스트 로그인 (POST /api/v1/guest/login)
+
+==== Description
+
+게스트 로그인 요청 API
+
+==== Request
+
+include::{snippets}/guest-controller-test/login-test/http-request.adoc[]
+
+==== Field
+
+include::{snippets}/guest-controller-test/login-test/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/guest-controller-test/login-test/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/guest-controller-test/login-test/response-fields.adoc[]
+
 == 디폴트 옷차림 조회 (GET /api/v1/recommend/default)
 
 ==== Description
@@ -159,28 +180,3 @@ include::{snippets}/recommendation-controller-test/get-default-recommend/respons
 | 레이어드(겉옷)
 
 |===
-=======
-== 게스트 로그인 (POST /api/v1/guest/login)
-
-==== Description
-
-게스트 로그인 요청 API
-
-==== Request
-
-include::{snippets}/guest-controller-test/login-test/http-request.adoc[]
-
-==== Field
-
-include::{snippets}/guest-controller-test/login-test/request-fields.adoc[]
-
-==== Response
-
-include::{snippets}/guest-controller-test/login-test/http-response.adoc[]
-
-==== Field
-
-include::{snippets}/guest-controller-test/login-test/response-fields.adoc[]
-
-
->>>>>>> f5e52ab7d3a200bceaaf521eee4e005ad82954bb

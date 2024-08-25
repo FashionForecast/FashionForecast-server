@@ -22,6 +22,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.fashionforecastbackend.global.ControllerTest;
+import com.example.fashionforecastbackend.recommend.domain.TempCondition;
 import com.example.fashionforecastbackend.recommend.dto.RecommendRequest;
 import com.example.fashionforecastbackend.recommend.dto.RecommendResponse;
 import com.example.fashionforecastbackend.recommend.service.RecommendService;
@@ -54,7 +55,7 @@ class RecommendationControllerTest extends ControllerTest {
 		// 테스트용 RecommendRequest 생성
 		RecommendRequest request = new RecommendRequest(60, 128,
 			LocalDateTime.now(),
-			LocalDateTime.now().plusHours(8));
+			LocalDateTime.now().plusHours(8), TempCondition.NORMAL);
 
 		// API 호출 및 검증
 		mockMvc.perform(get("/api/v1/recommend/default")
