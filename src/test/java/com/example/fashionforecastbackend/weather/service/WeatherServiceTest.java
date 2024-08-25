@@ -21,6 +21,7 @@ import com.example.fashionforecastbackend.region.domain.Region;
 import com.example.fashionforecastbackend.region.domain.repository.RegionRepository;
 import com.example.fashionforecastbackend.weather.domain.Weather;
 import com.example.fashionforecastbackend.weather.domain.repository.WeatherRepository;
+import com.example.fashionforecastbackend.weather.dto.request.WeatherFilter;
 import com.example.fashionforecastbackend.weather.dto.request.WeatherRequest;
 import com.example.fashionforecastbackend.weather.dto.response.WeatherForecast;
 import com.example.fashionforecastbackend.weather.fixture.WeatherFixture;
@@ -56,11 +57,12 @@ class WeatherServiceTest {
 			.nx(60)
 			.ny(127)
 			.build();
+		WeatherFilter weatherFilter = WeatherFixture.WEATHER_FILTER;
 		List<Weather> weathers = WeatherFixture.WEATHERS;
 		List<WeatherForecast> forecasts = WeatherFixture.WEATHER_FORECASTS;
 
 		given(regionRepository.findByNxAndNy(60, 127)).willReturn(Optional.of(region));
-		given(weatherRepository.findWeather("20240811", "1400", 60, 127)).willReturn(weathers);
+		given(weatherRepository.findWeather(weatherFilter)).willReturn(weathers);
 		given(weatherMapper.convertToWeatherResponseDto(weathers)).willReturn(forecasts);
 		//when
 		List<WeatherForecast> result = weatherService.getWeather(requestDto).forecasts();
@@ -71,7 +73,7 @@ class WeatherServiceTest {
 		assertThat(result).isEqualTo(forecasts);
 
 		verify(regionRepository).findByNxAndNy(60, 127);
-		verify(weatherRepository).findWeather("20240811", "1400", 60, 127);
+		verify(weatherRepository).findWeather(weatherFilter);
 		verify(weatherMapper).convertToWeatherResponseDto(weathers);
 
 	}
@@ -91,9 +93,11 @@ class WeatherServiceTest {
 			.ny(127)
 			.build();
 		List<Weather> weathers = WeatherFixture.WEATHERS;
+		WeatherFilter weatherFilter = WeatherFixture.WEATHER_FILTER;
+
 
 		given(regionRepository.findByNxAndNy(60, 127)).willReturn(Optional.of(region));
-		given(weatherRepository.findWeather("20240811", "1400", 60, 127)).willReturn(weathers);
+		given(weatherRepository.findWeather(weatherFilter)).willReturn(weathers);
 		given(weatherMapper.convertToWeatherResponseDto(weathers)).willThrow(
 			new RuntimeException("날씨 데이터를 변환하는 과정중에 에러가 발생"));
 
@@ -103,7 +107,7 @@ class WeatherServiceTest {
 			.hasMessageContaining("날씨 데이터를 변환하는 과정중에 에러가 발생");
 
 		verify(regionRepository).findByNxAndNy(60, 127);
-		verify(weatherRepository).findWeather("20240811", "1400", 60, 127);
+		verify(weatherRepository).findWeather(weatherFilter);
 
 	}
 

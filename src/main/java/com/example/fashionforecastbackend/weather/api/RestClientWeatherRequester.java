@@ -1,5 +1,7 @@
 package com.example.fashionforecastbackend.weather.api;
 
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
@@ -18,19 +20,24 @@ public class RestClientWeatherRequester {
 	private final RestClient restClient;
 	private final WeatherApiProperties apiProperties;
 
+	@Retryable(
+		value = {RestClientException.class},
+		maxAttempts = 5,
+		backoff = @Backoff(delay = 1000)
+	)
 	public String getWeatherForecast(String forecastType, WeatherFilter weatherFilter) {
 
 		String url = getUrl(forecastType, weatherFilter);
 		log.info(url);
-		try {
-			return restClient.get()
-				.uri(url)
-				.retrieve()
-				.body(String.class);
-		} catch (RestClientException e) {
-			log.error("기상청 API를 통해서 날씨 정보를 가져오는데 실패하였습니다.", e);
-			throw new RuntimeException(e);
+
+		String response = restClient.get()
+			.uri(url)
+			.retrieve()
+			.body(String.class);
+		if (response.contains("SERVICE ERROR")) {
+			throw new RestClientException("기상청 API 응답에서 'SERVICE ERROR' 발생");
 		}
+		return response;
 	}
 
 	private String getUrl(String forecastType, WeatherFilter weatherFilter) {
@@ -42,7 +49,7 @@ public class RestClientWeatherRequester {
 			.path(forecastType)
 			.queryParam("serviceKey", apiProperties.getKey())
 			.queryParam("pageNo", "1")
-			.queryParam("numOfRows", "1000")
+			.queryParam("numOfRows", "600")
 			.queryParam("dataType", "JSON")
 			.queryParam("base_date", baseDate)
 			.queryParam("base_time", baseTime)

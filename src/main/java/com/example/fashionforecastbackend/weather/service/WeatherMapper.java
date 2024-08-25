@@ -33,6 +33,7 @@ public class WeatherMapper {
 
 	private final ObjectMapper objectMapper;
 
+
 	public List<WeatherForecast> convertToWeatherResponseDto(Collection<Weather> weathers) {
 		return weathers.stream()
 			.map(WeatherForecast::from)
@@ -52,7 +53,7 @@ public class WeatherMapper {
 		}
 	}
 
-	public Collection<Weather> convertToWeathers(List<WeatherApi> responses, Region region) {
+	public List<Weather> convertToWeathers(List<WeatherApi> responses, Region region) {
 		LocalDate now = LocalDate.now();
 		String tomorrow = now.plusDays(1).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 		Map<String, Weather> weatherMap = new HashMap<>();
@@ -63,7 +64,7 @@ public class WeatherMapper {
 			}
 			setWeatherForecast(response, region, weatherMap);
 		}
-		return weatherMap.values();
+		return weatherMap.values().stream().toList();
 	}
 
 	private void setWeatherForecast(WeatherApi response, Region region, Map<String, Weather> weatherMap) {
