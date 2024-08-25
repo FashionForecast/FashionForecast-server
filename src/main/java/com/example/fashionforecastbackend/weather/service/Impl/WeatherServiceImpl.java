@@ -159,39 +159,27 @@ public class WeatherServiceImpl implements WeatherService {
 
 	@Transactional
 	public WeatherSummaryResponse getWeatherByTime(RecommendRequest dto) {
-		LocalDateTime now = LocalDateTime.now();
-		validator.validateDateTime(now);
-		String baseDate = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-		String baseTime = getBaseTime(now);
-		Region region = findRegion(dto.nx(), dto.ny());
+		List<WeatherResponseDto> weatherDtos = getWeather(
+			new WeatherRequestDto(LocalDateTime.now(), dto.nx(), dto.nx()));
 
-		Collection<Weather> weathers = weatherRepository.findWeather(baseDate, baseTime, region.getNx(),
-			region.getNy());
-
-		if (weathers.isEmpty()) {
-			getWeather(new WeatherRequestDto(now, dto.nx(), dto.nx()));
-			weathers = weatherRepository.findWeather(baseDate, baseTime, region.getNx(),
-				region.getNy());
-		}
-
-		weathers = weathers.stream()
+		weatherDtos = weatherDtos.stream()
 			.filter(weather -> {
-				LocalDateTime weatherDateTime = convertToDateTime(weather.getFcstDate(), weather.getFcstTime());
+				LocalDateTime weatherDateTime = convertToDateTime(weather.fcstDate(), weather.fcstTime());
 				return !weatherDateTime.isBefore(dto.startTime()) && !weatherDateTime.isAfter(dto.endTime());
 			})
 			.toList();
 
-		Integer min = weathers.stream().map(weather -> Integer.parseInt(weather.getTmp()))
+		Integer min = weatherDtos.stream().map(weather -> Integer.parseInt(weather.tmp()))
 			.min(Comparator.naturalOrder()).orElseThrow(() -> new InvalidWeatherRequestException(
 				MIN_MAX_TEMP_NOT_FOUND));
-		Integer max = weathers.stream().map(weather -> Integer.parseInt(weather.getTmp()))
+		Integer max = weatherDtos.stream().map(weather -> Integer.parseInt(weather.tmp()))
 			.max(Comparator.naturalOrder()).orElseThrow(() -> new InvalidWeatherRequestException(
 				MIN_MAX_TEMP_NOT_FOUND));
 
-		boolean isHighPrecipitationProb = weathers.stream()
-			.anyMatch(weather -> Integer.parseInt(weather.getPop()) > 30);
-		boolean isHeavyRainfall = weathers.stream()
-			.anyMatch(weather -> getPcp(weather.getPcp()) > 30);
+		boolean isHighPrecipitationProb = weatherDtos.stream()
+			.anyMatch(weather -> Integer.parseInt(weather.pop()) > 30);
+		boolean isHeavyRainfall = weatherDtos.stream()
+			.anyMatch(weather -> getPcp(weather.pcp()) > 30);
 
 		return new WeatherSummaryResponse(min, max, isHighPrecipitationProb, isHeavyRainfall);
 	}
