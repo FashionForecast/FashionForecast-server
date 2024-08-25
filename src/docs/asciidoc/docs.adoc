@@ -180,3 +180,19 @@ include::{snippets}/recommendation-controller-test/get-default-recommend/respons
 | 레이어드(겉옷)
 
 |===
+
+===== TempCondition
+
+|===
+| 값 | 설명
+
+| `COOL`
+| 시원하게
+
+| `NORMAL`
+| 보통
+
+| `WARM`
+| 따뜻하게
+
+|===

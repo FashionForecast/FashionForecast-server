@@ -63,6 +63,7 @@ class RecommendationControllerTest extends ControllerTest {
 				.param("ny", String.valueOf(request.ny()))
 				.param("startTime", request.startTime().toString())
 				.param("endTime", request.endTime().toString())
+				.param("tempCondition", request.tempCondition().toString())
 				.contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.data[0].name").value("민소매"))
@@ -78,7 +79,8 @@ class RecommendationControllerTest extends ControllerTest {
 					parameterWithName("startTime").description(
 						"시작 시간 (예: '2024-08-11T15:00:00', ISO 8601 형식의 문자열, ':'는 '%3A'로 인코딩됨)"),
 					parameterWithName("endTime").description(
-						"종료 시간 (예: '2024-08-11T20:00:00', ISO 8601 형식의 문자열, ':'는 '%3A'로 인코딩됨)")
+						"종료 시간 (예: '2024-08-11T20:00:00', ISO 8601 형식의 문자열, ':'는 '%3A'로 인코딩됨)"),
+					parameterWithName("tempCondition").description("시원하게/보통/따뜻하게 옵션")
 				),
 				responseFields(
 					fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),
