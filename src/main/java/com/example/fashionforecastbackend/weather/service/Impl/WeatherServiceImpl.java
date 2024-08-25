@@ -53,17 +53,17 @@ public class WeatherServiceImpl implements WeatherService {
 		Region region = findRegion(dto.nx(), dto.ny());
 		WeatherFilter weatherFilter = getWeatherFilter(dto, region);
 
-		Collection<Weather> weathers = weatherRepository.findWeather(weatherFilter.baseDate(), weatherFilter.baseTime(),
-			weatherFilter.nx(), weatherFilter.ny());
+		List<Weather> weathers = weatherRepository.findWeather(weatherFilter);
 
 		if (weathers.isEmpty()) {
 			weathers = getWeathersFromExternalApi(weatherFilter, region);
 			weatherRepository.saveAll(weathers);
+			weathers = getFilteredWeathers(weathers, weatherFilter);
+			sortWeathersByDateTime(weathers);
 		}
-		List<Weather> filteredWeathers = getFilteredWeathers(weathers, weatherFilter);
-		Season season = filteredWeathers.get(0).getSeason();
-		List<WeatherForecast> weatherForecasts = weatherMapper.convertToWeatherResponseDto(filteredWeathers);
-		sortWeatherForecastsByDateTime(weatherForecasts);
+
+		Season season = weathers.get(0).getSeason();
+		List<WeatherForecast> weatherForecasts = weatherMapper.convertToWeatherResponseDto(weathers);
 
 		return getWeatherResponse(weatherForecasts, season);
 	}
@@ -73,19 +73,18 @@ public class WeatherServiceImpl implements WeatherService {
 	@Scheduled(cron = "0 0 5 * * ?")
 	public void deletePastWeathers() {
 		LocalDateTime now = LocalDateTime.now();
-		String baseDate = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-		String baseTime = getBaseTime(now);
-		weatherRepository.deletePastWeathers(baseDate, baseTime);
+		String nowBaseDateTime = now.format(DATE_FORMAT) + getBaseTime(now);
+		weatherRepository.deletePastWeathers(nowBaseDateTime);
 	}
 
 	private WeatherResponse getWeatherResponse(List<WeatherForecast> weatherForecasts, Season season) {
-		int extremumTmp = getextremumTmp(weatherForecasts, season);
+		int extremumTmp = getExtremumTmp(weatherForecasts, season);
 		int maximumPop = getMaximumPop(weatherForecasts);
 		double maximumPcp = getMaximumPcp(weatherForecasts);
 		return WeatherResponse.of(season, extremumTmp, maximumPop, maximumPcp, weatherForecasts);
 	}
 
-	private int getextremumTmp(List<WeatherForecast> weatherForecasts, Season season) {
+	private int getExtremumTmp(List<WeatherForecast> weatherForecasts, Season season) {
 
 		int extremumTmp = 0;
 		if (Objects.equals(season, Season.SUMMER)) {
@@ -119,13 +118,12 @@ public class WeatherServiceImpl implements WeatherService {
 			.orElse(0.0);
 	}
 
-	private Collection<Weather> getWeathersFromExternalApi(WeatherFilter weatherFilter, Region region) {
+	private List<Weather> getWeathersFromExternalApi(WeatherFilter weatherFilter, Region region) {
 		try {
 			String weatherForecast = weatherRequester.getWeatherForecast("/getVilageFcst", weatherFilter);
 			List<WeatherApi> responses = weatherMapper.convertToWeatherApiResponse(weatherForecast,
 				"/response/body/items/item");
-			Collection<Weather> weathers = weatherMapper.convertToWeathers(responses, region);
-			return weathers;
+			return weatherMapper.convertToWeathers(responses, region);
 
 		} catch (Exception e) {
 			log.error("외부 API에서 날씨를 가져오는 과정에서 문제가 발생했습니다.", e);
@@ -145,10 +143,10 @@ public class WeatherServiceImpl implements WeatherService {
 
 	}
 
-	private void sortWeatherForecastsByDateTime(List<WeatherForecast> weatherForecasts) {
-		weatherForecasts.sort((r1, r2) -> {
-			String dateTime1 = r1.fcstDate() + r1.fcstTime();
-			String dateTime2 = r2.fcstDate() + r2.fcstTime();
+	private void sortWeathersByDateTime(List<Weather> weathers) {
+		weathers.sort((r1, r2) -> {
+			String dateTime1 = r1.getFcstDate() + r1.getFcstTime();
+			String dateTime2 = r2.getFcstDate() + r2.getFcstTime();
 			return dateTime1.compareTo(dateTime2);
 		});
 	}
