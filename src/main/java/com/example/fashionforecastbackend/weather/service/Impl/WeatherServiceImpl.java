@@ -55,7 +55,7 @@ public class WeatherServiceImpl implements WeatherService {
 
 		List<Weather> weathers = weatherRepository.findWeather(weatherFilter);
 
-		if (weathers.isEmpty()) {
+		if (weathers.isEmpty() || isUnderSize(weathers, weatherFilter)) {
 			weathers = getWeathersFromExternalApi(weatherFilter, region);
 			weatherRepository.saveAll(weathers);
 			weathers = getFilteredWeathers(weathers, weatherFilter);
@@ -77,30 +77,46 @@ public class WeatherServiceImpl implements WeatherService {
 		weatherRepository.deletePastWeathers(nowBaseDateTime);
 	}
 
-	private WeatherResponse getWeatherResponse(List<WeatherForecast> weatherForecasts, Season season) {
-		int extremumTmp = getExtremumTmp(weatherForecasts, season);
-		int maximumPop = getMaximumPop(weatherForecasts);
-		double maximumPcp = getMaximumPcp(weatherForecasts);
-		return WeatherResponse.of(season, extremumTmp, maximumPop, maximumPcp, weatherForecasts);
+	private boolean isUnderSize(List<Weather> weathers, WeatherFilter weatherFilter) {
+		int startTime = Integer.parseInt(weatherFilter.startTime().substring(2));
+		int endTime = Integer.parseInt(weatherFilter.endTime().substring(2));
+		int requestSize = (endTime - startTime) + 1;
+		return (weathers.size() < requestSize);
 	}
 
-	private int getExtremumTmp(List<WeatherForecast> weatherForecasts, Season season) {
+	private WeatherResponse getWeatherResponse(List<WeatherForecast> weatherForecasts, Season season) {
+		int maximumTmp = getMaximumTmp(weatherForecasts);
+		int minimumTmp = getMinimumTmp(weatherForecasts);
+		int extremumTmp = getExtremumTmp(maximumTmp, minimumTmp, season);
+		int maxMinTmpDiff = maximumTmp - minimumTmp;
+		int maximumPop = getMaximumPop(weatherForecasts);
+		double maximumPcp = getMaximumPcp(weatherForecasts);
+		return WeatherResponse.of(season, extremumTmp, maxMinTmpDiff, maximumPop, maximumPcp, weatherForecasts);
+	}
 
+	private int getExtremumTmp(int maximumTmp, int minimumTmp, Season season) {
 		int extremumTmp = 0;
 		if (Objects.equals(season, Season.SUMMER)) {
-			extremumTmp = weatherForecasts.stream()
-				.map(weather -> Integer.parseInt(weather.tmp()))
-				.max(Integer::compareTo)
-				.orElse(0);
+			extremumTmp = maximumTmp;
 		}
 		if (Objects.equals(season, Season.WINTER)) {
-			extremumTmp = weatherForecasts.stream()
-				.map(weather -> Integer.parseInt(weather.tmp()))
-				.min(Integer::compareTo)
-				.orElse(0);
+			extremumTmp = minimumTmp;
 		}
-
 		return extremumTmp;
+	}
+
+	private int getMaximumTmp(List<WeatherForecast> weatherForecasts) {
+		return weatherForecasts.stream()
+			.map(weather -> Integer.parseInt(weather.tmp()))
+			.max(Integer::compareTo)
+			.orElse(0);
+	}
+
+	private int getMinimumTmp(List<WeatherForecast> weatherForecasts) {
+		return weatherForecasts.stream()
+			.map(weather -> Integer.parseInt(weather.tmp()))
+			.min(Integer::compareTo)
+			.orElse(0);
 	}
 
 	private int getMaximumPop(List<WeatherForecast> weatherForecasts) {
