@@ -23,5 +23,7 @@ CREATE TABLE IF NOT EXISTS recommendation (
     temp_stage_id BIGINT,
     outfit_id BIGINT,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    modified_at TIMESTAMP NOT NULL DEFAULT NOW()
+    modified_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    CONSTRAINT fk_temp_stage_id FOREIGN KEY (temp_stage_id) REFERENCES temp_stage(id) ON DELETE CASCADE,
+    CONSTRAINT fk_outfit_id FOREIGN KEY (outfit_id) REFERENCES outfit(id) ON DELETE CASCADE
 );
