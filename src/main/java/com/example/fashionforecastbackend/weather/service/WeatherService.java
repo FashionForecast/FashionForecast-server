@@ -5,4 +5,5 @@ import com.example.fashionforecastbackend.weather.dto.response.WeatherResponse;
 
 public interface WeatherService {
 	WeatherResponse getWeather(WeatherRequest dto);
+
 }

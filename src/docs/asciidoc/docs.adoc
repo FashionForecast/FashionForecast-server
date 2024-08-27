@@ -63,6 +63,7 @@ include::{snippets}/weather-controller-test/get-weather-test/response-fields.ado
 ===== skyStatus, rainType
 
 ===== skyStatus
+
 |===
 | 값 | 설명
 
@@ -77,6 +78,7 @@ include::{snippets}/weather-controller-test/get-weather-test/response-fields.ado
 |===
 
 ===== rainType
+
 |===
 | 값 | 설명
 
@@ -127,4 +129,70 @@ include::{snippets}/guest-controller-test/login-test/http-response.adoc[]
 
 include::{snippets}/guest-controller-test/login-test/response-fields.adoc[]
 
+== 디폴트 옷차림 조회 (GET /api/v1/recommend/default)
 
+==== Description
+
+외출 시간을 지정하여 날씨에 따라서 디폴트로 설정된 옷차림 데이터 조회
+
+==== Request
+
+include::{snippets}/recommendation-controller-test/get-default-recommend/http-request.adoc[]
+
+==== Parameter
+
+include::{snippets}/recommendation-controller-test/get-default-recommend/query-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/recommendation-controller-test/get-default-recommend/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/recommendation-controller-test/get-default-recommend/response-fields.adoc[]
+
+==== Enum Type
+
+===== OutfitType
+
+|===
+| 값 | 설명
+
+| `OUTER`
+| 외투
+
+| `TOP`
+| 상의
+
+| `BOTTOM`
+| 하의
+
+| `ETC`
+| 기타 악세사리
+
+| `BASIC_UMBRELLA`
+| 장우산
+
+| `FOLDING_UMBRELLA`
+| 접이식 우산
+
+| `LAYERED`
+| 레이어드(겉옷)
+
+|===
+
+===== TempCondition
+
+|===
+| 값 | 설명
+
+| `COOL`
+| 시원하게
+
+| `NORMAL`
+| 보통
+
+| `WARM`
+| 따뜻하게
+
+|===
