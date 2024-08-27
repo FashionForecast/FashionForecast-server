@@ -14,6 +14,7 @@ public interface RecommendationRepository extends JpaRepository<Recommendation, 
 
 	@Query("select r from Recommendation r "
 		+ "join fetch r.outfit "
-		+ "where r.tempStage.id = :tempStageId")
+		+ "where r.tempStage.id = :tempStageId "
+		+ "order by r.outfit.outfitType")
 	List<Recommendation> findByTempStage(@Param("tempStageId") Long tempStageId);
 }
