@@ -1,6 +1,7 @@
 package com.example.fashionforecastbackend.outfit.presentation;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ public class OutfitController {
 	private final OutfitService outfitService;
 
 	@PostMapping("/default")
-	public ApiResponse<Void> getDefaultRecommend(@Valid OutfitRequest requestDto) {
+	public ApiResponse<Void> addDefaultOutfit(@Valid @RequestBody OutfitRequest requestDto) {
 		outfitService.saveOutfit(requestDto);
 		return ApiResponse.ok();
 	}
