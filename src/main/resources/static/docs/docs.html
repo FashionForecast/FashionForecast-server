@@ -447,71 +447,27 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_날씨_조회_get_apiv1weatherforecast">날씨 조회 (GET /api/v1/weather/forecast)</a>
-<ul class="sectlevel3">
-<li><a href="#_description">Description</a></li>
-<li><a href="#_request">Request</a></li>
-<li><a href="#_parameter">Parameter</a></li>
-<li><a href="#_response">Response</a></li>
-<li><a href="#_field">Field</a></li>
+<li><a href="#_날씨_api">날씨 API</a>
+<ul class="sectlevel2">
+<li><a href="#_날씨_조회_get_apiv1weatherforecast">날씨 조회 (GET /api/v1/weather/forecast)</a></li>
 </ul>
 </li>
-<li><a href="#_게스트_로그인_post_apiv1guestlogin">게스트 로그인 (POST /api/v1/guest/login)</a>
-<ul class="sectlevel3">
-<li><a href="#_description_2">Description</a></li>
-<li><a href="#_request_2">Request</a></li>
-<li><a href="#_field_2">Field</a></li>
-<li><a href="#_response_2">Response</a></li>
-<li><a href="#_field_3">Field</a></li>
+<li><a href="#_게스트_api">게스트 API</a>
+<ul class="sectlevel2">
+<li><a href="#_로그인_요청_post_apiv1guestlogin">로그인 요청 (POST /api/v1/guest/login)</a></li>
 </ul>
 </li>
-<li><a href="#_디폴트_옷차림_조회_get_apiv1recommenddefault">디폴트 옷차림 조회 (GET /api/v1/recommend/default)</a>
-<ul class="sectlevel3">
-<li><a href="#_description_3">Description</a></li>
-<li><a href="#_request_3">Request</a></li>
-<li><a href="#_parameter_2">Parameter</a></li>
-<li><a href="#_response_3">Response</a></li>
-<li><a href="#_field_4">Field</a></li>
-<li><a href="#_enum_type">Enum Type</a></li>
+<li><a href="#_옷차림_api">옷차림 API</a>
+<ul class="sectlevel2">
+<li><a href="#_디폴트_옷차림_조회_get_apiv1recommenddefault">디폴트 옷차림 조회 (GET /api/v1/recommend/default)</a></li>
+<li><a href="#_디폴트_옷차림_추가_post_apiv1outfitdefault">디폴트 옷차림 추가 (POST /api/v1/outfit/default)</a></li>
 </ul>
 </li>
-<li><a href="#_디폴트_옷차림_추가_post_apiv1outfitdefault">디폴트 옷차림 추가 (POST /api/v1/outfit/default)</a>
-<ul class="sectlevel3">
-<li><a href="#_description_4">Description</a></li>
-<li><a href="#_request_4">Request</a></li>
-<li><a href="#_field_5">Field</a></li>
-<li><a href="#_response_4">Response</a></li>
-<li><a href="#_field_6">Field</a></li>
-<li><a href="#_enum_type_2">Enum Type</a></li>
-</ul>
-</li>
-<li><a href="#_최근_검색어_조회_get_apiv1searchuuid">최근 검색어 조회 (GET /api/v1/search/{uuid})</a>
-<ul class="sectlevel3">
-<li><a href="#_description_5">Description</a></li>
-<li><a href="#_request_5">Request</a></li>
-<li><a href="#_parameter_3">Parameter</a></li>
-<li><a href="#_response_5">Response</a></li>
-<li><a href="#_field_7">Field</a></li>
-</ul>
-</li>
-<li><a href="#_최근_검색어_등록_post_apiv1searchuuid">최근 검색어 등록 (POST /api/v1/search/{uuid})</a>
-<ul class="sectlevel3">
-<li><a href="#_description_6">Description</a></li>
-<li><a href="#_request_6">Request</a></li>
-<li><a href="#_parameter_4">Parameter</a></li>
-<li><a href="#_field_8">Field</a></li>
-<li><a href="#_response_6">Response</a></li>
-<li><a href="#_field_9">Field</a></li>
-</ul>
-</li>
-<li><a href="#_최근_검색어_삭제_delete_apiv1searchuuid">최근 검색어 삭제 (DELETE /api/v1/search/{uuid})</a>
-<ul class="sectlevel3">
-<li><a href="#_description_7">Description</a></li>
-<li><a href="#_request_7">Request</a></li>
-<li><a href="#_parameter_5">Parameter</a></li>
-<li><a href="#_field_10">Field</a></li>
-<li><a href="#_response_7">Response</a></li>
-<li><a href="#_field_11">Field</a></li>
+<li><a href="#_최근_검색어_api">최근 검색어 API</a>
+<ul class="sectlevel2">
+<li><a href="#_최근_검색어_조회_get_apiv1searchuuid">최근 검색어 조회 (GET /api/v1/search/{uuid})</a></li>
+<li><a href="#_최근_검색어_등록_post_apiv1searchuuid">최근 검색어 등록 (POST /api/v1/search/{uuid})</a></li>
+<li><a href="#_최근_검색어_삭제_delete_apiv1searchuuid">최근 검색어 삭제 (DELETE /api/v1/search/{uuid})</a></li>
 </ul>
 </li>
 </ul>
@@ -569,8 +525,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_날씨_조회_get_apiv1weatherforecast"><a class="link" href="#_날씨_조회_get_apiv1weatherforecast">날씨 조회 (GET /api/v1/weather/forecast)</a></h2>
+<h2 id="_날씨_api"><a class="link" href="#_날씨_api">날씨 API</a></h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_날씨_조회_get_apiv1weatherforecast"><a class="link" href="#_날씨_조회_get_apiv1weatherforecast">날씨 조회 (GET /api/v1/weather/forecast)</a></h3>
 <div class="sect3">
 <h4 id="_description"><a class="link" href="#_description">Description</a></h4>
 <div class="paragraph">
@@ -861,10 +819,9 @@ Content-Type: application/json
 </tr>
 </tbody>
 </table>
-<div class="sect4">
-<h5 id="_skystatus_raintype"><a class="link" href="#_skystatus_raintype">skyStatus, rainType</a></h5>
-
 </div>
+<div class="sect3">
+<h4 id="_skystatus_raintype"><a class="link" href="#_skystatus_raintype">skyStatus, rainType</a></h4>
 <div class="sect4">
 <h5 id="_skystatus"><a class="link" href="#_skystatus">skyStatus</a></h5>
 <table class="tableblock frame-all grid-all stretch">
@@ -946,9 +903,12 @@ Content-Type: application/json
 </div>
 </div>
 </div>
+</div>
 <div class="sect1">
-<h2 id="_게스트_로그인_post_apiv1guestlogin"><a class="link" href="#_게스트_로그인_post_apiv1guestlogin">게스트 로그인 (POST /api/v1/guest/login)</a></h2>
+<h2 id="_게스트_api"><a class="link" href="#_게스트_api">게스트 API</a></h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_로그인_요청_post_apiv1guestlogin"><a class="link" href="#_로그인_요청_post_apiv1guestlogin">로그인 요청 (POST /api/v1/guest/login)</a></h3>
 <div class="sect3">
 <h4 id="_description_2"><a class="link" href="#_description_2">Description</a></h4>
 <div class="paragraph">
@@ -963,7 +923,7 @@ Content-Type: application/json
 Content-Type: application/json;charset=UTF-8
 
 {
-  "uuid" : "94b855bb-3f23-4db5-ae68-7ef50b778e59"
+  "uuid" : "d147959d-be6b-4741-b64b-322f21f4b793"
 }</code></pre>
 </div>
 </div>
@@ -1007,7 +967,7 @@ Content-Type: application/json
 
 {
   "data" : {
-    "uuid" : "94b855bb-3f23-4db5-ae68-7ef50b778e59",
+    "uuid" : "d147959d-be6b-4741-b64b-322f21f4b793",
     "isNewGuest" : false
   },
   "status" : 200,
@@ -1062,9 +1022,12 @@ Content-Type: application/json
 </div>
 </div>
 </div>
+</div>
 <div class="sect1">
-<h2 id="_디폴트_옷차림_조회_get_apiv1recommenddefault"><a class="link" href="#_디폴트_옷차림_조회_get_apiv1recommenddefault">디폴트 옷차림 조회 (GET /api/v1/recommend/default)</a></h2>
+<h2 id="_옷차림_api"><a class="link" href="#_옷차림_api">옷차림 API</a></h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_디폴트_옷차림_조회_get_apiv1recommenddefault"><a class="link" href="#_디폴트_옷차림_조회_get_apiv1recommenddefault">디폴트 옷차림 조회 (GET /api/v1/recommend/default)</a></h3>
 <div class="sect3">
 <h4 id="_description_3"><a class="link" href="#_description_3">Description</a></h4>
 <div class="paragraph">
@@ -1277,10 +1240,8 @@ Content-Type: application/json
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_디폴트_옷차림_추가_post_apiv1outfitdefault"><a class="link" href="#_디폴트_옷차림_추가_post_apiv1outfitdefault">디폴트 옷차림 추가 (POST /api/v1/outfit/default)</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_디폴트_옷차림_추가_post_apiv1outfitdefault"><a class="link" href="#_디폴트_옷차림_추가_post_apiv1outfitdefault">디폴트 옷차림 추가 (POST /api/v1/outfit/default)</a></h3>
 <div class="sect3">
 <h4 id="_description_4"><a class="link" href="#_description_4">Description</a></h4>
 <div class="paragraph">
@@ -1385,7 +1346,7 @@ Content-Type: application/json
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청 성공 여부</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상태 메세지</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
@@ -1445,9 +1406,12 @@ Content-Type: application/json
 </div>
 </div>
 </div>
+</div>
 <div class="sect1">
-<h2 id="_최근_검색어_조회_get_apiv1searchuuid"><a class="link" href="#_최근_검색어_조회_get_apiv1searchuuid">최근 검색어 조회 (GET /api/v1/search/{uuid})</a></h2>
+<h2 id="_최근_검색어_api"><a class="link" href="#_최근_검색어_api">최근 검색어 API</a></h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_최근_검색어_조회_get_apiv1searchuuid"><a class="link" href="#_최근_검색어_조회_get_apiv1searchuuid">최근 검색어 조회 (GET /api/v1/search/{uuid})</a></h3>
 <div class="sect3">
 <h4 id="_description_5"><a class="link" href="#_description_5">Description</a></h4>
 <div class="paragraph">
@@ -1554,10 +1518,8 @@ Content-Type: application/json
 </table>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_최근_검색어_등록_post_apiv1searchuuid"><a class="link" href="#_최근_검색어_등록_post_apiv1searchuuid">최근 검색어 등록 (POST /api/v1/search/{uuid})</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_최근_검색어_등록_post_apiv1searchuuid"><a class="link" href="#_최근_검색어_등록_post_apiv1searchuuid">최근 검색어 등록 (POST /api/v1/search/{uuid})</a></h3>
 <div class="sect3">
 <h4 id="_description_6"><a class="link" href="#_description_6">Description</a></h4>
 <div class="paragraph">
@@ -1695,10 +1657,8 @@ Content-Type: application/json
 </table>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_최근_검색어_삭제_delete_apiv1searchuuid"><a class="link" href="#_최근_검색어_삭제_delete_apiv1searchuuid">최근 검색어 삭제 (DELETE /api/v1/search/{uuid})</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_최근_검색어_삭제_delete_apiv1searchuuid"><a class="link" href="#_최근_검색어_삭제_delete_apiv1searchuuid">최근 검색어 삭제 (DELETE /api/v1/search/{uuid})</a></h3>
 <div class="sect3">
 <h4 id="_description_7"><a class="link" href="#_description_7">Description</a></h4>
 <div class="paragraph">
@@ -1736,7 +1696,7 @@ Content-Type: application/json;charset=UTF-8
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>uuid</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 uuid 값</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 uuid</p></td>
 </tr>
 </tbody>
 </table>
@@ -1830,10 +1790,11 @@ Content-Type: application/json
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-08-28 21:20:16 +0900
+Last updated 2024-08-28 22:12:10 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
