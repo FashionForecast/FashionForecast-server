@@ -29,4 +29,7 @@ public class ApiResponse<T> {
 		return new ApiResponse<>(data, 201, "CREATED");
 	}
 
+	public static ApiResponse<Void> noContent() {
+		return new ApiResponse<>(null, 204, "NO_CONTENT");
+	}
 }
