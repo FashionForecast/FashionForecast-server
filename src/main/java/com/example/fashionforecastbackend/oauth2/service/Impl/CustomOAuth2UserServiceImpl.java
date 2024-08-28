@@ -95,13 +95,6 @@ public class CustomOAuth2UserServiceImpl extends DefaultOAuth2UserService implem
 
     // UserDTO 생성 메서드
     private UserDTO createUserDTO(Member member, OAuth2Response oAuth2Response) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUsername(member.getUsername());
-        userDTO.setName(member.getNickname());
-        userDTO.setEmail(member.getEmail());
-        userDTO.setAge(oAuth2Response.getAge());
-        userDTO.setGender(oAuth2Response.getGender());
-        userDTO.setRole("ROLE_USER");
-        return userDTO;
+        return new UserDTO("ROLE_USER", member.getNickname(), member.getUsername(), member.getEmail(), oAuth2Response.getGender(), oAuth2Response.getAge());
     }
 }

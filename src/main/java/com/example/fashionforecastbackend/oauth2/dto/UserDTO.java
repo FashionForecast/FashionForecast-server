@@ -1,18 +1,10 @@
 package com.example.fashionforecastbackend.oauth2.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+public record UserDTO(String role, String name, String username, String email, String gender, String age) {
 
-@Getter
-@Setter
-public class UserDTO {
-
-    private String role;
-    private String name;
-    private String username;
-    private String email;
-    private String gender;
-    private String age;
+    public static UserDTO of(String role, String name, String username, String email, String gender, String age) {
+        return new UserDTO(role, name, username, email, gender, age);
+    }
 
     @Override
     public String toString() {
