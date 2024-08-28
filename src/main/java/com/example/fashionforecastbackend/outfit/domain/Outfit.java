@@ -6,6 +6,8 @@ import java.util.List;
 import com.example.fashionforecastbackend.global.BaseTimeEntity;
 import com.example.fashionforecastbackend.recommend.domain.Recommendation;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -26,12 +28,31 @@ public class Outfit extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(unique = true)
 	private String name;
 
 	@Enumerated(EnumType.STRING)
 	private OutfitType outfitType;
 
-	@OneToMany(mappedBy = "outfit")
+	@OneToMany(mappedBy = "outfit", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Recommendation> recommendations = new ArrayList<>();
+
+	private Outfit(String name, OutfitType outfitType) {
+		this.name = name;
+		this.outfitType = outfitType;
+	}
+
+	public void addRecommendations(Recommendation recommendation) {
+		recommendations.add(recommendation);
+		recommendation.setOutfit(this);
+	}
+	
+	public static Outfit createOutfit(String name, OutfitType outfitType, List<Recommendation> recommendations) {
+		Outfit outfit = new Outfit(name, outfitType);
+		for (Recommendation recommendation : recommendations) {
+			outfit.addRecommendations(recommendation);
+		}
+		return outfit;
+	}
 
 }

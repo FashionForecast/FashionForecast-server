@@ -1,16 +1,12 @@
 package com.example.fashionforecastbackend.tempStage.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.example.fashionforecastbackend.global.BaseTimeEntity;
-import com.example.fashionforecastbackend.recommend.domain.Recommendation;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,12 +19,10 @@ public class TempStage extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(unique = true)
 	private int level;
 
 	private int minTemp;
 
 	private int maxTemp;
-
-	@OneToMany(mappedBy = "tempStage")
-	private List<Recommendation> recommendations = new ArrayList<>();
 }

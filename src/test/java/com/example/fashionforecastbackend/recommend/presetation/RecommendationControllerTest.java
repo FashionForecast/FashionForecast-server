@@ -1,5 +1,6 @@
 package com.example.fashionforecastbackend.recommend.presetation;
 
+import static com.example.fashionforecastbackend.global.restdocs.RestDocsConfiguration.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
@@ -71,11 +72,16 @@ class RecommendationControllerTest extends ControllerTest {
 			.andExpect(jsonPath("$.data[2].outfitType").value("BASIC_UMBRELLA"))
 			.andDo(restDocs.document(
 				queryParameters(
-					parameterWithName("extremumTmp").description("최고 또는 최저 기온"),
-					parameterWithName("maxMinTmpDiff").description("최고 최저 기온차"),
-					parameterWithName("maximumPop").description("최대 강수확률"),
-					parameterWithName("maximumPcp").description("최대 강수량"),
+					parameterWithName("extremumTmp").description("최고 또는 최저 기온")
+						.attributes(field("format", "-50~50 사이의 정수값")),
+					parameterWithName("maxMinTmpDiff").description("최고 최저 기온차")
+						.attributes(field("format", "0 이상 정수값")),
+					parameterWithName("maximumPop").description("최대 강수확률")
+						.attributes(field("format", "0~100 사이 정수값")),
+					parameterWithName("maximumPcp").description("최대 강수량")
+						.attributes(field("format", "0 이상 정수값")),
 					parameterWithName("tempCondition").description("시원하게/보통/따뜻하게 옵션")
+						.attributes(field("format", "COOL/NORMAL/WARM"))
 				),
 				responseFields(
 					fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),

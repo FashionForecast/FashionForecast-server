@@ -1,7 +1,6 @@
 package com.example.fashionforecastbackend.outfit.domain;
 
 public enum OutfitType {
-	OUTER,
 	TOP,
 	BOTTOM,
 	ETC,
