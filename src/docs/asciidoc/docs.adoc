@@ -38,6 +38,8 @@
 
 외출 시간대의 날씨 정보 조회 API
 
+요청으로 받은 위도, 경도와 가장 가까운 위치의 날씨 정보를 반환
+
 ==== Request
 
 include::{snippets}/weather-controller-test/get-weather-test/http-request.adoc[]
@@ -248,3 +250,78 @@ include::{snippets}/outfit-controller-test/add-default-outfit/response-fields.ad
 | 레이어드(겉옷)
 
 |===
+
+== 최근 검색어 조회 (GET /api/v1/search/+{uuid}+)
+
+==== Description
+
+사용자 uuid를 이용하여 최근 검색어 조회
+
+==== Request
+
+include::{snippets}/search-controller-test/get-search-test/http-request.adoc[]
+
+==== Parameter
+
+include::{snippets}/search-controller-test/get-search-test/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/search-controller-test/get-search-test/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/search-controller-test/get-search-test/response-fields.adoc[]
+
+
+== 최근 검색어 등록 (POST /api/v1/search/+{uuid}+)
+
+==== Description
+
+사용자 uuid를 이용하여 최근 검색어 등록
+
+==== Request
+
+include::{snippets}/search-controller-test/regist-search-test/http-request.adoc[]
+
+==== Parameter
+
+include::{snippets}/search-controller-test/regist-search-test/path-parameters.adoc[]
+
+==== Field
+
+include::{snippets}/search-controller-test/regist-search-test/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/search-controller-test/regist-search-test/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/search-controller-test/regist-search-test/response-fields.adoc[]
+
+== 최근 검색어 삭제 (DELETE /api/v1/search/+{uuid}+)
+
+==== Description
+
+사용자 uuid를 이용하여 최근 검색어 삭제
+
+==== Request
+
+include::{snippets}/search-controller-test/delete-search-test/http-request.adoc[]
+
+==== Parameter
+
+include::{snippets}/search-controller-test/delete-search-test/path-parameters.adoc[]
+
+==== Field
+
+include::{snippets}/search-controller-test/delete-search-test/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/search-controller-test/delete-search-test/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/search-controller-test/delete-search-test/response-fields.adoc[]
