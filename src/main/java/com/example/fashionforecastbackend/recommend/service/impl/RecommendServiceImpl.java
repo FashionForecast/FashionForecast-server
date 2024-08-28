@@ -4,6 +4,8 @@ import static com.example.fashionforecastbackend.global.error.ErrorCode.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,16 +41,14 @@ public class RecommendServiceImpl implements RecommendService {
 	@Override
 	public List<RecommendResponse> getRecommendedOutfit(RecommendRequest recommendRequest) {
 		TempStage tempStage;
-		if (recommendRequest.extremumTmp() < 5) {
-			if (recommendRequest.tempCondition() == TempCondition.COOL) {
-				throw new InvalidWeatherRequestException(INVALID_TEMP_CONDITION);
-			}
+		if (recommendRequest.extremumTmp() < 5 && recommendRequest.tempCondition() == TempCondition.COOL) {
+			throw new InvalidWeatherRequestException(INVALID_TEMP_CONDITION);
 		}
-		if (recommendRequest.extremumTmp() >= 28) {
-			if (recommendRequest.tempCondition() == TempCondition.WARM) {
-				throw new InvalidWeatherRequestException(INVALID_TEMP_CONDITION);
-			}
+
+		if (recommendRequest.extremumTmp() >= 28 && recommendRequest.tempCondition() == TempCondition.WARM) {
+			throw new InvalidWeatherRequestException(INVALID_TEMP_CONDITION);
 		}
+
 		if (recommendRequest.tempCondition() == TempCondition.COOL) {
 			tempStage = tempStageRepository.findByWeatherAndCoolOption(recommendRequest.extremumTmp())
 				.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
@@ -68,7 +68,15 @@ public class RecommendServiceImpl implements RecommendService {
 		determineUmbrella(recommendRequest, outfits);
 		determineLayered(recommendRequest, outfits);
 
-		return outfits.stream().map(RecommendResponse::of).toList();
+		Map<OutfitType, List<String>> groupByType = outfits.stream()
+			.collect(Collectors.groupingBy(
+				Outfit::getOutfitType,
+				Collectors.mapping(Outfit::getName, Collectors.toList())
+			));
+
+		return groupByType.entrySet().stream()
+			.map(entry -> RecommendResponse.of(entry.getValue(), entry.getKey()))
+			.toList();
 	}
 
 	private void determineUmbrella(RecommendRequest recommendRequest, List<Outfit> outfits) {

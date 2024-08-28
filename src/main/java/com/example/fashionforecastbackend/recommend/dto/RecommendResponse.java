@@ -1,18 +1,20 @@
 package com.example.fashionforecastbackend.recommend.dto;
 
-import com.example.fashionforecastbackend.outfit.domain.Outfit;
+import java.util.List;
+
+import com.example.fashionforecastbackend.outfit.domain.OutfitType;
 
 import lombok.Builder;
 
 @Builder
 public record RecommendResponse(
-	String name,
-	String outfitType
+	List<String> names,
+	OutfitType outfitType
 ) {
-	public static RecommendResponse of(Outfit outfit) {
+	public static RecommendResponse of(List<String> names, OutfitType outfitType) {
 		return RecommendResponse.builder()
-			.name(outfit.getName())
-			.outfitType(outfit.getOutfitType().toString())
+			.names(names)
+			.outfitType(outfitType)
 			.build();
 	}
 }
