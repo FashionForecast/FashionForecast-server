@@ -134,7 +134,7 @@ class SearchControllerTest extends ControllerTest {
 			.andExpect(jsonPath("$.data").isEmpty())
 			.andDo(restDocs.document(
 				pathParameters(
-					parameterWithName("uuid").description("사용자 uuid 값")
+					parameterWithName("uuid").description("사용자 uuid")
 				),
 				requestFields(
 					fieldWithPath("city").type(JsonFieldType.STRING).description("도시"),
