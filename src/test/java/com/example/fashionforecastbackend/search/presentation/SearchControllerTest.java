@@ -56,6 +56,14 @@ class SearchControllerTest extends ControllerTest {
 
 		//then
 		resultActions.andExpect(status().isOk())
+			.andExpect(jsonPath("$.status").value(200))
+			.andExpect(jsonPath("$.message").value("OK"))
+			.andExpect(jsonPath("$.data[0].city").value("서울특별시"))
+			.andExpect(jsonPath("$.data[0].district").value("관악구"))
+			.andExpect(jsonPath("$.data[1].city").value("경기도"))
+			.andExpect(jsonPath("$.data[1].district").value("남양주시"))
+			.andExpect(jsonPath("$.data[2].city").value("서울특별시"))
+			.andExpect(jsonPath("$.data[2].district").value("서초구"))
 			.andDo(restDocs.document(
 				pathParameters(
 					parameterWithName("uuid")
@@ -87,6 +95,10 @@ class SearchControllerTest extends ControllerTest {
 
 		//then
 		resultActions.andExpect(status().isOk())
+			.andExpect(jsonPath("$.status").value(201))
+			.andExpect(jsonPath("$.message").value("CREATED"))
+			.andExpect(jsonPath("$.data.city").value("서울특별시"))
+			.andExpect(jsonPath("$.data.district").value("관악구"))
 			.andDo(restDocs.document(
 				pathParameters(
 					parameterWithName("uuid").description("사용자 uuid")
@@ -117,6 +129,9 @@ class SearchControllerTest extends ControllerTest {
 
 		//then
 		resultActions.andExpect(status().isOk())
+			.andExpect(jsonPath("$.status").value(204))
+			.andExpect(jsonPath("$.message").value("NO_CONTENT"))
+			.andExpect(jsonPath("$.data").isEmpty())
 			.andDo(restDocs.document(
 				pathParameters(
 					parameterWithName("uuid").description("사용자 uuid 값")
