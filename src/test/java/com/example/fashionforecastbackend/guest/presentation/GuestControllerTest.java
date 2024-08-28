@@ -61,18 +61,17 @@ class GuestControllerTest extends ControllerTest {
 				requestFields(
 					fieldWithPath("uuid")
 						.type(JsonFieldType.STRING)
-						.optional()
 						.attributes(field("format", "문자열 or null"))
-						.description("UUID 값")
+						.description("사용자 uuid")
 
 				),
 				responseFields(
 					fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),
-					fieldWithPath("message").type(JsonFieldType.STRING).description("요청 성공 여부"),
+					fieldWithPath("message").type(JsonFieldType.STRING).description("상태 메세지"),
 					fieldWithPath("data").type(JsonFieldType.OBJECT).description("게스트 데이터")
 				)
 					.andWithPrefix("data.",
-						fieldWithPath("uuid").type(JsonFieldType.STRING).description("uuid 값"),
+						fieldWithPath("uuid").type(JsonFieldType.STRING).description("사용자 uuid"),
 						fieldWithPath("isNewGuest").type(JsonFieldType.BOOLEAN).description("신규 게스트 여부")
 					)
 

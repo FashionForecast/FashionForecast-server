@@ -56,24 +56,20 @@ class WeatherControllerTest extends ControllerTest {
 			.andDo(restDocs.document(
 				queryParameters(
 					parameterWithName("nowDateTime")
-						.optional()
 						.attributes(field("format", "yyyy-mm-ddTHH:mm:ss"))
 						.description("현재 시간"),
 					parameterWithName("startDateTime")
-						.optional()
 						.attributes(field("format", "yyyy-mm-ddTHH:mm:ss"))
 						.description("외출 시작 시간"),
 					parameterWithName("endDateTime")
-						.optional()
 						.attributes(field("format", "yyyy-mm-ddTHH:mm:ss"))
 						.description("외출 끝 시간"),
-
-					parameterWithName("nx").optional().attributes(field("format", "1~999 사이 정수값")).description("위도"),
-					parameterWithName("ny").optional().attributes(field("format", "1~999 사이 정수값")).description("경도")
+					parameterWithName("nx").attributes(field("format", "1~999 사이 정수값")).description("위도"),
+					parameterWithName("ny").attributes(field("format", "1~999 사이 정수값")).description("경도")
 				),
 				responseFields(
 					fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),
-					fieldWithPath("message").type(JsonFieldType.STRING).description("요청 성공 여부"),
+					fieldWithPath("message").type(JsonFieldType.STRING).description("상태 메세지"),
 					fieldWithPath("data").type(JsonFieldType.OBJECT).description("날씨 데이터")
 				)
 					.andWithPrefix("data.",

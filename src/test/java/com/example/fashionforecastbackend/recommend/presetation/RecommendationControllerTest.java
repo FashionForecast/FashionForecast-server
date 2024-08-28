@@ -82,7 +82,7 @@ class RecommendationControllerTest extends ControllerTest {
 				),
 				responseFields(
 					fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),
-					fieldWithPath("message").type(JsonFieldType.STRING).description("요청 성공 여부"),
+					fieldWithPath("message").type(JsonFieldType.STRING).description("상태 메세지"),
 					fieldWithPath("data").type(JsonFieldType.ARRAY).description("옷차림 데이터")
 				)
 					.andWithPrefix("data.[].",
