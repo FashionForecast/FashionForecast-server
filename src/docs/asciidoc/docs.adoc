@@ -32,7 +32,9 @@
 | 서버 에러
 |===
 
-== 날씨 조회 (GET /api/v1/weather/forecast)
+== 날씨 API
+
+=== 날씨 조회 (GET /api/v1/weather/forecast)
 
 ==== Description
 
@@ -62,7 +64,7 @@ include::{snippets}/weather-controller-test/get-weather-test/http-response.adoc[
 
 include::{snippets}/weather-controller-test/get-weather-test/response-fields.adoc[]
 
-===== skyStatus, rainType
+==== skyStatus, rainType
 
 ===== skyStatus
 
@@ -109,7 +111,9 @@ include::{snippets}/weather-controller-test/get-weather-test/response-fields.ado
 | 눈날림
 |===
 
-== 게스트 로그인 (POST /api/v1/guest/login)
+== 게스트 API
+
+=== 로그인 요청 (POST /api/v1/guest/login)
 
 ==== Description
 
@@ -131,7 +135,9 @@ include::{snippets}/guest-controller-test/login-test/http-response.adoc[]
 
 include::{snippets}/guest-controller-test/login-test/response-fields.adoc[]
 
-== 디폴트 옷차림 조회 (GET /api/v1/recommend/default)
+== 옷차림 API
+
+=== 디폴트 옷차림 조회 (GET /api/v1/recommend/default)
 
 ==== Description
 
@@ -199,7 +205,7 @@ include::{snippets}/recommendation-controller-test/get-default-recommend/respons
 
 |===
 
-== 디폴트 옷차림 추가 (POST /api/v1/outfit/default)
+=== 디폴트 옷차림 추가 (POST /api/v1/outfit/default)
 
 ==== Description
 
@@ -251,7 +257,9 @@ include::{snippets}/outfit-controller-test/add-default-outfit/response-fields.ad
 
 |===
 
-== 최근 검색어 조회 (GET /api/v1/search/+{uuid}+)
+== 최근 검색어 API
+
+=== 최근 검색어 조회 (GET /api/v1/search/+{uuid}+)
 
 ==== Description
 
@@ -274,7 +282,7 @@ include::{snippets}/search-controller-test/get-search-test/http-response.adoc[]
 include::{snippets}/search-controller-test/get-search-test/response-fields.adoc[]
 
 
-== 최근 검색어 등록 (POST /api/v1/search/+{uuid}+)
+=== 최근 검색어 등록 (POST /api/v1/search/+{uuid}+)
 
 ==== Description
 
@@ -300,7 +308,7 @@ include::{snippets}/search-controller-test/regist-search-test/http-response.adoc
 
 include::{snippets}/search-controller-test/regist-search-test/response-fields.adoc[]
 
-== 최근 검색어 삭제 (DELETE /api/v1/search/+{uuid}+)
+=== 최근 검색어 삭제 (DELETE /api/v1/search/+{uuid}+)
 
 ==== Description
 
