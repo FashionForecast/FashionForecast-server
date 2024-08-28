@@ -133,7 +133,7 @@ include::{snippets}/guest-controller-test/login-test/response-fields.adoc[]
 
 ==== Description
 
-외출 시간을 지정하여 날씨에 따라서 디폴트로 설정된 옷차림 데이터 조회
+날씨에 따라서 디폴트로 설정된 옷차림 데이터 조회
 
 ==== Request
 
@@ -194,5 +194,57 @@ include::{snippets}/recommendation-controller-test/get-default-recommend/respons
 
 | `WARM`
 | 따뜻하게
+
+|===
+
+== 디폴트 옷차림 추가 (POST /api/v1/outfit/default)
+
+==== Description
+
+운영용으로 사용할 디폴트 옷차림 추가 기능
+
+==== Request
+
+include::{snippets}/outfit-controller-test/add-default-outfit/http-request.adoc[]
+
+==== Field
+
+include::{snippets}/outfit-controller-test/add-default-outfit/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/outfit-controller-test/add-default-outfit/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/outfit-controller-test/add-default-outfit/response-fields.adoc[]
+
+==== Enum Type
+
+===== OutfitType
+
+|===
+| 값 | 설명
+
+| `OUTER`
+| 외투
+
+| `TOP`
+| 상의
+
+| `BOTTOM`
+| 하의
+
+| `ETC`
+| 기타 악세사리
+
+| `BASIC_UMBRELLA`
+| 장우산
+
+| `FOLDING_UMBRELLA`
+| 접이식 우산
+
+| `LAYERED`
+| 레이어드(겉옷)
 
 |===

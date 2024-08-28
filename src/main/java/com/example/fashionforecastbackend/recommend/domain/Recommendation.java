@@ -31,4 +31,18 @@ public class Recommendation extends BaseTimeEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "outfit_id")
 	private Outfit outfit;
+
+	public void setTempStage(TempStage tempStage) {
+		this.tempStage = tempStage;
+	}
+
+	public void setOutfit(Outfit outfit) {
+		this.outfit = outfit;
+	}
+
+	public static Recommendation createRecommendation(TempStage tempStage) {
+		Recommendation recommendation = new Recommendation();
+		recommendation.setTempStage(tempStage);
+		return recommendation;
+	}
 }
