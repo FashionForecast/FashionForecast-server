@@ -13,7 +13,7 @@ import com.example.fashionforecastbackend.weather.dto.response.WeatherResponse;
 
 public class WeatherFixture {
 
-	public static final List<WeatherForecast> WEATHER_FORECASTS = generateWeatherResponseDtos("20240811", "1400");
+	public static final List<WeatherForecast> WEATHER_FORECASTS = generateWeatherResponseDtos("20240811", "1100");
 	public static final WeatherResponse WEATHER_RESPONSE = WeatherResponse.of(Season.SUMMER, 36, 0, 30,
 		0.0, WEATHER_FORECASTS);
 	public static final List<Weather> WEATHERS = List.of(
@@ -24,7 +24,7 @@ public class WeatherFixture {
 		createWeather("20240811", "1400", "20240811", "1900", 120, 67)
 	);
 
-	public static final WeatherFilter WEATHER_FILTER = WeatherFilter.of("20240811", "1400", "20240811", "1500",
+	public static final WeatherFilter WEATHER_FILTER = WeatherFilter.of("20240811", "1100", "20240811", "1500",
 		"20240811", "1900", 60, 127);
 
 	private static List<WeatherForecast> generateWeatherResponseDtos(String baseDate, String baseTime) {
