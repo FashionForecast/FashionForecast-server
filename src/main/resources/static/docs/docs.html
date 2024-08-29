@@ -931,7 +931,7 @@ Content-Type: application/json
 Content-Type: application/json;charset=UTF-8
 
 {
-  "uuid" : "60b93511-aec2-4a16-a640-a53985e71354"
+  "uuid" : "fc51c756-fdd9-428c-aee8-4248f9d9c1e0"
 }</code></pre>
 </div>
 </div>
@@ -975,7 +975,7 @@ Content-Type: application/json
 
 {
   "data" : {
-    "uuid" : "60b93511-aec2-4a16-a640-a53985e71354",
+    "uuid" : "fc51c756-fdd9-428c-aee8-4248f9d9c1e0",
     "isNewGuest" : false
   },
   "status" : 200,
@@ -1069,32 +1069,32 @@ Content-Type: application/json;charset=UTF-8</code></pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>extremumTmp</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-50~50 사이의 정수값</p></td>
+<td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">최고 또는 최저 기온</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxMinTmpDiff</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0 이상 정수값</p></td>
+<td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">최고 최저 기온차</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>maximumPop</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0~100 사이 정수값</p></td>
+<td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">최대 강수확률</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>maximumPcp</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0 이상 정수값</p></td>
+<td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">최대 강수량</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>tempCondition</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">COOL/NORMAL/WARM</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">시원하게/보통/따뜻하게 옵션</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">시원하게/보통/따뜻하게 옵션 - 그룹 1은 WARM 비활성화, 그룹 8은 COOL 비활성화</p></td>
 </tr>
 </tbody>
 </table>
@@ -1108,13 +1108,13 @@ Content-Type: application/json
 
 {
   "data" : [ {
-    "name" : "민소매",
+    "names" : [ "민소매", "반팔티" ],
     "outfitType" : "TOP"
   }, {
-    "name" : "반바지",
+    "names" : [ "반바지" ],
     "outfitType" : "BOTTOM"
   }, {
-    "name" : "장우산",
+    "names" : [ "장우산" ],
     "outfitType" : "BASIC_UMBRELLA"
   } ],
   "status" : 200,
@@ -1155,8 +1155,8 @@ Content-Type: application/json
 <td class="tableblock halign-left valign-top"><p class="tableblock">옷차림 데이터</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.[].names</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">옷 이름</p></td>
 </tr>
 <tr>
@@ -1417,7 +1417,7 @@ Content-Type: application/json
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-08-27 20:50:36 +0900
+Last updated 2024-08-29 15:46:27 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
