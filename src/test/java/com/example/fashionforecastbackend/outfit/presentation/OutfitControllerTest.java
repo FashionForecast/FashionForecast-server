@@ -61,7 +61,7 @@ class OutfitControllerTest extends ControllerTest {
 				),
 				responseFields(
 					fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),
-					fieldWithPath("message").type(JsonFieldType.STRING).description("요청 성공 여부"),
+					fieldWithPath("message").type(JsonFieldType.STRING).description("상태 메세지"),
 					fieldWithPath("data").type(JsonFieldType.NULL).description("성공")
 				))
 			);

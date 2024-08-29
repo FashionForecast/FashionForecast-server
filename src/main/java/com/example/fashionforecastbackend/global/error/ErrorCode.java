@@ -28,7 +28,13 @@ public enum ErrorCode {
 	 * 옷
 	 */
 	UMBRELLA_NOT_FOUND(HttpStatus.BAD_REQUEST, "O001", "맞는 우산 타입을 찾을 수 없습니다."),
-	LAYERED_NOT_FOUND(HttpStatus.BAD_REQUEST, "O002", "맞는 레이어드 타입을 찾을 수 없습니다.");
+	LAYERED_NOT_FOUND(HttpStatus.BAD_REQUEST, "O002", "맞는 레이어드 타입을 찾을 수 없습니다."),
+
+	/**
+	 * 최근 검색어
+	 */
+	SEARCH_NOT_EXIST(HttpStatus.BAD_REQUEST, "S001", "최근 검색어가 존재하지 않습니다."),
+	SEARCH_NOT_EXIST_USER(HttpStatus.BAD_REQUEST, "S002", "유저가 존재하지 않습니다.");
 
 	private final HttpStatus httpStatus;
 	private final String code;
