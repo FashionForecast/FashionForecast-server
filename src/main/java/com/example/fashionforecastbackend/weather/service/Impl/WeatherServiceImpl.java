@@ -185,7 +185,7 @@ public class WeatherServiceImpl implements WeatherService {
 
 	private String getBaseDate(LocalDateTime nowDateTime) {
 		int hour = nowDateTime.getHour();
-		if (hour < 2) {
+		if (hour < 5) {
 			nowDateTime = nowDateTime.minusDays(1);
 		}
 		return nowDateTime.format(DATE_FORMAT);
@@ -211,27 +211,13 @@ public class WeatherServiceImpl implements WeatherService {
 	private String getBaseTime(LocalDateTime nowDateTime) {
 
 		int hour = nowDateTime.getHour();
-		// 예보는 3시간 기점으로 발표
-		if (hour < 2) {
-			hour = 23;
-		} else if (hour < 5) {
-			hour = 2;
-		} else if (hour < 8) {
-			hour = 5;
-		} else if (hour < 11) {
-			hour = 8;
-		} else if (hour < 14) {
-			hour = 11;
-		} else if (hour < 17) {
-			hour = 14;
-		} else if (hour < 20) {
-			hour = 17;
-		} else if (hour < 23) {
-			hour = 20;
-		} else {
-			hour = 23;
+		int baseTime = (((hour + 1) / 3) - 1) * 3 - 1;
+
+		if (hour < 5) {
+			baseTime = 23;
 		}
-		return convertToFormatTime(hour);
+
+		return convertToFormatTime(baseTime);
 	}
 
 	private String convertToFormatTime(int hour) {

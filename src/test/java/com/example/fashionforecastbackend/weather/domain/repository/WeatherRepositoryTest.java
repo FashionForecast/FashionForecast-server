@@ -29,10 +29,10 @@ class WeatherRepositoryTest {
 	@Test
 	void saveAllTest() throws Exception {
 		//given
-		Weather weather1 = WeatherFixture.createWeather("20240811", "1400", "20240811", "1500", 60, 127);
-		Weather weather2 = WeatherFixture.createWeather("20240811", "1400", "20240811", "1600", 60, 127);
-		Weather weather3 = WeatherFixture.createWeather("20240812", "1400", "20240812", "1500", 60, 127);
-		Weather weather4 = WeatherFixture.createWeather("20240812", "1400", "20240812", "1600", 60, 127);
+		Weather weather1 = WeatherFixture.createWeather("20240811", "1100", "20240811", "1500", 60, 127);
+		Weather weather2 = WeatherFixture.createWeather("20240811", "1100", "20240811", "1600", 60, 127);
+		Weather weather3 = WeatherFixture.createWeather("20240812", "1100", "20240812", "1500", 60, 127);
+		Weather weather4 = WeatherFixture.createWeather("20240812", "1100", "20240812", "1600", 60, 127);
 		//when
 		weatherRepository.saveAll(List.of(weather1, weather2, weather3, weather4));
 		WeatherFilter weatherFilter = WeatherFixture.WEATHER_FILTER;
