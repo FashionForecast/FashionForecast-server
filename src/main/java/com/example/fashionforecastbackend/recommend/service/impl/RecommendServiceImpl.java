@@ -49,14 +49,14 @@ public class RecommendServiceImpl implements RecommendService {
 			throw new InvalidWeatherRequestException(INVALID_TEMP_CONDITION);
 		}
 
-		if (recommendRequest.tempCondition() == TempCondition.COOL) {
-			tempStage = tempStageRepository.findByWeatherAndCoolOption(recommendRequest.extremumTmp())
+		if (recommendRequest.tempCondition() == TempCondition.WARM) {
+			tempStage = tempStageRepository.findByWeatherAndWarmOption(recommendRequest.extremumTmp())
 				.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
 		} else if (recommendRequest.tempCondition() == TempCondition.NORMAL) {
 			tempStage = tempStageRepository.findByWeather(recommendRequest.extremumTmp())
 				.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
-		} else if (recommendRequest.tempCondition() == TempCondition.WARM) {
-			tempStage = tempStageRepository.findByWeatherAndWarmOption(recommendRequest.extremumTmp())
+		} else if (recommendRequest.tempCondition() == TempCondition.COOL) {
+			tempStage = tempStageRepository.findByWeatherAndCoolOption(recommendRequest.extremumTmp())
 				.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
 		} else {
 			throw new InvalidWeatherRequestException(INVALID_TEMP_CONDITION);
