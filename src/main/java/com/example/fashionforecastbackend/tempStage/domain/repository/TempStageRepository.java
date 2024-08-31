@@ -20,18 +20,18 @@ public interface TempStageRepository extends JpaRepository<TempStage, Long> {
 	@Query("select t1 "
 		+ "from TempStage t1 "
 		+ "where t1.level = ( "
-		+ "		select t2.level + 1 from TempStage t2 "
-		+ "     where t2.minTemp <= :temp and t2.maxTemp >= :temp "
+		+ "    select t2.level + 1 from TempStage t2 "
+		+ "    where t2.minTemp <= :temp and t2.maxTemp >= :temp "
 		+ ") ")
-	Optional<TempStage> findByWeatherAndCoolOption(@Param("temp") int temp);
+	Optional<TempStage> findByWeatherAndWarmOption(@Param("temp") int temp);
 
 	@Query("select t1 "
 		+ "from TempStage t1 "
 		+ "where t1.level = ( "
-		+ "		select t2.level - 1 from TempStage t2 "
-		+ "     where t2.minTemp <= :temp and t2.maxTemp >= :temp "
+		+ "    select t2.level - 1 from TempStage t2 "
+		+ "    where t2.minTemp <= :temp and t2.maxTemp >= :temp "
 		+ ") ")
-	Optional<TempStage> findByWeatherAndWarmOption(@Param("temp") int temp);
+	Optional<TempStage> findByWeatherAndCoolOption(@Param("temp") int temp);
 
 	Optional<TempStage> findByLevel(int level);
 }
