@@ -27,6 +27,10 @@ public class WeatherDateTimeValidator {
 		String startDate = startDateTime.format(DATE_FORMAT);
 		String endDate = endDateTime.format(DATE_FORMAT);
 
+		if (startDate.compareTo(nowDate) > 0) {
+			return;
+		}
+
 		int nowHour = nowDateTime.getHour();
 		int startHour = startDateTime.getHour();
 		int endHour = endDateTime.getHour();
@@ -45,6 +49,10 @@ public class WeatherDateTimeValidator {
 		String nowDate = nowDateTime.format(DATE_FORMAT);
 		String startDate = startDateTime.format(DATE_FORMAT);
 		String endDate = endDateTime.format(DATE_FORMAT);
+
+		if (endDate.compareTo(startDate) > 0 || endDate.compareTo(nowDate) > 0) {
+			return;
+		}
 
 		int nowHour = nowDateTime.getHour();
 		int startHour = startDateTime.getHour();
