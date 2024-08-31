@@ -58,9 +58,10 @@ public class WeatherServiceImpl implements WeatherService {
 		if (weathers.isEmpty() || isUnderSize(weathers, weatherFilter)) {
 			weathers = getWeathersFromExternalApi(weatherFilter, region);
 			weatherRepository.saveAll(weathers);
-			weathers = getFilteredWeathers(weathers, weatherFilter);
-			sortWeathersByDateTime(weathers);
 		}
+
+		weathers = getFilteredWeathers(weathers, weatherFilter);
+		sortWeathersByDateTime(weathers);
 
 		Season season = weathers.get(0).getSeason();
 		List<WeatherForecast> weatherForecasts = weatherMapper.convertToWeatherResponseDto(weathers);
@@ -170,6 +171,7 @@ public class WeatherServiceImpl implements WeatherService {
 	private List<Weather> getFilteredWeathers(Collection<Weather> weathers, WeatherFilter weatherFilter) {
 		return weathers.stream()
 			.filter(weather -> isInDateTime(weather, weatherFilter))
+			.distinct()
 			.collect(Collectors.toList());
 	}
 

@@ -129,11 +129,10 @@ public class Weather extends BaseTimeEntity {
 	public boolean equals(Object o) {
 		if (this == o)
 			return true;
-		if (o == null || getClass() != o.getClass())
+		if (!(o instanceof Weather)) {
 			return false;
-		if (!super.equals(o))
-			return false;
-		Weather that = (Weather)o;
+		}
+		Weather that = (Weather) o;
 		return Objects.equals(baseDate, that.baseDate) &&
 			Objects.equals(baseTime, that.baseTime) &&
 			Objects.equals(fcstDate, that.fcstDate) &&
