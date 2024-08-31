@@ -3,6 +3,8 @@ package com.example.fashionforecastbackend.recommend.service.impl;
 import static com.example.fashionforecastbackend.global.error.ErrorCode.*;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -69,8 +71,10 @@ public class RecommendServiceImpl implements RecommendService {
 		determineLayered(recommendRequest, outfits);
 
 		Map<OutfitType, List<String>> groupByType = outfits.stream()
+			.sorted(Comparator.comparing(outfit -> outfit.getOutfitType().ordinal()))
 			.collect(Collectors.groupingBy(
 				Outfit::getOutfitType,
+				LinkedHashMap::new,
 				Collectors.mapping(Outfit::getName, Collectors.toList())
 			));
 
