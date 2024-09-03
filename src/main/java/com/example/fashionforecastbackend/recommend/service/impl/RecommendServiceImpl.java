@@ -43,11 +43,14 @@ public class RecommendServiceImpl implements RecommendService {
 	@Override
 	public List<RecommendResponse> getRecommendedOutfit(RecommendRequest recommendRequest) {
 		TempStage tempStage;
-		if (recommendRequest.extremumTmp() < 5 && recommendRequest.tempCondition() == TempCondition.COOL) {
+
+		if (recommendRequest.extremumTmp() < 5 && (recommendRequest.tempCondition() == TempCondition.COOL
+			|| recommendRequest.tempCondition() == TempCondition.WARM)) {
 			throw new InvalidWeatherRequestException(INVALID_TEMP_CONDITION);
 		}
 
-		if (recommendRequest.extremumTmp() >= 28 && recommendRequest.tempCondition() == TempCondition.WARM) {
+		if (recommendRequest.extremumTmp() >= 28 && (recommendRequest.tempCondition() == TempCondition.WARM
+			|| recommendRequest.tempCondition() == TempCondition.COOL)) {
 			throw new InvalidWeatherRequestException(INVALID_TEMP_CONDITION);
 		}
 
