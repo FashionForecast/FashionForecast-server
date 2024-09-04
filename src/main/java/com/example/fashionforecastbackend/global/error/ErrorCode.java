@@ -39,10 +39,8 @@ public enum ErrorCode {
 	 * 온도 옵션
 	 */
 	INVALID_TEMP_CONDITION(HttpStatus.BAD_REQUEST, "OP001", "올바르지 않은 온도 옵션입니다."),
-	INVALID_GROUP8_COOL_OPTION(HttpStatus.BAD_REQUEST, "OP001", "온도 그룹 8은 시원하게 옵션을 사용할 수 없습니다."),
 	INVALID_GROUP8_WARM_OPTION(HttpStatus.BAD_REQUEST, "OP002", "온도 그룹 8은 따뜻하게 옵션을 사용할 수 없습니다."),
-	INVALID_GROUP1_COOL_OPTION(HttpStatus.BAD_REQUEST, "OP003", "온도 그룹 1은 시원하게 옵션을 사용할 수 없습니다."),
-	INVALID_GROUP1_WARM_OPTION(HttpStatus.BAD_REQUEST, "OP004", "온도 그룹 1은 따뜻하게 옵션을 사용할 수 없습니다.");
+	INVALID_GROUP1_COOL_OPTION(HttpStatus.BAD_REQUEST, "OP003", "온도 그룹 1은 시원하게 옵션을 사용할 수 없습니다.");
 
 	private final HttpStatus httpStatus;
 	private final String code;
