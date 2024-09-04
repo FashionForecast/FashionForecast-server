@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.fashionforecastbackend.global.error.exception.InvalidTempConditionException;
 import com.example.fashionforecastbackend.global.error.exception.InvalidWeatherRequestException;
 import com.example.fashionforecastbackend.global.error.exception.OutfitTypeNotFoundException;
 import com.example.fashionforecastbackend.global.error.exception.TempStageNotFoundException;
@@ -43,12 +44,23 @@ public class RecommendServiceImpl implements RecommendService {
 	@Override
 	public List<RecommendResponse> getRecommendedOutfit(RecommendRequest recommendRequest) {
 		TempStage tempStage;
-		if (recommendRequest.extremumTmp() < 5 && recommendRequest.tempCondition() == TempCondition.COOL) {
-			throw new InvalidWeatherRequestException(INVALID_TEMP_CONDITION);
+
+		if (recommendRequest.extremumTmp() < 5) {
+			if (recommendRequest.tempCondition() == TempCondition.COOL) {
+				throw new InvalidTempConditionException(INVALID_GROUP8_COOL_OPTION);
+			}
+			if (recommendRequest.tempCondition() == TempCondition.WARM) {
+				throw new InvalidWeatherRequestException(INVALID_GROUP8_WARM_OPTION);
+			}
 		}
 
-		if (recommendRequest.extremumTmp() >= 28 && recommendRequest.tempCondition() == TempCondition.WARM) {
-			throw new InvalidWeatherRequestException(INVALID_TEMP_CONDITION);
+		if (recommendRequest.extremumTmp() >= 28) {
+			if (recommendRequest.tempCondition() == TempCondition.WARM) {
+				throw new InvalidWeatherRequestException(INVALID_GROUP1_COOL_OPTION);
+			}
+			if (recommendRequest.tempCondition() == TempCondition.COOL) {
+				throw new InvalidWeatherRequestException(INVALID_GROUP1_COOL_OPTION);
+			}
 		}
 
 		if (recommendRequest.tempCondition() == TempCondition.WARM) {
