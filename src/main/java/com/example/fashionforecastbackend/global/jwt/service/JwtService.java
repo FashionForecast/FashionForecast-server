@@ -99,8 +99,8 @@ public class JwtService {
 	private ResponseCookie createResponseCookie(final String token, final String prefix, final Long expirationTime) {
 		return ResponseCookie.from(prefix, token)
 			.maxAge(expirationTime)
-			.sameSite("Lax")
-			.secure(false)
+			.sameSite("Lax") // 배포시 "None"
+			.secure(false) // 배포시 true
 			.httpOnly(true)
 			.path("/")
 			.build();
