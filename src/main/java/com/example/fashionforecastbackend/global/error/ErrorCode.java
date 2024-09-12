@@ -40,7 +40,23 @@ public enum ErrorCode {
 	 */
 	INVALID_TEMP_CONDITION(HttpStatus.BAD_REQUEST, "OP001", "올바르지 않은 온도 옵션입니다."),
 	INVALID_GROUP8_WARM_OPTION(HttpStatus.BAD_REQUEST, "OP002", "온도 그룹 8은 따뜻하게 옵션을 사용할 수 없습니다."),
-	INVALID_GROUP1_COOL_OPTION(HttpStatus.BAD_REQUEST, "OP003", "온도 그룹 1은 시원하게 옵션을 사용할 수 없습니다.");
+	INVALID_GROUP1_COOL_OPTION(HttpStatus.BAD_REQUEST, "OP003", "온도 그룹 1은 시원하게 옵션을 사용할 수 없습니다."),
+
+	/**
+	 * JWT
+	 */
+	EXPIRED_PERIOD_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "J001", "기한이 만료된 RefreshToken입니다."),
+	INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "J002", "올바르지 않은 RefreshToken입니다."),
+	EXPIRED_PERIOD_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "J003", "기한이 만료된 AccessToken입니다."),
+	INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "J004", "올바르지 않은 AccessToken입니다."),
+
+	/**
+	 * Member
+	 */
+
+	NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "M001", "회원이 존재하지 않습니다."),
+	SOCIAL_LOGIN_FAILED(HttpStatus.UNAUTHORIZED, "M002", "소셜 로그인에 실패하였습니다.");
+
 
 	private final HttpStatus httpStatus;
 	private final String code;

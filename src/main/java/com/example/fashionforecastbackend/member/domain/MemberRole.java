@@ -1,6 +1,13 @@
 package com.example.fashionforecastbackend.member.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum MemberRole {
 
-	MEMBER
+	MEMBER("ROLE_USER");
+
+	private final String key;
 }

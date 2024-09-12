@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import com.example.fashionforecastbackend.global.BaseTimeEntity;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -30,19 +29,14 @@ public class Member extends BaseTimeEntity {
 
 	private String email;
 
-	private String password;
+	private String imageUrl;
 
-	@Column(nullable = false, unique = true, length = 20)
 	private String nickname;
+
+	private String socialId;
 
 	@Column(nullable = false)
 	private LocalDateTime lastLoginDate;
-
-	@Embedded
-	private MemberBirthday birthday;
-
-	@Enumerated(value = STRING)
-	private MemberGender gender;
 
 	@Enumerated(value = STRING)
 	private MemberRole role;
@@ -54,16 +48,15 @@ public class Member extends BaseTimeEntity {
 	private MemberJoinType joinType;
 
 	@Builder
-	public Member(final Long id, final String email, final String password, final String nickname,
-		final MemberBirthday birthday ,final MemberGender gender, final MemberRole role, final MemberJoinType joinType) {
+	public Member(final Long id, final String email, final String imageUrl, final String nickname,
+		final String socialId, final MemberRole role, final MemberJoinType joinType) {
 
 		this.id = id;
 		this.email = email;
-		this.password = password;
+		this.imageUrl = imageUrl;
 		this.nickname = nickname;
+		this.socialId = socialId;
 		this.lastLoginDate = LocalDateTime.now();
-		this.birthday = birthday;
-		this.gender = gender;
 		this.state = MemberState.ACTIVE;
 		this.role = role;
 		this.joinType = joinType;
@@ -72,10 +65,6 @@ public class Member extends BaseTimeEntity {
 
 	public void updateState(final MemberState state) {
 		this.state = state;
-	}
-
-	public void updateNickname(final String nickname) {
-		this.nickname = nickname;
 	}
 
 }
