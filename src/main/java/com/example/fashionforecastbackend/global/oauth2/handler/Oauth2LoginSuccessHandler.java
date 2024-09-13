@@ -7,10 +7,10 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import com.example.fashionforecastbackend.global.jwt.service.JwtService;
-import com.example.fashionforecastbackend.global.oauth2.CustomOauth2User;
 import com.example.fashionforecastbackend.global.login.domain.MemberTokens;
 import com.example.fashionforecastbackend.global.login.domain.RefreshToken;
 import com.example.fashionforecastbackend.global.login.domain.repository.RefreshTokenRepository;
+import com.example.fashionforecastbackend.global.oauth2.CustomOauth2User;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,8 +37,15 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		saveRefreshTokenInRedis(refreshToken, memberId);
 		response.setStatus(HttpServletResponse.SC_OK);
 
+		String serverName = request.getServerName();
+		String redirectUri = "http://localhost:5173/";
+
+		if (serverName.contains("fashion-forecast.pages.dev")) {
+			redirectUri = "https://fashion-forecast.pages.dev";
+		}
+
 		// 회원 전용 페이지로 이동하게끔 수정 필요
-		response.sendRedirect("https://fashion-forecast.pages.dev");
+		response.sendRedirect(redirectUri);
 	}
 
 
