@@ -40,7 +40,10 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		String serverName = request.getServerName();
 		String redirectUri = "http://localhost:5173/";
 
-		if (serverName.contains("fashion-forecast.pages.dev")) {
+		/*
+		  "forecast-test.shop" = 백엔드 DNS
+		 */
+		if (serverName.contains("forecast-test.shop")) {
 			redirectUri = "https://fashion-forecast.pages.dev";
 		}
 
