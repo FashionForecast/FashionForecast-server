@@ -9,10 +9,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.example.fashionforecastbackend.global.jwt.filter.JwtExceptionHandlerFilter;
+import com.example.fashionforecastbackend.global.jwt.filter.JwtFilter;
+import com.example.fashionforecastbackend.global.jwt.handler.JwtAccessDeniedHandler;
+import com.example.fashionforecastbackend.global.jwt.handler.JwtAuthenticationEntryPoint;
 import com.example.fashionforecastbackend.global.oauth2.handler.Oauth2LoginFailureHandler;
 import com.example.fashionforecastbackend.global.oauth2.handler.Oauth2LoginSuccessHandler;
 import com.example.fashionforecastbackend.global.oauth2.service.CustomOauth2UserService;
@@ -27,6 +32,10 @@ public class SecurityConfig {
 	private final CustomOauth2UserService customOauth2UserService;
 	private final Oauth2LoginSuccessHandler oauth2LoginSuccessHandler;
 	private final Oauth2LoginFailureHandler oauth2LoginFailureHandler;
+	private final JwtFilter jwtFilter;
+	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+	private final JwtExceptionHandlerFilter jwtExceptionHandlerFilter;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -35,7 +44,6 @@ public class SecurityConfig {
 			.csrf(AbstractHttpConfigurer::disable)
 			.formLogin(AbstractHttpConfigurer::disable)
 			.httpBasic(AbstractHttpConfigurer::disable);
-
 
 		http
 			.authorizeHttpRequests(auth -> auth
@@ -50,6 +58,15 @@ public class SecurityConfig {
 
 		http
 			.cors(cors -> cors.configurationSource(getCorsConfiguration()));
+
+		http.exceptionHandling(jwt -> jwt
+			.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+			.accessDeniedHandler(jwtAccessDeniedHandler)
+		);
+
+		http
+			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(jwtExceptionHandlerFilter, JwtFilter.class);
 
 		return http.build();
 	}
@@ -66,7 +83,7 @@ public class SecurityConfig {
 		configuration.setMaxAge(3600L);
 		configuration.setExposedHeaders(List.of("Set-Cookie"));
 
-		// configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+		configuration.setExposedHeaders(Collections.singletonList("Set-Cookie"));
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
