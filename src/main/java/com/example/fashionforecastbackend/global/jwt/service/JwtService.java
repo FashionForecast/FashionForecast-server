@@ -100,6 +100,7 @@ public class JwtService {
 		return ResponseCookie.from(prefix, token)
 			.maxAge(expirationTime)
 			.sameSite("None") // 배포시 "None"
+			.domain("localhost")
 			.secure(true) // 배포시 true
 			.httpOnly(true)
 			.path("/")
