@@ -105,7 +105,7 @@ public class JwtService {
 	private ResponseCookie createResponseCookie(final String token, final String prefix, final Long expirationTime) {
 		return ResponseCookie.from(prefix, token)
 			.maxAge(expirationTime)
-			.sameSite("Strict") // 타 도메인 쿠키 X
+			.sameSite("Lax") // 타 도메인 쿠키 X
 			.secure(true) // https 강제
 			.httpOnly(true)
 			.path("/")
