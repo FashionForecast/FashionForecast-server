@@ -38,7 +38,7 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		response.setStatus(HttpServletResponse.SC_OK);
 
 		String serverName = request.getServerName();
-		String redirectUri = "https://localhost:5173/";
+		String redirectUri = "http://localhost:5173/";
 
 		/*
 		  "forecast-test.shop" = 백엔드 DNS
