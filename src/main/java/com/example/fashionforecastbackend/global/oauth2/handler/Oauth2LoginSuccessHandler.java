@@ -28,11 +28,11 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 	@Override
 	public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response,
-		 final Authentication authentication) throws IOException, ServletException {
+		final Authentication authentication) throws IOException, ServletException {
 		log.info("Oauth2 로그인 성공 : {}", authentication.getPrincipal());
-		final CustomOauth2User principal = (CustomOauth2User) authentication.getPrincipal();
+		final CustomOauth2User principal = (CustomOauth2User)authentication.getPrincipal();
 		final String memberId = String.valueOf(principal.getMemberId());
-		final MemberTokens memberTokens = jwtService.generateLoginToken(response, memberId);
+		final MemberTokens memberTokens = jwtService.generateLoginToken(response, memberId, principal.getRole());
 		final String refreshToken = memberTokens.getRefreshToken();
 		saveRefreshTokenInRedis(refreshToken, memberId);
 		response.setStatus(HttpServletResponse.SC_OK);
@@ -50,7 +50,6 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		// 회원 전용 페이지로 이동하게끔 수정 필요
 		response.sendRedirect(redirectUri);
 	}
-
 
 	private void saveRefreshTokenInRedis(final String refreshToken, final String memberId) {
 		final RefreshToken redisRefreshToken = new RefreshToken(refreshToken, memberId);

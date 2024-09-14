@@ -4,12 +4,18 @@ import static com.example.fashionforecastbackend.global.error.ErrorCode.*;
 import static org.springframework.http.HttpHeaders.*;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import com.example.fashionforecastbackend.global.error.exception.ExpiredPeriodJwtException;
@@ -48,9 +54,9 @@ public class JwtService {
 		this.refreshExpirationTime = refreshExpirationTime;
 	}
 
-	public MemberTokens generateLoginToken(HttpServletResponse response, final String subject) {
-		final String refreshToken = createToken(EMPTY_SUBJECT, refreshExpirationTime);
-		final String accessToken = createToken(subject, accessExpirationTime);
+	public MemberTokens generateLoginToken(HttpServletResponse response, final String subject, final String role) {
+		final String refreshToken = createToken(EMPTY_SUBJECT, refreshExpirationTime, role);
+		final String accessToken = createToken(subject, accessExpirationTime, role);
 
 		response.addHeader(SET_COOKIE,
 			createResponseCookie(refreshToken, REFRESH_COOKIE_PREFIX, refreshExpirationTime).toString());
@@ -86,8 +92,8 @@ public class JwtService {
 		}
 	}
 
-	public String regenerateAccessToken(final String subject) {
-		return createToken(subject, accessExpirationTime);
+	public String regenerateAccessToken(final String subject, final String role) {
+		return createToken(subject, accessExpirationTime, role);
 	}
 
 	public String getSubject(final String token) {
@@ -107,19 +113,20 @@ public class JwtService {
 
 	}
 
-	private String createToken(final String subject, final Long expirationTime) {
+	private String createToken(final String subject, final Long expirationTime, final String role) {
 		final Date now = new Date();
-		final Date expirationDate = new Date(now.getTime() + expirationTime);
+		final Date expirationDate = new Date(now.getTime() + expirationTime * 1000L);
 
 		return Jwts.builder()
 			.setSubject(subject)
 			.setIssuedAt(now)
 			.setExpiration(expirationDate)
+			.claim("role", role)
 			.signWith(secretKey, SignatureAlgorithm.HS256)
 			.compact();
 	}
 
-	private void validateAccessToken(final String accessToken) {
+	public void validateAccessToken(final String accessToken) {
 		try {
 			parseToken(accessToken);
 		} catch (final ExpiredJwtException e) {
@@ -146,6 +153,16 @@ public class JwtService {
 			.setSigningKey(secretKey)
 			.build()
 			.parseClaimsJws(token);
+	}
+
+	public Authentication getAuthentication(String accessToken) {
+		Claims claims = parseToken(accessToken).getBody();
+		List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(
+			claims.get("role").toString()));
+
+		User principal = new User(claims.getSubject(), "", authorities);
+
+		return new UsernamePasswordAuthenticationToken(principal, "", authorities);
 	}
 
 }
