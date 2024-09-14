@@ -43,9 +43,9 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		/*
 		  "forecast-test.shop" = 백엔드 DNS
 		 */
-		if (serverName.contains("forecast-test.shop")) {
-			redirectUri = "https://fashion-forecast.pages.dev";
-		}
+//		if (serverName.contains("forecast-test.shop")) {
+//			redirectUri = "https://fashion-forecast.pages.dev";
+//		}
 
 		// 회원 전용 페이지로 이동하게끔 수정 필요
 		response.sendRedirect(redirectUri);
