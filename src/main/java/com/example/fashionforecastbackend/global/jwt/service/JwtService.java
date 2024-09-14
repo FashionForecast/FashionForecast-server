@@ -106,7 +106,7 @@ public class JwtService {
 		return ResponseCookie.from(prefix, token)
 			.maxAge(expirationTime)
 			.sameSite("Lax") // 타 도메인 쿠키 X
-			.secure(false) // https 강제 X
+			.secure(true) // https 강제
 			.httpOnly(true)
 			.path("/")
 			.build();
