@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.example.fashionforecastbackend.global.jwt.service.JwtService;
 import com.example.fashionforecastbackend.global.login.domain.MemberTokens;
@@ -38,7 +39,7 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		response.setStatus(HttpServletResponse.SC_OK);
 
 		String serverName = request.getServerName();
-		String redirectUri = "http://localhost:5173/";
+		String baseUri = "http://localhost:5173";
 
 		/*
 		  "forecast-test.shop" = 백엔드 DNS
@@ -46,6 +47,12 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 //		if (serverName.contains("forecast-test.shop")) {
 //			redirectUri = "https://fashion-forecast.pages.dev";
 //		}
+
+		final String redirectUri = UriComponentsBuilder.fromUriString(baseUri)
+			.path("/")
+			.queryParam("social-login", true)
+			.build()
+			.toString();
 
 		// 회원 전용 페이지로 이동하게끔 수정 필요
 		response.sendRedirect(redirectUri);
