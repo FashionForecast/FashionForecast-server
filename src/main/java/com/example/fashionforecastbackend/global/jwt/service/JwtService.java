@@ -54,16 +54,27 @@ public class JwtService {
 		this.refreshExpirationTime = refreshExpirationTime;
 	}
 
-	public MemberTokens generateLoginToken(HttpServletResponse response, final String subject, final String role) {
-		final String refreshToken = createToken(EMPTY_SUBJECT, refreshExpirationTime, role);
-		final String accessToken = createToken(subject, accessExpirationTime, role);
+//	public MemberTokens generateLoginToken(HttpServletResponse response, final String subject, final String role) {
+//		final String refreshToken = createToken(EMPTY_SUBJECT, refreshExpirationTime, role);
+//		final String accessToken = createToken(subject, accessExpirationTime, role);
+//
+//		response.addHeader(SET_COOKIE,
+//			createResponseCookie(refreshToken, REFRESH_COOKIE_PREFIX, refreshExpirationTime).toString());
+//		response.addHeader(SET_COOKIE,
+//			createResponseCookie(accessToken, ACCESS_COOKIE_PREFIX, accessExpirationTime).toString());
+//
+//		return new MemberTokens(accessToken, refreshToken);
+//	}
 
+	public String generateRefreshToken(HttpServletResponse response, final String role) {
+		final String refreshToken = createToken(EMPTY_SUBJECT, refreshExpirationTime, role);
 		response.addHeader(SET_COOKIE,
 			createResponseCookie(refreshToken, REFRESH_COOKIE_PREFIX, refreshExpirationTime).toString());
-		response.addHeader(SET_COOKIE,
-			createResponseCookie(accessToken, ACCESS_COOKIE_PREFIX, accessExpirationTime).toString());
+		return refreshToken;
+	}
 
-		return new MemberTokens(accessToken, refreshToken);
+	public String generateAccessToken(final String subject, final String role) {
+		return createToken(subject, accessExpirationTime, role);
 	}
 
 	public void validateTokens(final MemberTokens memberTokens) {
