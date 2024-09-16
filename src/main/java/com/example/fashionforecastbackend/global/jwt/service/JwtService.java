@@ -35,7 +35,7 @@ import lombok.Getter;
 @Component
 public class JwtService {
 
-	private static final String EMPTY_SUBJECT = "";
+//	private static final String EMPTY_SUBJECT = "";
 	private static final String REFRESH_COOKIE_PREFIX = "refresh_token";
 	private static final String ACCESS_COOKIE_PREFIX = "access_token";
 
@@ -66,7 +66,7 @@ public class JwtService {
 //	}
 
 	public String generateRefreshToken(HttpServletResponse response, final String subject, final String role) {
-		final String refreshToken = createToken(EMPTY_SUBJECT, refreshExpirationTime, role);
+		final String refreshToken = createToken(subject, refreshExpirationTime, role);
 		response.addHeader(SET_COOKIE,
 			createResponseCookie(refreshToken, REFRESH_COOKIE_PREFIX, refreshExpirationTime).toString());
 		return refreshToken;
