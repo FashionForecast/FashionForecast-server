@@ -33,7 +33,7 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		final CustomOauth2User principal = (CustomOauth2User)authentication.getPrincipal();
 		final String memberId = String.valueOf(principal.getMemberId());
 //		final MemberTokens memberTokens = jwtService.generateLoginToken(response, memberId, principal.getRole());
-		final String refreshToken = jwtService.generateRefreshToken(response, principal.getRole());
+		final String refreshToken = jwtService.generateRefreshToken(response, memberId, principal.getRole());
 		saveRefreshTokenInRedis(refreshToken, memberId);
 		response.setStatus(HttpServletResponse.SC_OK);
 
