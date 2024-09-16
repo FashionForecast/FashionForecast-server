@@ -49,7 +49,6 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 		final String redirectUri = UriComponentsBuilder.fromUriString(baseUri)
 			.path("/")
-			.queryParam("member-id", memberId)
 			.queryParam("social-login", true)
 			.build()
 			.toString();
