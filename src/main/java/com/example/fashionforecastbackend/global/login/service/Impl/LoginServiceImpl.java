@@ -1,12 +1,12 @@
 package com.example.fashionforecastbackend.global.login.service.Impl;
 
+import static com.example.fashionforecastbackend.member.domain.MemberRole.*;
+
 import org.springframework.stereotype.Service;
 
 import com.example.fashionforecastbackend.global.jwt.service.JwtService;
-import com.example.fashionforecastbackend.global.login.dto.request.AccessTokenRequest;
 import com.example.fashionforecastbackend.global.login.dto.response.AccessTokenResponse;
 import com.example.fashionforecastbackend.global.login.service.LoginService;
-import com.example.fashionforecastbackend.member.domain.MemberRole;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,9 +33,12 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public AccessTokenResponse issueAccessToken(final AccessTokenRequest request) {
-		final String accessToken = jwtService.generateAccessToken(String.valueOf(request.memberId()),
-			MemberRole.MEMBER.getKey());
+	public AccessTokenResponse issueAccessToken(final String refreshTokenRequest) {
+		final String memberId = jwtService.validateRefreshToken(refreshTokenRequest);
+		final String accessToken = jwtService.generateAccessToken(memberId, MEMBER.getKey());
+
 		return AccessTokenResponse.of(accessToken);
+
 	}
+
 }
