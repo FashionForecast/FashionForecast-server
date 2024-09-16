@@ -20,7 +20,6 @@ import org.springframework.stereotype.Component;
 
 import com.example.fashionforecastbackend.global.error.exception.ExpiredPeriodJwtException;
 import com.example.fashionforecastbackend.global.error.exception.InvalidJwtException;
-import com.example.fashionforecastbackend.global.login.domain.MemberTokens;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -66,7 +65,7 @@ public class JwtService {
 //		return new MemberTokens(accessToken, refreshToken);
 //	}
 
-	public String generateRefreshToken(HttpServletResponse response, final String role) {
+	public String generateRefreshToken(HttpServletResponse response, final String subject, final String role) {
 		final String refreshToken = createToken(EMPTY_SUBJECT, refreshExpirationTime, role);
 		response.addHeader(SET_COOKIE,
 			createResponseCookie(refreshToken, REFRESH_COOKIE_PREFIX, refreshExpirationTime).toString());
@@ -77,11 +76,11 @@ public class JwtService {
 		return createToken(subject, accessExpirationTime, role);
 	}
 
-	public void validateTokens(final MemberTokens memberTokens) {
-		validateRefreshToken(memberTokens.getRefreshToken());
-		validateAccessToken(memberTokens.getAccessToken());
-
-	}
+//	public void validateTokens(final MemberTokens memberTokens) {
+//		validateRefreshToken(memberTokens.getRefreshToken());
+//		validateAccessToken(memberTokens.getAccessToken());
+//
+//	}
 
 	public boolean isValidRefreshAndInvalidAccess(final String refreshToken, final String accessToken) {
 		validateRefreshToken(refreshToken);
@@ -148,15 +147,15 @@ public class JwtService {
 
 	}
 
-	private void validateRefreshToken(final String refreshToken) {
+	public String validateRefreshToken(final String refreshToken) {
 		try {
-			parseToken(refreshToken);
+			Claims claims = parseToken(refreshToken).getBody();
+			return claims.getSubject();
 		} catch (final ExpiredJwtException e) {
 			throw new ExpiredPeriodJwtException(EXPIRED_PERIOD_REFRESH_TOKEN);
 		} catch (final JwtException | IllegalArgumentException e) {
 			throw new InvalidJwtException(INVALID_REFRESH_TOKEN);
 		}
-
 	}
 
 	private Jws<Claims> parseToken(final String token) {
