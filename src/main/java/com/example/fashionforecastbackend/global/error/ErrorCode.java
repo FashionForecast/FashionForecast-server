@@ -45,10 +45,12 @@ public enum ErrorCode {
 	/**
 	 * JWT
 	 */
+
 	EXPIRED_PERIOD_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "J001", "기한이 만료된 RefreshToken입니다."),
 	INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "J002", "올바르지 않은 RefreshToken입니다."),
 	EXPIRED_PERIOD_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "J003", "기한이 만료된 AccessToken입니다."),
 	INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "J004", "올바르지 않은 AccessToken입니다."),
+	NOT_FOUND_REFRESH_TOKEN(HttpStatus.NOT_FOUND, "J005", "리프레시 토큰을 찾을 수 없습니다."),
 
 	/**
 	 * Member
