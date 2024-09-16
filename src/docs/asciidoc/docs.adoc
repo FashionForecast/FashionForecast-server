@@ -346,9 +346,9 @@ include::{snippets}/search-controller-test/delete-search-test/response-fields.ad
 
 include::{snippets}/login-controller-test/issue-access-token-test/http-request.adoc[]
 
-==== Field
+==== Cookie
 
-include::{snippets}/login-controller-test/issue-access-token-test/request-fields.adoc[]
+include::{snippets}/login-controller-test/issue-access-token-test/request-cookies.adoc[]
 
 ==== Response
 
