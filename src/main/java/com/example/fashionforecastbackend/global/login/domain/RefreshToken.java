@@ -12,7 +12,10 @@ import lombok.Getter;
 public class RefreshToken {
 
 	@Id
-	private String token;
 	private String memberId;
+	private String token;
 
+	public void updateToken(String token) {
+		this.token = token;
+	}
 }

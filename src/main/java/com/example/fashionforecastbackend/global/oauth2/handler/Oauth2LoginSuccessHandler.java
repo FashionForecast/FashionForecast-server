@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.example.fashionforecastbackend.global.jwt.service.JwtService;
-import com.example.fashionforecastbackend.global.login.domain.MemberTokens;
 import com.example.fashionforecastbackend.global.login.domain.RefreshToken;
 import com.example.fashionforecastbackend.global.login.domain.repository.RefreshTokenRepository;
 import com.example.fashionforecastbackend.global.oauth2.CustomOauth2User;
@@ -33,8 +32,8 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		log.info("Oauth2 로그인 성공 : {}", authentication.getPrincipal());
 		final CustomOauth2User principal = (CustomOauth2User)authentication.getPrincipal();
 		final String memberId = String.valueOf(principal.getMemberId());
-		final MemberTokens memberTokens = jwtService.generateLoginToken(response, memberId, principal.getRole());
-		final String refreshToken = memberTokens.getRefreshToken();
+//		final MemberTokens memberTokens = jwtService.generateLoginToken(response, memberId, principal.getRole());
+		final String refreshToken = jwtService.generateRefreshToken(response, memberId, principal.getRole());
 		saveRefreshTokenInRedis(refreshToken, memberId);
 		response.setStatus(HttpServletResponse.SC_OK);
 

@@ -36,7 +36,7 @@ import lombok.Getter;
 @Component
 public class JwtService {
 
-	private static final String EMPTY_SUBJECT = "";
+	//	private static final String EMPTY_SUBJECT = "";
 	private static final String REFRESH_COOKIE_PREFIX = "refresh_token";
 	private static final String ACCESS_COOKIE_PREFIX = "access_token";
 
@@ -55,7 +55,7 @@ public class JwtService {
 	}
 
 	public MemberTokens generateLoginToken(HttpServletResponse response, final String subject, final String role) {
-		final String refreshToken = createToken(EMPTY_SUBJECT, refreshExpirationTime, role);
+		final String refreshToken = createToken(subject, refreshExpirationTime, role);
 		final String accessToken = createToken(subject, accessExpirationTime, role);
 
 		response.addHeader(SET_COOKIE,
@@ -66,11 +66,22 @@ public class JwtService {
 		return new MemberTokens(accessToken, refreshToken);
 	}
 
-	public void validateTokens(final MemberTokens memberTokens) {
-		validateRefreshToken(memberTokens.getRefreshToken());
-		validateAccessToken(memberTokens.getAccessToken());
-
+	public String generateRefreshToken(HttpServletResponse response, final String subject, final String role) {
+		final String refreshToken = createToken(subject, refreshExpirationTime, role);
+		response.addHeader(SET_COOKIE,
+			createResponseCookie(refreshToken, REFRESH_COOKIE_PREFIX, refreshExpirationTime).toString());
+		return refreshToken;
 	}
+
+	public String generateAccessToken(final String subject, final String role) {
+		return createToken(subject, accessExpirationTime, role);
+	}
+
+	//	public void validateTokens(final MemberTokens memberTokens) {
+	//		validateRefreshToken(memberTokens.getRefreshToken());
+	//		validateAccessToken(memberTokens.getAccessToken());
+	//
+	//	}
 
 	public boolean isValidRefreshAndInvalidAccess(final String refreshToken, final String accessToken) {
 		validateRefreshToken(refreshToken);
@@ -92,14 +103,16 @@ public class JwtService {
 		}
 	}
 
-	public String regenerateAccessToken(final String subject, final String role) {
-		return createToken(subject, accessExpirationTime, role);
-	}
-
 	public String getSubject(final String token) {
 		return parseToken(token)
 			.getBody()
 			.getSubject();
+	}
+
+	public String getRole(final String token) {
+		return parseToken(token)
+			.getBody()
+			.get("role", String.class);
 	}
 
 	private ResponseCookie createResponseCookie(final String token, final String prefix, final Long expirationTime) {
@@ -137,15 +150,15 @@ public class JwtService {
 
 	}
 
-	private void validateRefreshToken(final String refreshToken) {
+	public String validateRefreshToken(final String refreshToken) {
 		try {
-			parseToken(refreshToken);
+			Claims claims = parseToken(refreshToken).getBody();
+			return claims.getSubject();
 		} catch (final ExpiredJwtException e) {
 			throw new ExpiredPeriodJwtException(EXPIRED_PERIOD_REFRESH_TOKEN);
 		} catch (final JwtException | IllegalArgumentException e) {
 			throw new InvalidJwtException(INVALID_REFRESH_TOKEN);
 		}
-
 	}
 
 	private Jws<Claims> parseToken(final String token) {
