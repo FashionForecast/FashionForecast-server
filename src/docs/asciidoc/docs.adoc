@@ -333,3 +333,28 @@ include::{snippets}/search-controller-test/delete-search-test/http-response.adoc
 ==== Field
 
 include::{snippets}/search-controller-test/delete-search-test/response-fields.adoc[]
+
+== 로그인 API
+
+=== 액세스 토큰 발급 (POST /api/v1/login/token)
+
+==== Description
+
+액세스 토큰 발급
+
+==== Request
+
+include::{snippets}/login-controller-test/issue-access-token-test/http-request.adoc[]
+
+==== Cookie
+
+include::{snippets}/login-controller-test/issue-access-token-test/request-cookies.adoc[]
+
+==== Response
+
+include::{snippets}/login-controller-test/issue-access-token-test/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/login-controller-test/issue-access-token-test/response-fields.adoc[]
+

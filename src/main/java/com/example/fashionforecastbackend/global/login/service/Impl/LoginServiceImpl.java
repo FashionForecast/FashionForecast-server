@@ -1,13 +1,25 @@
 package com.example.fashionforecastbackend.global.login.service.Impl;
 
+import static com.example.fashionforecastbackend.member.domain.MemberRole.*;
+
+import org.springframework.stereotype.Service;
+
+import com.example.fashionforecastbackend.global.jwt.service.JwtService;
+import com.example.fashionforecastbackend.global.login.dto.response.AccessTokenResponse;
 import com.example.fashionforecastbackend.global.login.service.LoginService;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * TODO.1 액세스 토큰 재발급 구현
  * TODO.2 리프레시 토큰 삭제 구현
  * TODO.3 명시적 로그아웃 로직 구현
  */
+@Service
+@RequiredArgsConstructor
 public class LoginServiceImpl implements LoginService {
+
+	private final JwtService jwtService;
 
 
 	@Override
@@ -19,4 +31,14 @@ public class LoginServiceImpl implements LoginService {
 	public void removeRefreshToken(final String refreshTokenRequest) {
 
 	}
+
+	@Override
+	public AccessTokenResponse issueAccessToken(final String refreshTokenRequest) {
+		final String memberId = jwtService.validateRefreshToken(refreshTokenRequest);
+		final String accessToken = jwtService.generateAccessToken(memberId, MEMBER.getKey());
+
+		return AccessTokenResponse.of(accessToken);
+
+	}
+
 }
