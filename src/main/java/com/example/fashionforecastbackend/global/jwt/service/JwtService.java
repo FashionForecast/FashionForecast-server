@@ -83,26 +83,6 @@ public class JwtService {
 	//
 	//	}
 
-	public boolean isValidRefreshAndInvalidAccess(final String refreshToken, final String accessToken) {
-		validateRefreshToken(refreshToken);
-		try {
-			validateAccessToken(accessToken);
-		} catch (final ExpiredPeriodJwtException e) {
-			return true;
-		}
-		return false;
-	}
-
-	public boolean isValidRefreshAndValidAccess(final String refreshToken, final String accessToken) {
-		try {
-			validateRefreshToken(refreshToken);
-			validateAccessToken(accessToken);
-			return true;
-		} catch (final JwtException e) {
-			return false;
-		}
-	}
-
 	public String getSubject(final String token) {
 		return parseToken(token)
 			.getBody()
