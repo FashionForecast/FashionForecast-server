@@ -12,6 +12,7 @@ import com.example.fashionforecastbackend.global.jwt.service.JwtService;
 import com.example.fashionforecastbackend.global.login.domain.MemberTokens;
 import com.example.fashionforecastbackend.global.login.domain.RefreshToken;
 import com.example.fashionforecastbackend.global.login.domain.repository.RefreshTokenRepository;
+import com.example.fashionforecastbackend.global.login.dto.request.AccessTokenRequest;
 import com.example.fashionforecastbackend.global.login.dto.response.AccessTokenResponse;
 import com.example.fashionforecastbackend.global.login.service.LoginService;
 
@@ -31,10 +32,9 @@ public class LoginServiceImpl implements LoginService {
 
 	@Transactional
 	@Override
-	public MemberTokens renewTokens(final MemberTokens tokens, final HttpServletResponse response) {
-		String accessToken = tokens.getAccessToken();
-		String refreshToken = tokens.getRefreshToken();
-
+	public AccessTokenResponse renewTokens(final AccessTokenRequest request, final String refreshToken,
+		final HttpServletResponse response) {
+		String accessToken = request.accessToken();
 		jwtService.validateRefreshToken(refreshToken);
 
 		String memberId = jwtService.getSubject(accessToken);
@@ -50,7 +50,7 @@ public class LoginServiceImpl implements LoginService {
 		savedRefreshToken.updateToken(newTokens.getRefreshToken());
 		refreshTokenRepository.save(savedRefreshToken);
 
-		return newTokens;
+		return AccessTokenResponse.of(newTokens.getAccessToken());
 	}
 
 	@Override

@@ -929,7 +929,7 @@ Content-Type: application/json
 Content-Type: application/json;charset=UTF-8
 
 {
-  "uuid" : "5733caab-87e8-4665-9cca-02fba87453ad"
+  "uuid" : "fd9fb082-500b-4df5-8dbf-0608c0abdc1f"
 }</code></pre>
 </div>
 </div>
@@ -973,7 +973,7 @@ Content-Type: application/json
 
 {
   "data" : {
-    "uuid" : "5733caab-87e8-4665-9cca-02fba87453ad",
+    "uuid" : "fd9fb082-500b-4df5-8dbf-0608c0abdc1f",
     "isNewGuest" : false
   },
   "status" : 200,
@@ -1902,12 +1902,12 @@ Content-Type: application/json
 <h4 id="_request_9"><a class="link" href="#_request_9">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=YEj9gPiaGFS8OJR1dlzjq9f1gXEjcEcqPhce_-0h0rZN9AIzBC2Zs8z-emyRCK0WE3HXm-aXrBNBFnUHWnF6mdoTttR7xDFR HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=txVSJtdzITBkQ6-tyxHBi-Id9v_NgXTVFrgJ210C7ct_mH2_jydkFrMQR1RJcprM-jz16dN428f8uUD4I4E74zw7i_hH_B7b HTTP/1.1
 Content-Type: application/json;charset=UTF-8
+Cookie: refresh_token=refreshToken
 
 {
-  "accessToken" : "accessToken",
-  "refreshToken" : "refreshToken"
+  "accessToken" : "accessToken"
 }</code></pre>
 </div>
 </div>
@@ -1921,8 +1921,7 @@ Content-Type: application/json
 
 {
   "data" : {
-    "accessToken" : "newAccessToken",
-    "refreshToken" : "newRefreshToken"
+    "accessToken" : "newAccessToken"
   },
   "status" : 201,
   "message" : "CREATED"
@@ -1961,11 +1960,6 @@ Content-Type: application/json
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">액세스 토큰</p></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.refreshToken</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">리프레시 토큰</p></td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -1976,7 +1970,7 @@ Content-Type: application/json
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-09-20 15:58:05 +0900
+Last updated 2024-09-20 16:17:47 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

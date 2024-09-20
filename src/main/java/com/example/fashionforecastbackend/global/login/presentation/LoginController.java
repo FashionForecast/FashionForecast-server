@@ -6,13 +6,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.fashionforecastbackend.global.login.domain.MemberTokens;
+import com.example.fashionforecastbackend.global.login.dto.request.AccessTokenRequest;
 import com.example.fashionforecastbackend.global.login.dto.response.AccessTokenResponse;
 import com.example.fashionforecastbackend.global.login.service.LoginService;
 import com.example.fashionforecastbackend.global.response.ApiResponse;
 
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -29,9 +28,10 @@ public class LoginController {
 	}
 
 	@PostMapping("/reissue")
-	public ApiResponse<MemberTokens> reissueTokens(@Valid @RequestBody MemberTokens memberTokens,
-		HttpServletResponse response) {
-		return ApiResponse.created(loginService.renewTokens(memberTokens, response));
+	public ApiResponse<AccessTokenResponse> reissueTokens(
+		@CookieValue(value = "refresh_token") final String refreshToken,
+		@RequestBody AccessTokenRequest request, HttpServletResponse response) {
+		return ApiResponse.created(loginService.renewTokens(request, refreshToken, response));
 	}
 
 }
