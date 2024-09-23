@@ -47,8 +47,7 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		//			redirectUri = "https://fashion-forecast.pages.dev";
 		//		}
 
-		final String redirectUri = UriComponentsBuilder.fromUriString(baseUri)
-			.path("/")
+		final String redirectUri = UriComponentsBuilder.fromUriString("/")
 			.queryParam("social-login", true)
 			.build()
 			.toString();
