@@ -15,4 +15,7 @@ public class RefreshToken {
 	private String memberId;
 	private String token;
 
+	public void updateToken(String token) {
+		this.token = token;
+	}
 }

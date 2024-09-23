@@ -50,7 +50,9 @@ public enum ErrorCode {
 	INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "J002", "올바르지 않은 RefreshToken입니다."),
 	EXPIRED_PERIOD_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "J003", "기한이 만료된 AccessToken입니다."),
 	INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "J004", "올바르지 않은 AccessToken입니다."),
-	NOT_FOUND_REFRESH_TOKEN(HttpStatus.NOT_FOUND, "J005", "리프레시 토큰을 찾을 수 없습니다."),
+	NOT_FOUND_REFRESH_TOKEN(HttpStatus.NOT_FOUND, "J005", "RefreshToken을 찾을 수 없습니다."),
+	NOT_MATCH_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "J006",
+		"요청된 RefreshToken과 서버에 저장된 RefreshToken 값이 일치하지 않습니다. 다시 로그인 해주세요"),
 
 	/**
 	 * Member
@@ -58,7 +60,6 @@ public enum ErrorCode {
 
 	NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "M001", "회원이 존재하지 않습니다."),
 	SOCIAL_LOGIN_FAILED(HttpStatus.UNAUTHORIZED, "M002", "소셜 로그인에 실패하였습니다.");
-
 
 	private final HttpStatus httpStatus;
 	private final String code;

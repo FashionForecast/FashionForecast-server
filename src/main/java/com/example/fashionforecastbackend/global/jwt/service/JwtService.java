@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.fashionforecastbackend.global.error.exception.ExpiredPeriodJwtException;
 import com.example.fashionforecastbackend.global.error.exception.InvalidJwtException;
+import com.example.fashionforecastbackend.global.login.domain.MemberTokens;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -35,7 +36,7 @@ import lombok.Getter;
 @Component
 public class JwtService {
 
-//	private static final String EMPTY_SUBJECT = "";
+	//	private static final String EMPTY_SUBJECT = "";
 	private static final String REFRESH_COOKIE_PREFIX = "refresh_token";
 	private static final String ACCESS_COOKIE_PREFIX = "access_token";
 
@@ -53,17 +54,17 @@ public class JwtService {
 		this.refreshExpirationTime = refreshExpirationTime;
 	}
 
-//	public MemberTokens generateLoginToken(HttpServletResponse response, final String subject, final String role) {
-//		final String refreshToken = createToken(EMPTY_SUBJECT, refreshExpirationTime, role);
-//		final String accessToken = createToken(subject, accessExpirationTime, role);
-//
-//		response.addHeader(SET_COOKIE,
-//			createResponseCookie(refreshToken, REFRESH_COOKIE_PREFIX, refreshExpirationTime).toString());
-//		response.addHeader(SET_COOKIE,
-//			createResponseCookie(accessToken, ACCESS_COOKIE_PREFIX, accessExpirationTime).toString());
-//
-//		return new MemberTokens(accessToken, refreshToken);
-//	}
+	public MemberTokens generateLoginToken(HttpServletResponse response, final String subject, final String role) {
+		final String refreshToken = createToken(subject, refreshExpirationTime, role);
+		final String accessToken = createToken(subject, accessExpirationTime, role);
+
+		response.addHeader(SET_COOKIE,
+			createResponseCookie(refreshToken, REFRESH_COOKIE_PREFIX, refreshExpirationTime).toString());
+		response.addHeader(SET_COOKIE,
+			createResponseCookie(accessToken, ACCESS_COOKIE_PREFIX, accessExpirationTime).toString());
+
+		return new MemberTokens(accessToken, refreshToken);
+	}
 
 	public String generateRefreshToken(HttpServletResponse response, final String subject, final String role) {
 		final String refreshToken = createToken(subject, refreshExpirationTime, role);
@@ -76,40 +77,22 @@ public class JwtService {
 		return createToken(subject, accessExpirationTime, role);
 	}
 
-//	public void validateTokens(final MemberTokens memberTokens) {
-//		validateRefreshToken(memberTokens.getRefreshToken());
-//		validateAccessToken(memberTokens.getAccessToken());
-//
-//	}
-
-	public boolean isValidRefreshAndInvalidAccess(final String refreshToken, final String accessToken) {
-		validateRefreshToken(refreshToken);
-		try {
-			validateAccessToken(accessToken);
-		} catch (final ExpiredPeriodJwtException e) {
-			return true;
-		}
-		return false;
-	}
-
-	public boolean isValidRefreshAndValidAccess(final String refreshToken, final String accessToken) {
-		try {
-			validateRefreshToken(refreshToken);
-			validateAccessToken(accessToken);
-			return true;
-		} catch (final JwtException e) {
-			return false;
-		}
-	}
-
-	public String regenerateAccessToken(final String subject, final String role) {
-		return createToken(subject, accessExpirationTime, role);
-	}
+	//	public void validateTokens(final MemberTokens memberTokens) {
+	//		validateRefreshToken(memberTokens.getRefreshToken());
+	//		validateAccessToken(memberTokens.getAccessToken());
+	//
+	//	}
 
 	public String getSubject(final String token) {
 		return parseToken(token)
 			.getBody()
 			.getSubject();
+	}
+
+	public String getRole(final String token) {
+		return parseToken(token)
+			.getBody()
+			.get("role", String.class);
 	}
 
 	private ResponseCookie createResponseCookie(final String token, final String prefix, final Long expirationTime) {

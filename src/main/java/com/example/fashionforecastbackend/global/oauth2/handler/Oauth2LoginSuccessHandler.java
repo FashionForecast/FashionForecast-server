@@ -32,7 +32,7 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		log.info("Oauth2 로그인 성공 : {}", authentication.getPrincipal());
 		final CustomOauth2User principal = (CustomOauth2User)authentication.getPrincipal();
 		final String memberId = String.valueOf(principal.getMemberId());
-//		final MemberTokens memberTokens = jwtService.generateLoginToken(response, memberId, principal.getRole());
+		//		final MemberTokens memberTokens = jwtService.generateLoginToken(response, memberId, principal.getRole());
 		final String refreshToken = jwtService.generateRefreshToken(response, memberId, principal.getRole());
 		saveRefreshTokenInRedis(refreshToken, memberId);
 		response.setStatus(HttpServletResponse.SC_OK);
@@ -43,9 +43,9 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		/*
 		  "forecast-test.shop" = 백엔드 DNS
 		 */
-//		if (serverName.contains("forecast-test.shop")) {
-//			redirectUri = "https://fashion-forecast.pages.dev";
-//		}
+		//		if (serverName.contains("forecast-test.shop")) {
+		//			redirectUri = "https://fashion-forecast.pages.dev";
+		//		}
 
 		final String redirectUri = UriComponentsBuilder.fromUriString(baseUri)
 			.path("/")
@@ -58,7 +58,7 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 	}
 
 	private void saveRefreshTokenInRedis(final String refreshToken, final String memberId) {
-		final RefreshToken redisRefreshToken = new RefreshToken(refreshToken, memberId);
+		final RefreshToken redisRefreshToken = new RefreshToken(memberId, refreshToken);
 		refreshTokenRepository.save(redisRefreshToken);
 	}
 
