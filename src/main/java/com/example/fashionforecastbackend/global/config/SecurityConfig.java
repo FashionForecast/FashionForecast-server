@@ -75,7 +75,8 @@ public class SecurityConfig {
 
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedOriginPatterns(
-			List.of("https://*.fashion-forecast.pages.dev", "https://fashion-forecast.pages.dev",
+			List.of("https://*.fashion-forecast.pages.dev", "https://*.forecast-test.shop:5173",
+				"https://fashion-forecast.pages.dev", "https://forecast-test.shop:5173",
 				"http://localhost:3000", "http://localhost:5173", "https://localhost:5173"));
 		configuration.setAllowedMethods(Collections.singletonList("*"));
 		configuration.setAllowCredentials(true);
