@@ -77,6 +77,7 @@ public class SecurityConfig {
 		configuration.setAllowedOriginPatterns(
 			List.of("https://*.fashion-forecast.pages.dev", "https://*.forecast-test.shop:5173",
 				"https://fashion-forecast.pages.dev", "https://forecast-test.shop:5173",
+				"https://forecast-test.shop/",
 				"http://localhost:3000", "http://localhost:5173", "https://localhost:5173"));
 		configuration.setAllowedMethods(Collections.singletonList("*"));
 		configuration.setAllowCredentials(true);
