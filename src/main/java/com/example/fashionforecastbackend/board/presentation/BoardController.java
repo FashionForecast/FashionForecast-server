@@ -1,5 +1,8 @@
 package com.example.fashionforecastbackend.board.presentation;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fashionforecastbackend.board.dto.request.BoardRequest;
-import com.example.fashionforecastbackend.board.dto.response.BoardResponse;
+import com.example.fashionforecastbackend.board.dto.response.BoardDetailResponse;
+import com.example.fashionforecastbackend.board.dto.response.BoardListResponse;
 import com.example.fashionforecastbackend.board.service.BoardService;
+import com.example.fashionforecastbackend.global.response.ApiPageResponse;
 import com.example.fashionforecastbackend.global.response.ApiResponse;
 
 import jakarta.validation.Valid;
@@ -28,8 +33,15 @@ public class BoardController {
 	}
 
 	@GetMapping("/{id}")
-	public ApiResponse<BoardResponse> getBoard(@PathVariable("id") Long id) {
-		BoardResponse boardResponse = boardService.boardDetail(id);
-		return ApiResponse.ok(boardResponse);
+	public ApiResponse<BoardDetailResponse> getBoardDetail(@PathVariable("id") Long id) {
+		BoardDetailResponse boardDetailResponse = boardService.getDetail(id);
+		return ApiResponse.ok(boardDetailResponse);
+	}
+
+	@GetMapping
+	public ApiPageResponse<BoardListResponse> getBoardList(
+		@PageableDefault(sort = "id") Pageable pageable) {
+		Page<BoardListResponse> boardResponse = boardService.getAll(pageable);
+		return ApiPageResponse.ok(boardResponse);
 	}
 }

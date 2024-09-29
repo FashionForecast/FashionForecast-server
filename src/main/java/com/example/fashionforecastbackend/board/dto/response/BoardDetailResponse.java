@@ -2,10 +2,10 @@ package com.example.fashionforecastbackend.board.dto.response;
 
 import com.example.fashionforecastbackend.board.domain.Board;
 
-public record BoardResponse(
+public record BoardDetailResponse(
 	String text
 ) {
-	public static BoardResponse of(Board board) {
-		return new BoardResponse(board.getText());
+	public static BoardDetailResponse of(Board board) {
+		return new BoardDetailResponse(board.getText());
 	}
 }
