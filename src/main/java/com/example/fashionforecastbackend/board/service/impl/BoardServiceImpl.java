@@ -38,7 +38,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public Page<BoardListResponse> getAll(Pageable pageable) {
-		Page<Board> page = boardRepository.findAllPage(pageable);
+		Page<Board> page = boardRepository.findAll(pageable);
 		return page.map(BoardListResponse::of);
 	}
 }
