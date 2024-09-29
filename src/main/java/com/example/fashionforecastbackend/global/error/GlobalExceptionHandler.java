@@ -3,6 +3,7 @@ package com.example.fashionforecastbackend.global.error;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.hibernate.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -54,6 +55,12 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 			.body(ErrorResponse.error(errors, ErrorCode.INVALID_TYPE_VALUE.getCode(),
 				ErrorCode.INVALID_TYPE_VALUE.getMessage()));
+	}
+
+	@ExceptionHandler(TypeMismatchException.class)
+	public ResponseEntity<ErrorResponse<Void>> handleTypeMismatchException() {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			.body(ErrorResponse.error("400", "board/invalidId"));
 	}
 
 }
