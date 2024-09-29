@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class BoardServiceImpl implements BoardService {
 	private final BoardRepository boardRepository;
 
+	@Transactional
 	@Override
 	public void createInquiry(final BoardRequest boardRequest) {
 		Board board = Board.create(boardRequest.text());
