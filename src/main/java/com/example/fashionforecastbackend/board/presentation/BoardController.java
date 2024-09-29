@@ -39,8 +39,7 @@ public class BoardController {
 	}
 
 	@GetMapping
-	public ApiPageResponse<BoardListResponse> getBoardList(
-		@PageableDefault(sort = "id") Pageable pageable) {
+	public ApiPageResponse<BoardListResponse> getBoardList(@PageableDefault(sort = "id") Pageable pageable) {
 		Page<BoardListResponse> boardResponse = boardService.getAll(pageable);
 		return ApiPageResponse.ok(boardResponse);
 	}
