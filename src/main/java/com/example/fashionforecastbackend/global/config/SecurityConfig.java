@@ -79,7 +79,8 @@ public class SecurityConfig {
 			List.of("https://*.fashion-forecast.pages.dev", "https://*.forecast-test.shop:5173",
 				"https://fashion-forecast.pages.dev", "https://forecast-test.shop:5173",
 				"https://forecast-test.shop/",
-				"http://localhost:3000", "http://localhost:5173", "https://localhost:5173"));
+				"http://localhost:3000", "http://localhost:5173", "https://localhost:5173", "https://*.ootc.life",
+				"https://ootc.life"));
 		configuration.setAllowedMethods(Collections.singletonList("*"));
 		configuration.setAllowCredentials(true);
 		configuration.setAllowedHeaders(Collections.singletonList("*"));
