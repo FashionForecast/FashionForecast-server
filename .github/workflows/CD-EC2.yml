@@ -19,10 +19,13 @@ jobs:
     steps:
       - name: 배포 타겟 설정
         run: |
-          if [ "${{ github.event.workflow_run.head_branch }}" == "main" ]; then
+          PR_BRANCH=${{ github.event.pull_request.base.ref }}
+          PUSH_BRANCH=${{github.event.workflow_run.head_branch}}
+          if [ "$PR_BRANCH" == "main" ] || [ "$PUSH_BRANCH" == "main" ]; then
             echo "DEPLOY_ENV=prod" >> $GITHUB_ENV
           else
             echo "DEPLOY_ENV=dev" >> $GITHUB_ENV
+          fi
 
       - name: EC2 원격 접속 및 Docker compose
         uses: appleboy/ssh-action@master
