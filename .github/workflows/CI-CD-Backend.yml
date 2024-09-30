@@ -45,16 +45,16 @@ jobs:
 
       - name: Docker 이미지 이름 및 환경 설정
         run: |
-          if [[ "${{ github.ref_name }}" == "main" ]]; then
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             echo "IMAGE_NAME=fashion-forecast-prod" >> $GITHUB_ENV
             echo "DEPLOY_ENV=prod" >> $GITHUB_ENV
-          elif [[ "${{ github.ref_name }}" == "develop" ]]; then
+          elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
             echo "IMAGE_NAME=fashion-forecast-dev" >> $GITHUB_ENV
             echo "DEPLOY_ENV=dev" >> $GITHUB_ENV
           fi
 
       - name: 도커 빌드 & 푸시
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile
