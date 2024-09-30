@@ -45,10 +45,10 @@ jobs:
 
       - name: Docker 이미지 이름 및 환경 설정
         run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+          if [[ "${{ github.event.pull_request.base.ref }}" == "main" ]]; then
             echo "IMAGE_NAME=fashion-forecast-prod" >> $GITHUB_ENV
             echo "DEPLOY_ENV=prod" >> $GITHUB_ENV
-          elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+          elif [[ "${{ github.event.pull_request.base.ref }}" == "develop" ]]; then
             echo "IMAGE_NAME=fashion-forecast-dev" >> $GITHUB_ENV
             echo "DEPLOY_ENV=dev" >> $GITHUB_ENV
           fi
