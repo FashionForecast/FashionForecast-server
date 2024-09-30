@@ -8,7 +8,7 @@ import lombok.Getter;
 public enum Season {
 
 	SUMMER(5, 9),
-	WINTER(10, 4);
+	WINTER(10, 16);
 
 	private final int startMonth;
 	private final int endMonth;
