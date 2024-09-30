@@ -47,10 +47,8 @@ jobs:
         run: |
           if [[ "${{ github.event.pull_request.base.ref }}" == "main" ]]; then
             echo "IMAGE_NAME=fashion-forecast-prod" >> $GITHUB_ENV
-            echo "DEPLOY_ENV=prod" >> $GITHUB_ENV
           elif [[ "${{ github.event.pull_request.base.ref }}" == "develop" ]]; then
             echo "IMAGE_NAME=fashion-forecast-dev" >> $GITHUB_ENV
-            echo "DEPLOY_ENV=dev" >> $GITHUB_ENV
           fi
 
       - name: 도커 빌드 & 푸시
@@ -66,6 +64,13 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: 배포 타겟 설정
+        run: |
+          if [[ "${{ github.event.pull_request.base.ref }}" == "refs/heads/main" ]]; then
+            echo "DEPLOY_ENV=prod" >> $GITHUB_ENV
+          elif [[ "${{ github.event.pull_request.base.ref }}" == "refs/heads/develop" ]]; then
+            echo "DEPLOY_ENV=dev" >> $GITHUB_ENV
+          fi
       - name: EC2 원격 접속 및 Docker compose
         uses: appleboy/ssh-action@master
         with:
