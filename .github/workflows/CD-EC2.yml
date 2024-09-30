@@ -9,12 +9,22 @@ on:
 permissions:
   contents: read
 
-#develop 브랜치 트리거 제거
+env:
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+
 jobs:
   deploy:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
+      - name: 배포 타겟 설정
+        run: |
+          BRANCH=${{ github.event.workflow_run.head_branch }}
+          if [ "$BRANCH" == "main" ]; then
+            echo "DEPLOY_ENV=prod" >> $GITHUB_ENV
+          else
+            echo "DEPLOY_ENV=dev" >> $GITHUB_ENV
+
       - name: EC2 원격 접속 및 Docker compose
         uses: appleboy/ssh-action@master
         with:
@@ -23,8 +33,7 @@ jobs:
           key: ${{ secrets.EC2_DEV_PRIVATE_KEY }}
           script_stop: true
           script: |
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-dev:latest
-            sudo docker compose -f docker-compose-dev.yml down
-            sudo docker compose -f docker-compose-dev.yml up -d
+            sudo docker pull ${{ env.DOCKERHUB_USERNAME }}/fashion-forecast-${{ env.DEPLOY_ENV }}:latest
+            sudo docker compose -f docker-compose-${{ env.DEPLOY_ENV }}.yml down
+            sudo docker compose -f docker-compose-${{ env.DEPLOY_ENV }}.yml up -d
             sudo docker image prune -f
-            
