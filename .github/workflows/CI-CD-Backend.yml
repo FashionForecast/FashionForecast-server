@@ -66,9 +66,9 @@ jobs:
     steps:
       - name: 배포 타겟 설정
         run: |
-          if [[ "${{ github.event.pull_request.base.ref }}" == "refs/heads/main" ]]; then
+          if [[ "${{ github.event.pull_request.base.ref }}" == "main" ]]; then
             echo "DEPLOY_ENV=prod" >> $GITHUB_ENV
-          elif [[ "${{ github.event.pull_request.base.ref }}" == "refs/heads/develop" ]]; then
+          elif [[ "${{ github.event.pull_request.base.ref }}" == "develop" ]]; then
             echo "DEPLOY_ENV=dev" >> $GITHUB_ENV
           fi
       - name: EC2 원격 접속 및 Docker compose
