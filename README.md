@@ -5,24 +5,31 @@
 
 ![Group 18](https://github.com/user-attachments/assets/5032a998-758f-4826-b219-5712f1351da8)
 
-## Phase 1 비회원 + 회원 공통 기능
-
-![Group 25](https://github.com/user-attachments/assets/6bbf9868-3793-4fdf-b0de-1f651e7e9f55)
-
 </div>
+
+## ✅ Infrastructure
+![image](https://github.com/user-attachments/assets/db40845c-a8e3-45a7-b9c6-b3d25ea25a30)
 
 ## ✅ Tech
 
 ### ✔️ back-end
 ![Group 57](https://github.com/user-attachments/assets/416add11-3e3b-4786-b35a-5f5b0cc00ff6)
 
+### ✔️ front-end
+![image](https://github.com/user-attachments/assets/c3144027-5350-4936-a8c2-15dd3d5adc7c)
+
 ### ✔️ infra
 ![Group 58](https://github.com/user-attachments/assets/e7ac81d5-9697-4b3e-948b-db758bfc7c13)
 
-## ✅ Infrastructure
+<div align="center">
 
-### ✔️ back-end
-![Group 27](https://github.com/user-attachments/assets/c3f6c5f2-a96c-41fe-afb2-1b7e91f92c43)
+## Phase 1 비회원 + 회원 공통 기능
+
+![Group 25](https://github.com/user-attachments/assets/6bbf9868-3793-4fdf-b0de-1f651e7e9f55)
+
+</div>
+
+
 
 ## ✅ CI/CD Flow
 
@@ -122,8 +129,13 @@ jobs:
 ### ✔️ Phase 1
 
 #### ✨김현재 (front-end)
-
-#### 🍎 김덕빈 (front-end)
+| No | Work       | Description                                                                                        |
+|----|------------|----------------------------------------------------------------------------------------------------|
+| 1  | 개발 환경 세팅   | 라이브러리, prettier, stylelint 등 세팅                                                                    |
+| 2  | 좌표 스크립트 작성 | 지역별 좌표 및 기상청 지역 좌표 데이터 생성                                                                          |
+| 3  | 메인 페이지     | 메인 페이지(/) UI 및 기능 개발                                                                               |
+| 4  | 검색 페이지     | 검색 페이지(/search) UI 및 기능 개발                                                                         |
+| 5  | 피드백 페이지    | 피드백 페이지(/feedback) UI 및 기능 개발                                                                      |
 
 #### 🍒 최이주 (back-end)
 
@@ -173,9 +185,9 @@ jobs:
 
 ### front-end
 
-| <img src="https://avatars.githubusercontent.com/u/115006670?v=4" width="130" height="130"> | <img src ="https://avatars.githubusercontent.com/u/162319857?v=4" width="130" height="130"> |
-|:------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------:|
-|                            [김현재](https://github.com/presentKey)                            |                              [김덕빈](https://github.com/Db0111)                               |
+| <img src="https://avatars.githubusercontent.com/u/115006670?v=4" width="130" height="130"> |
+|:-----------------------------------------------------------------------------------------:|
+|                            [김현재](https://github.com/presentKey)                           |                                                                                             |
 
 ### back-end
 
