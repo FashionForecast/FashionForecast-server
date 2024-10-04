@@ -8,6 +8,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.List;
+import java.util.Map;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -15,11 +18,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.fashionforecastbackend.global.ControllerTest;
+import com.example.fashionforecastbackend.global.oauth2.CustomOauth2User;
 import com.example.fashionforecastbackend.member.domain.Gender;
 import com.example.fashionforecastbackend.member.dto.request.MemberGenderRequest;
 import com.example.fashionforecastbackend.member.service.MemberService;
@@ -42,12 +48,24 @@ class MemberControllerTest extends ControllerTest {
 
 	@Test
 	void addGender() throws Exception {
+		CustomOauth2User customOauth2User = new CustomOauth2User(
+			List.of(new SimpleGrantedAuthority("ROLE_USER")),
+			Map.of("sub", "testUser"),
+			"sub",
+			123L,
+			"testUser@example.com",
+			"ROLE_USER"
+		);
+
+		UsernamePasswordAuthenticationToken authentication =
+			new UsernamePasswordAuthenticationToken(customOauth2User, null, customOauth2User.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+
 		MemberGenderRequest request = new MemberGenderRequest(Gender.FEMALE);
 		doNothing().when(memberService).saveGender(eq(request), any(Long.class));
 
 		mockMvc.perform(post("/api/v1/member/gender")
 				.with(csrf())
-				.with(user("testUser").roles("USER"))
 				.content(objectMapper.writeValueAsString(request))
 				.contentType(MediaType.APPLICATION_JSON))
 			.andDo(print())
@@ -59,9 +77,6 @@ class MemberControllerTest extends ControllerTest {
 					fieldWithPath("gender").description("성별")
 						.attributes(field("format", "MALE/FEMALE"))
 				)
-					.andWithPrefix("data.[].",
-						fieldWithPath("gender").type(JsonFieldType.STRING).description("성별")
-					)
 			));
 	}
 }
