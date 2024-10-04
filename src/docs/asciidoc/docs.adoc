@@ -409,7 +409,7 @@ include::{snippets}/board-controller-test/get-board-detail/http-response.adoc[]
 
 include::{snippets}/board-controller-test/get-board-detail/response-fields.adoc[]
 
-=== 고객의 소리 상세 조회 (POST /api/v1/board)
+=== 고객의 소리 리스트 조회 (POST /api/v1/board)
 
 ==== Description
 
@@ -426,3 +426,23 @@ include::{snippets}/board-controller-test/get-board-list/http-response.adoc[]
 ==== Field
 
 include::{snippets}/board-controller-test/get-board-list/response-fields.adoc[]
+
+== 멤버 API
+
+=== 성별 추가 (POST /api/v1/member/gender)
+
+==== Description
+
+사용자 성별 추가
+
+==== Request
+
+include::{snippets}/member-controller-test/add-gender/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/member-controller-test/add-gender/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/member-controller-test/add-gender/request-fields.adoc[]
