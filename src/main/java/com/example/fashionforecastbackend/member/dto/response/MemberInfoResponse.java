@@ -10,6 +10,7 @@ import lombok.Builder;
 
 @Builder
 public record MemberInfoResponse(
+	String nickname,
 	String region,
 	LocalTime outingStartTime,
 	LocalTime outingEndTime,
@@ -18,6 +19,7 @@ public record MemberInfoResponse(
 ) {
 	public static MemberInfoResponse of(Member member) {
 		return MemberInfoResponse.builder()
+			.nickname(member.getNickname())
 			.region(member.getPersonalSetting().getRegion())
 			.outingStartTime(member.getPersonalSetting().getOutingStartTime())
 			.outingEndTime(member.getPersonalSetting().getOutingEndTime())
