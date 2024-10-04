@@ -17,4 +17,12 @@ public class PersonalSetting {
 	private LocalTime outingStartTime;
 	private LocalTime outingEndTime;
 	private TempCondition tempCondition;
+
+	public static String formatting(LocalTime time) {
+		String amPm = time.getHour() < 12 ? "오전" : "오후";
+		int hour = time.getHour() % 12;
+		hour = (hour == 0) ? 12 : hour;
+
+		return String.format("%s %02d시", amPm, hour);
+	}
 }
