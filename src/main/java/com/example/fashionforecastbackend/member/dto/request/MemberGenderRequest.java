@@ -1,6 +1,6 @@
 package com.example.fashionforecastbackend.member.dto.request;
 
-import com.example.fashionforecastbackend.member.domain.Gender;
+import com.example.fashionforecastbackend.member.domain.constant.Gender;
 
 import jakarta.validation.constraints.NotNull;
 

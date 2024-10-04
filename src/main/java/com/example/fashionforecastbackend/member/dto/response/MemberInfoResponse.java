@@ -2,8 +2,8 @@ package com.example.fashionforecastbackend.member.dto.response;
 
 import java.time.LocalTime;
 
-import com.example.fashionforecastbackend.member.domain.Gender;
 import com.example.fashionforecastbackend.member.domain.Member;
+import com.example.fashionforecastbackend.member.domain.constant.Gender;
 import com.example.fashionforecastbackend.recommend.domain.TempCondition;
 
 import lombok.Builder;

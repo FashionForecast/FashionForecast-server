@@ -5,6 +5,10 @@ import static jakarta.persistence.EnumType.*;
 import java.time.LocalDateTime;
 
 import com.example.fashionforecastbackend.global.BaseTimeEntity;
+import com.example.fashionforecastbackend.member.domain.constant.Gender;
+import com.example.fashionforecastbackend.member.domain.constant.MemberJoinType;
+import com.example.fashionforecastbackend.member.domain.constant.MemberRole;
+import com.example.fashionforecastbackend.member.domain.constant.MemberState;
 import com.example.fashionforecastbackend.member.domain.constant.PersonalSetting;
 
 import jakarta.persistence.Column;
