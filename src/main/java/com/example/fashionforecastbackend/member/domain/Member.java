@@ -5,8 +5,10 @@ import static jakarta.persistence.EnumType.*;
 import java.time.LocalDateTime;
 
 import com.example.fashionforecastbackend.global.BaseTimeEntity;
+import com.example.fashionforecastbackend.member.domain.constant.PersonalSetting;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -49,6 +51,9 @@ public class Member extends BaseTimeEntity {
 
 	@Enumerated(value = STRING)
 	private Gender gender;
+
+	@Embedded
+	private PersonalSetting personalSetting;
 
 	@Builder
 	public Member(final Long id, final String email, final String imageUrl, final String nickname,
