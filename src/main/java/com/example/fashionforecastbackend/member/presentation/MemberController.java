@@ -21,7 +21,7 @@ public class MemberController {
 	private final MemberService memberService;
 
 	@PostMapping("/gender")
-	public ApiResponse<Void> addGender(@RequestBody MemberGenderRequest memberGenderRequest,
+	public ApiResponse<Void> addGender(@RequestBody final MemberGenderRequest memberGenderRequest,
 		@AuthenticationPrincipal CustomOauth2User principal) {
 		memberService.saveGender(memberGenderRequest, principal.getMemberId());
 		return ApiResponse.noContent();
