@@ -11,6 +11,7 @@ import com.example.fashionforecastbackend.global.response.ApiResponse;
 import com.example.fashionforecastbackend.member.dto.request.MemberGenderRequest;
 import com.example.fashionforecastbackend.member.service.MemberService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -21,7 +22,7 @@ public class MemberController {
 	private final MemberService memberService;
 
 	@PostMapping("/gender")
-	public ApiResponse<Void> addGender(@RequestBody final MemberGenderRequest memberGenderRequest,
+	public ApiResponse<Void> addGender(@RequestBody @Valid final MemberGenderRequest memberGenderRequest,
 		@AuthenticationPrincipal CustomOauth2User principal) {
 		memberService.saveGender(memberGenderRequest, principal.getMemberId());
 		return ApiResponse.noContent();
