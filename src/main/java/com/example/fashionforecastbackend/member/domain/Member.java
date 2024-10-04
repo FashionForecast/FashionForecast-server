@@ -47,9 +47,12 @@ public class Member extends BaseTimeEntity {
 	@Enumerated(value = STRING)
 	private MemberJoinType joinType;
 
+	@Enumerated(value = STRING)
+	private Gender gender;
+
 	@Builder
 	public Member(final Long id, final String email, final String imageUrl, final String nickname,
-		final String socialId, final MemberRole role, final MemberJoinType joinType) {
+		final String socialId, final MemberRole role, final MemberJoinType joinType, final Gender gender) {
 
 		this.id = id;
 		this.email = email;
@@ -60,6 +63,7 @@ public class Member extends BaseTimeEntity {
 		this.state = MemberState.ACTIVE;
 		this.role = role;
 		this.joinType = joinType;
+		this.gender = gender;
 
 	}
 
@@ -67,4 +71,7 @@ public class Member extends BaseTimeEntity {
 		this.state = state;
 	}
 
+	public void updateGender(Gender gender) {
+		this.gender = gender;
+	}
 }
