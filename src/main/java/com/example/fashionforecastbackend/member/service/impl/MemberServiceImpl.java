@@ -23,7 +23,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Transactional
 	@Override
-	public MemberInfoResponse getMemberInfo(Long memberId) {
+	public MemberInfoResponse getMemberInfo(final Long memberId) {
 		Member member = getById(memberId);
 		return MemberInfoResponse.of(member);
 	}
