@@ -447,6 +447,35 @@ include::{snippets}/member-controller-test/get-member-info/http-response.adoc[]
 
 include::{snippets}/member-controller-test/get-member-info/response-fields.adoc[]
 
+==== Enum Type
+
+===== TempCondition
+
+|===
+| 값 | 설명
+
+| `COOL`
+| 시원하게
+
+| `NORMAL`
+| 보통
+
+| `WARM`
+| 따뜻하게
+|===
+
+===== Gender
+
+|===
+| 값 | 설명
+
+| `MALE`
+| 남성
+
+| `FEMALI`
+| 여성
+|===
+
 === 성별 추가 (POST /api/v1/member/gender)
 
 ==== Description

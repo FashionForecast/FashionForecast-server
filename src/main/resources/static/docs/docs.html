@@ -942,7 +942,7 @@ Content-Type: application/json
 Content-Type: application/json;charset=UTF-8
 
 {
-  "uuid" : "10db7ee6-92e9-44af-8a17-0fd7d4ea0337"
+  "uuid" : "f45a8d8c-a35c-4dfa-9b42-e0c5ff59a865"
 }</code></pre>
 </div>
 </div>
@@ -986,7 +986,7 @@ Content-Type: application/json
 
 {
   "data" : {
-    "uuid" : "10db7ee6-92e9-44af-8a17-0fd7d4ea0337",
+    "uuid" : "f45a8d8c-a35c-4dfa-9b42-e0c5ff59a865",
     "isNewGuest" : false
   },
   "status" : 200,
@@ -1915,7 +1915,7 @@ Content-Type: application/json
 <h4 id="_request_9"><a class="link" href="#_request_9">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=oJ6CVWmQjy8L8ZhYUSBZsepUPaAtmSyH91y26EBzhkTCcDWel6q3YA2ptkwmxf49NA1tht01EJkb-h2qlWnXjnhK53X7RgX8 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=onL_z4Qw6kjW7Th1LVP7j5OPTl1mDMyp0wkglRUEtJKdH7Wix0rK-bMBi3772ApNTH7P7aO3YzxQaq-E5TwUpyVl0Pf7KtbB HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Cookie: refresh_token=refreshToken
 
@@ -1994,7 +1994,7 @@ Content-Type: application/json
 <h4 id="_request_10"><a class="link" href="#_request_10">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/board?_csrf=tJXwly8t2cHN_ApstgRyhxy7OArK3qnMONlsu_6AKFshPkaAhKDGpxob7fHgyT0P0ylG5njZFTPyuM_hCOFb3Zy3GG9FXSW3 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/board?_csrf=yoWaIU326AsAvMLCE9J9dC7HYEyO3De8s5kmBzBit4IKg3KFqLKrR3mX0W8t2KejcP9JTRujTXS-6FWRiq4fMVVXhrE75RTn HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -2330,6 +2330,63 @@ Content-Type: application/json
 </tbody>
 </table>
 </div>
+<div class="sect3">
+<h4 id="_enum_type_3"><a class="link" href="#_enum_type_3">Enum Type</a></h4>
+<div class="sect4">
+<h5 id="_tempcondition_2"><a class="link" href="#_tempcondition_2">TempCondition</a></h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>COOL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">시원하게</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NORMAL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">보통</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WARM</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">따뜻하게</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_gender"><a class="link" href="#_gender">Gender</a></h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">값</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MALE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">남성</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FEMALI</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여성</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_성별_추가_post_apiv1membergender"><a class="link" href="#_성별_추가_post_apiv1membergender">성별 추가 (POST /api/v1/member/gender)</a></h3>
@@ -2343,7 +2400,7 @@ Content-Type: application/json
 <h4 id="_request_14"><a class="link" href="#_request_14">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/member/gender?_csrf=vwO8OZlYPEIBB-k8xyR9rNf8wdR2b1eIV4tNVWB76oSYe6niimGLCvs7XnEsZN1a8AlJlLTL7LUQDmalZbx1YFAf3-ehH8qH HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/member/gender?_csrf=w9l3l4o-tV9X2CkW4KODm_NUQCmZZDbjiw5In4IMvONh4aW3obsTrrNagTt64Rwg0463rMVibUurUQbOvDh6prQ9jIEDgJKG HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -2404,7 +2461,7 @@ Content-Type: application/json
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-10-05 12:21:43 +0900
+Last updated 2024-10-05 12:26:25 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
