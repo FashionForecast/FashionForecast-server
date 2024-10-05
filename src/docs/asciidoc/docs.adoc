@@ -472,7 +472,7 @@ include::{snippets}/member-controller-test/get-member-info/response-fields.adoc[
 | `MALE`
 | 남성
 
-| `FEMALI`
+| `FEMALE`
 | 여성
 |===
 
