@@ -57,7 +57,8 @@ class MemberControllerTest extends ControllerTest {
 			"sub",
 			123L,
 			"testUser@example.com",
-			"ROLE_USER"
+			"ROLE_USER",
+			false
 		);
 
 		UsernamePasswordAuthenticationToken authentication =
