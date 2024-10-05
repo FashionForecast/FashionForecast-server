@@ -429,6 +429,24 @@ include::{snippets}/board-controller-test/get-board-list/response-fields.adoc[]
 
 == 멤버 API
 
+=== 회원 정보 조회 (GET /api/v1/member)
+
+==== Description
+
+회원 정보 조회
+
+==== Request
+
+include::{snippets}/member-controller-test/get-member-info/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/member-controller-test/get-member-info/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/member-controller-test/get-member-info/response-fields.adoc[]
+
 === 성별 추가 (POST /api/v1/member/gender)
 
 ==== Description
