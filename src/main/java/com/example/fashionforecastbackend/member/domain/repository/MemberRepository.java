@@ -10,4 +10,6 @@ import com.example.fashionforecastbackend.member.domain.MemberJoinType;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
 	Optional<Member> findByJoinTypeAndSocialId(MemberJoinType joinType, String socialId);
+
+	boolean existsByJoinTypeAndSocialId(MemberJoinType joinType, String socialId);
 }
