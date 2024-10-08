@@ -14,7 +14,8 @@ public record MemberInfoResponse(
 	String outingStartTime,
 	String outingEndTime,
 	TempCondition tempCondition,
-	Gender gender
+	Gender gender,
+	String imageUrl
 ) {
 	public static MemberInfoResponse of(Member member) {
 		return MemberInfoResponse.builder()
@@ -24,6 +25,7 @@ public record MemberInfoResponse(
 			.outingEndTime(PersonalSetting.formatting(member.getPersonalSetting().getOutingEndTime()))
 			.tempCondition(member.getPersonalSetting().getTempCondition())
 			.gender(member.getGender())
+			.imageUrl(member.getImageUrl())
 			.build();
 	}
 }
