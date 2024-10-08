@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.fashionforecastbackend.member.domain.Member;
-import com.example.fashionforecastbackend.member.domain.MemberJoinType;
+import com.example.fashionforecastbackend.member.domain.constant.MemberJoinType;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 

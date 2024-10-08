@@ -1,7 +1,7 @@
 package com.example.fashionforecastbackend.global.login.service.Impl;
 
 import static com.example.fashionforecastbackend.global.error.ErrorCode.*;
-import static com.example.fashionforecastbackend.member.domain.MemberRole.*;
+import static com.example.fashionforecastbackend.member.domain.constant.MemberRole.*;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

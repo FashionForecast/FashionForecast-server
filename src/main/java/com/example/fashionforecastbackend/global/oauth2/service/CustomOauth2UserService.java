@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import com.example.fashionforecastbackend.global.oauth2.CustomOauth2User;
 import com.example.fashionforecastbackend.global.oauth2.Oauth2Attributes;
 import com.example.fashionforecastbackend.member.domain.Member;
-import com.example.fashionforecastbackend.member.domain.MemberJoinType;
+import com.example.fashionforecastbackend.member.domain.constant.MemberJoinType;
 import com.example.fashionforecastbackend.member.domain.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.fashionforecastbackend.member.domain;
+package com.example.fashionforecastbackend.member.domain.constant;
 
 import lombok.Getter;
 

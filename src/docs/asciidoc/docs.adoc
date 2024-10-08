@@ -429,6 +429,53 @@ include::{snippets}/board-controller-test/get-board-list/response-fields.adoc[]
 
 == 멤버 API
 
+=== 회원 정보 조회 (GET /api/v1/member)
+
+==== Description
+
+회원 정보 조회
+
+==== Request
+
+include::{snippets}/member-controller-test/get-member-info/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/member-controller-test/get-member-info/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/member-controller-test/get-member-info/response-fields.adoc[]
+
+==== Enum Type
+
+===== TempCondition
+
+|===
+| 값 | 설명
+
+| `COOL`
+| 시원하게
+
+| `NORMAL`
+| 보통
+
+| `WARM`
+| 따뜻하게
+|===
+
+===== Gender
+
+|===
+| 값 | 설명
+
+| `MALE`
+| 남성
+
+| `FEMALE`
+| 여성
+|===
+
 === 성별 추가 (POST /api/v1/member/gender)
 
 ==== Description

@@ -9,6 +9,7 @@ import com.example.fashionforecastbackend.global.error.exception.MemberNotFoundE
 import com.example.fashionforecastbackend.member.domain.Member;
 import com.example.fashionforecastbackend.member.domain.repository.MemberRepository;
 import com.example.fashionforecastbackend.member.dto.request.MemberGenderRequest;
+import com.example.fashionforecastbackend.member.dto.response.MemberInfoResponse;
 import com.example.fashionforecastbackend.member.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,12 @@ public class MemberServiceImpl implements MemberService {
 	private final MemberRepository memberRepository;
 
 	@Transactional
+	@Override
+	public MemberInfoResponse getMemberInfo(final Long memberId) {
+		Member member = getById(memberId);
+		return MemberInfoResponse.of(member);
+	}
+
 	@Override
 	public void saveGender(final MemberGenderRequest memberGenderRequest, final Long memberId) {
 		Member member = getById(memberId);
