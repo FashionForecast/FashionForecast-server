@@ -20,7 +20,7 @@ public record MemberInfoResponse(
 	public static MemberInfoResponse of(Member member) {
 		return MemberInfoResponse.builder()
 			.nickname(member.getNickname())
-			.region(member.getPersonalSetting().getRegion())
+			.region(member.getPersonalSetting().getAddress().getCityAndDistrict())
 			.outingStartTime(PersonalSetting.formatting(member.getPersonalSetting().getOutingStartTime()))
 			.outingEndTime(PersonalSetting.formatting(member.getPersonalSetting().getOutingEndTime()))
 			.tempCondition(member.getPersonalSetting().getTempCondition())

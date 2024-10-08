@@ -3,6 +3,7 @@ package com.example.fashionforecastbackend.member.domain.constant;
 import java.time.LocalTime;
 
 import com.example.fashionforecastbackend.recommend.domain.TempCondition;
+import com.example.fashionforecastbackend.region.domain.Address;
 
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class PersonalSetting {
 	private String region;
+	private Address address;
 	private LocalTime outingStartTime;
 	private LocalTime outingEndTime;
 	private TempCondition tempCondition;
