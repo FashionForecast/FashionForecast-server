@@ -46,6 +46,7 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
 		final Map<String, Object> attributes = oAuth2User.getAttributes();
 
 		final Oauth2Attributes extractAttributes = Oauth2Attributes.of(joinType, userNameAttributeName, attributes);
+		final boolean isNewUser = isNewMember(extractAttributes, joinType);
 		final Member member = getMember(extractAttributes, joinType);
 
 		return new CustomOauth2User(
@@ -54,25 +55,24 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
 			extractAttributes.getUserNameAttributeKey(),
 			member.getId(),
 			member.getEmail(),
-			member.getRole().getKey()
-		);
+			member.getRole().getKey(),
+			isNewUser);
 	}
 
 	private MemberJoinType getMemberType(String registrationId) {
-		if(GOOGLE.equals(registrationId)) {
+		if (GOOGLE.equals(registrationId)) {
 			return MemberJoinType.GOOGLE;
 		}
 		return MemberJoinType.KAKAO;
 	}
 
-	private Member getMember(Oauth2Attributes attributes, MemberJoinType joinType) {
-		final Member member = memberRepository.findByJoinTypeAndSocialId(joinType,
-			attributes.getOauth2UserInfo().getId()).orElse(null);
+	private boolean isNewMember(Oauth2Attributes attributes, MemberJoinType joinType) {
+		return !memberRepository.existsByJoinTypeAndSocialId(joinType, attributes.getOauth2UserInfo().getId());
+	}
 
-		if (member == null) {
-			return savedMember(attributes, joinType);
-		}
-		return member;
+	private Member getMember(Oauth2Attributes attributes, MemberJoinType joinType) {
+		return memberRepository.findByJoinTypeAndSocialId(joinType,
+			attributes.getOauth2UserInfo().getId()).orElse(savedMember(attributes, joinType));
 	}
 
 	private Member savedMember(Oauth2Attributes attributes, MemberJoinType joinType) {
