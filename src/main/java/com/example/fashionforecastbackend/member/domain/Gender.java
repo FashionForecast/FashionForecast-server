@@ -1,5 +1,8 @@
 package com.example.fashionforecastbackend.member.domain;
 
+import lombok.Getter;
+
+@Getter
 public enum Gender {
 	MALE("남성"),
 	FEMALE("여성");
@@ -8,9 +11,5 @@ public enum Gender {
 
 	Gender(String value) {
 		this.value = value;
-	}
-
-	public String getValue() {
-		return value;
 	}
 }
