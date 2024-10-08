@@ -942,7 +942,7 @@ Content-Type: application/json
 Content-Type: application/json;charset=UTF-8
 
 {
-  "uuid" : "010bd584-82ac-4e9d-866d-89d87b9b8a2e"
+  "uuid" : "1cd51c74-0c05-4e17-a54a-bc906dfa6f75"
 }</code></pre>
 </div>
 </div>
@@ -986,7 +986,7 @@ Content-Type: application/json
 
 {
   "data" : {
-    "uuid" : "010bd584-82ac-4e9d-866d-89d87b9b8a2e",
+    "uuid" : "1cd51c74-0c05-4e17-a54a-bc906dfa6f75",
     "isNewGuest" : false
   },
   "status" : 200,
@@ -1915,7 +1915,7 @@ Content-Type: application/json
 <h4 id="_request_9"><a class="link" href="#_request_9">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=Z7Si4XMUSmgwWnigvOAVxEvMCzL_RurF5XYRemflz1DtTux7AozEh0InLFEdYh7Bhc0hp3v8Jgudd9roh09zSFWE9zHfd4hD HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=EWlp_1FRd1jzTVLIxa-tMD_jRhu6IIU5qOLcNsGH-UIVu_tEc1gIyGFhQGree2rwoIKZAFqGayLeRuMUy9rtD_K3mnQh2c8g HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Cookie: refresh_token=refreshToken
 
@@ -1994,7 +1994,7 @@ Content-Type: application/json
 <h4 id="_request_10"><a class="link" href="#_request_10">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/board?_csrf=6GIK-JPkKLWvpINZJqKlAAZbClNU01MKSGpp98Q4HpA3evJi0VNvnqrXGICCkbNsQI-RMjY_JzJht2MnLAsLxfYBLqdSSsFb HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/board?_csrf=DXuEoRQgsjSiuKxBt7ezvYGfpn7FEuKY522tSr3nGta4XTrGaxjlmSZFgAyPiJgl05qHjbGtix_xK9O11FXOf4nQfOTZP1_y HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -2258,7 +2258,8 @@ Content-Type: application/json
     "outingStartTime" : "오전 08시",
     "outingEndTime" : "오후 08시",
     "tempCondition" : "NORMAL",
-    "gender" : "FEMALE"
+    "gender" : "FEMALE",
+    "imageUrl" : "http://k.kakaocdn.net/dn/~~.jpg"
   },
   "status" : 200,
   "message" : "OK"
@@ -2326,6 +2327,11 @@ Content-Type: application/json
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.gender</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">성별</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.imageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로필 이미지 Url</p></td>
 </tr>
 </tbody>
 </table>
@@ -2400,7 +2406,7 @@ Content-Type: application/json
 <h4 id="_request_14"><a class="link" href="#_request_14">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/member/gender?_csrf=rGRx4Po_0Gyyp1JA1gV26TzRaxFzunWvmp-xnbOu9czAc-ySzVRHgcwNtVyfnmt04yhC0Aq1RilEjk2C-KnSrYOYl_XwRtz2 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/member/gender?_csrf=1u6MkZSG2Mqs-A5qIkKKVZ9YfsHadYyIev8QhQLlbw0_RwWl4Nq-8PXl6qmBnGpbEG--YP47U_npTbqlHssj5zLSVz4McDzB HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -2461,7 +2467,7 @@ Content-Type: application/json
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-10-08 16:14:05 +0900
+Last updated 2024-10-08 23:43:46 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
