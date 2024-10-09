@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.fashionforecastbackend.global.oauth2.CustomOauth2User;
 import com.example.fashionforecastbackend.global.response.ApiResponse;
 import com.example.fashionforecastbackend.member.dto.request.MemberGenderRequest;
+import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
 import com.example.fashionforecastbackend.member.dto.response.MemberInfoResponse;
 import com.example.fashionforecastbackend.member.service.MemberService;
 
@@ -36,4 +37,10 @@ public class MemberController {
 		return ApiResponse.noContent();
 	}
 
+	@PostMapping("/outfit")
+	public ApiResponse<Void> addOutfit(@RequestBody @Valid final MemberOutfitRequest memberOutfitRequest,
+		@AuthenticationPrincipal CustomOauth2User principal) {
+		memberService.saveMemberOutfit(memberOutfitRequest, principal.getMemberId());
+		return ApiResponse.noContent();
+	}
 }
