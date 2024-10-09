@@ -35,7 +35,7 @@ public class MemberOutfit extends BaseTimeEntity {
 	private BottomAttribute bottomAttribute;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_id")
+	@JoinColumn(name = "member_id", nullable = false)
 	private Member member;
 
 	@Builder
