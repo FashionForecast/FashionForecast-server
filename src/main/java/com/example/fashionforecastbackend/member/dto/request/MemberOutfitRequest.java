@@ -11,7 +11,9 @@ public record MemberOutfitRequest(
 	@NotNull(message = "하의 타입은 필수 입니다.")
 	String bottomType,
 	@NotNull(message = "하의 색상은 필수 입니다.")
-	String bottomColor
+	String bottomColor,
+	@NotNull(message = "온도 단계 레벨은 필수 입니다.")
+	Integer tempStageLevel
 ) {
 
 }
