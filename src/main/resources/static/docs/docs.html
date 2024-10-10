@@ -943,7 +943,7 @@ Content-Type: application/json
 Content-Type: application/json;charset=UTF-8
 
 {
-  "uuid" : "4581f9b1-0725-460b-a891-719dedec3e81"
+  "uuid" : "e6d04b2d-5c5b-44c0-b31c-9ce2abdf27cd"
 }</code></pre>
 </div>
 </div>
@@ -987,7 +987,7 @@ Content-Type: application/json
 
 {
   "data" : {
-    "uuid" : "4581f9b1-0725-460b-a891-719dedec3e81",
+    "uuid" : "e6d04b2d-5c5b-44c0-b31c-9ce2abdf27cd",
     "isNewGuest" : false
   },
   "status" : 200,
@@ -1916,7 +1916,7 @@ Content-Type: application/json
 <h4 id="_request_9"><a class="link" href="#_request_9">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=X8rC7kTSlzLp4y_q83P4BWNc8YYG9bafIRb07BqU5vK_4odLPKv01n3ho1DE0hvfyl7MYFts3Odkl9OyRSaXjyOnhZbZ0LNy HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=y-y70mFxoP19omYyM0TQ12NlPl1PaMpfefa5BP0dYBD3yMTj_tuJ4FUXmJlQl1RWB2nktFsBEzx9WaxyGpSPM8h7WSPC-P3b HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Cookie: refresh_token=refreshToken
 
@@ -1995,7 +1995,7 @@ Content-Type: application/json
 <h4 id="_request_10"><a class="link" href="#_request_10">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/board?_csrf=LeBYM4wkqzHJE533DZ1cvMlks5m3Yz3JY51LpVxx7BvSl2WwT4JhBLgSzgHkK6rFPLBo3_FRnviAVAvkWql9wGgQ3C_l9VaJ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/board?_csrf=Yn2fRbZBQU4o8apXaaoN-liPHa40PqYMjHSrgZjSCbU6_GQpVUX5cINyIH0FwZIyX4c5y2C2MM8MCcchvkTOufm2O9MJyFdL HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -2129,8 +2129,8 @@ Content-Type: application/json
   "offset" : 0,
   "sort" : {
     "empty" : true,
-    "sorted" : false,
-    "unsorted" : true
+    "unsorted" : true,
+    "sorted" : false
   },
   "code" : 200,
   "message" : "OK"
@@ -2481,7 +2481,8 @@ Content-Type: application/json;charset=UTF-8
   "topType" : "반팔티",
   "topColor" : "#RRGGBB",
   "bottomType" : "슬랙스",
-  "bottomColor" : "#RRGGBB"
+  "bottomColor" : "#RRGGBB",
+  "tempStageLevel" : 2
 }</code></pre>
 </div>
 </div>
@@ -2549,6 +2550,13 @@ Content-Type: application/json
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">하의 컬러코드</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tempStageLevel</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">온도 단계 레벨</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2559,7 +2567,7 @@ Content-Type: application/json
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-10-09 18:47:37 +0900
+Last updated 2024-10-10 20:47:03 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
