@@ -944,7 +944,7 @@ Content-Type: application/json
 Content-Type: application/json;charset=UTF-8
 
 {
-  "uuid" : "a372bea4-297f-4d84-b46b-f481208b3577"
+  "uuid" : "abf19934-f6dd-4ae5-90cf-52ca75a4a6ea"
 }</code></pre>
 </div>
 </div>
@@ -988,7 +988,7 @@ Content-Type: application/json
 
 {
   "data" : {
-    "uuid" : "a372bea4-297f-4d84-b46b-f481208b3577",
+    "uuid" : "abf19934-f6dd-4ae5-90cf-52ca75a4a6ea",
     "isNewGuest" : false
   },
   "status" : 200,
@@ -2032,7 +2032,7 @@ Content-Type: application/json
 <h4 id="_request_10"><a class="link" href="#_request_10">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=KK61RdJOnvvYX0QzfQkCzai_2Y0zlw4PLKQ2KWju2hmFoQ7bHsyCcOp8qcP1bncFTCQ29M6I9LQCrjsiFZIGTVze6Cmwx2i9 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=rg4tr5DRwwZ6Hnikkx4rzRrYXPg-j_jC511qc27Rg6U0AagnzzsUyfLl9j5XfUHC8TMfq3vqccEH7Mnv0WxcRwi0s5wAOJpC HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Cookie: refresh_token=refreshToken
 
@@ -2111,7 +2111,7 @@ Content-Type: application/json
 <h4 id="_request_11"><a class="link" href="#_request_11">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/board?_csrf=2lmmZ6D5lB5JP08Vkhd9dc9g6BoygGvWuhcq4OELoeO_fPr34zjFUZDMpCZkCntwoDpJFPpTxXsHuAr72yJI19hoktrdTc3F HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/board?_csrf=gmmdDKq4Hcw41G9QZI3vAxE_WPv5c5zt9Glwj2cbM5ZGwXcgtFypPpnaePQV419kUqDbMXMKdcKbEPnAxwgV7VUtBKN08xVC HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -2597,7 +2597,8 @@ Content-Type: application/json;charset=UTF-8
   "topType" : "반팔티",
   "topColor" : "#RRGGBB",
   "bottomType" : "슬랙스",
-  "bottomColor" : "#RRGGBB"
+  "bottomColor" : "#RRGGBB",
+  "tempStageLevel" : 2
 }</code></pre>
 </div>
 </div>
@@ -2665,6 +2666,13 @@ Content-Type: application/json
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">하의 컬러코드</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tempStageLevel</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">온도 단계 레벨</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2675,7 +2683,7 @@ Content-Type: application/json
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-10-10 19:16:40 +0900
+Last updated 2024-10-10 21:23:06 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
