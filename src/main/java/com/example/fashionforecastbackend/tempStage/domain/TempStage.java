@@ -25,4 +25,14 @@ public class TempStage extends BaseTimeEntity {
 	private int minTemp;
 
 	private int maxTemp;
+
+	private TempStage(final int level, final int minTemp, final int maxTemp) {
+		this.level = level;
+		this.minTemp = minTemp;
+		this.maxTemp = maxTemp;
+	}
+
+	public static TempStage create(final int level, final int minTemp, final int maxTemp) {
+		return new TempStage(level, minTemp, maxTemp);
+	}
 }

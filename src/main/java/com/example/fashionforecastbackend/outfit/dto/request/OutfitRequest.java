@@ -1,4 +1,4 @@
-package com.example.fashionforecastbackend.outfit.dto;
+package com.example.fashionforecastbackend.outfit.dto.request;
 
 import java.util.List;
 
