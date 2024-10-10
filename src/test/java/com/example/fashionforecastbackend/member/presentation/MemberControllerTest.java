@@ -141,7 +141,8 @@ class MemberControllerTest extends ControllerTest {
 			"반팔티",
 			"#RRGGBB",
 			"슬랙스",
-			"#RRGGBB");
+			"#RRGGBB",
+			2);
 		doNothing().when(memberService).saveMemberOutfit(any(MemberOutfitRequest.class), any(Long.class));
 
 		//when
@@ -157,7 +158,8 @@ class MemberControllerTest extends ControllerTest {
 					fieldWithPath("topType").type(JsonFieldType.STRING).description("상의 유형"),
 					fieldWithPath("topColor").type(JsonFieldType.STRING).description("상의 컬러코드"),
 					fieldWithPath("bottomType").type(JsonFieldType.STRING).description("하의 유형"),
-					fieldWithPath("bottomColor").type(JsonFieldType.STRING).description("하의 컬러코드")
+					fieldWithPath("bottomColor").type(JsonFieldType.STRING).description("하의 컬러코드"),
+					fieldWithPath("tempStageLevel").type(JsonFieldType.NUMBER).description("온도 단계 레벨")
 				)
 			));
 
