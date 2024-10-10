@@ -18,6 +18,8 @@ import com.example.fashionforecastbackend.member.domain.MemberOutfit;
 import com.example.fashionforecastbackend.member.domain.repository.MemberOutfitRepository;
 import com.example.fashionforecastbackend.member.domain.repository.MemberRepository;
 import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
+import com.example.fashionforecastbackend.tempStage.domain.TempStage;
+import com.example.fashionforecastbackend.tempStage.domain.repository.TempStageRepository;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
@@ -27,6 +29,9 @@ class MemberServiceTest {
 
 	@Mock
 	private MemberRepository memberRepository;
+
+	@Mock
+	private TempStageRepository tempStageRepository;
 
 	@Mock
 	private MemberOutfitRepository memberOutfitRepository;
@@ -40,9 +45,16 @@ class MemberServiceTest {
 			.id(memberId)
 			.build();
 
-		final MemberOutfitRequest memberOutfitRequest = new MemberOutfitRequest("반팔티", "#111111", "슬랙스", "#222222");
+		final int tempStageLevel = 2;
+		final int minTemp = 23;
+		final int maxTemp = 27;
+		final TempStage tempStage = TempStage.create(tempStageLevel, minTemp, maxTemp);
+
+		final MemberOutfitRequest memberOutfitRequest = new MemberOutfitRequest("반팔티", "#111111", "슬랙스", "#222222", tempStageLevel);
+
 
 		given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
+		given(tempStageRepository.findByLevel(tempStageLevel)).willReturn(Optional.of(tempStage));
 
 		//when
 		memberService.saveMemberOutfit(memberOutfitRequest, memberId);
@@ -59,7 +71,8 @@ class MemberServiceTest {
 			() -> assertThat(savedOutfit.getBottomAttribute().getBottomType()).isEqualTo(
 				memberOutfitRequest.bottomType()),
 			() -> assertThat(savedOutfit.getBottomAttribute().getBottomColor()).isEqualTo(
-				memberOutfitRequest.bottomColor())
+				memberOutfitRequest.bottomColor()),
+			() -> assertThat(savedOutfit.getTempStage().getLevel()).isEqualTo(memberOutfitRequest.tempStageLevel())
 		);
 	}
 }
