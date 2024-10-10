@@ -3,6 +3,8 @@ package com.example.fashionforecastbackend.member.domain;
 import static jakarta.persistence.EnumType.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.example.fashionforecastbackend.global.BaseTimeEntity;
 import com.example.fashionforecastbackend.member.domain.constant.Gender;
@@ -11,6 +13,7 @@ import com.example.fashionforecastbackend.member.domain.constant.MemberRole;
 import com.example.fashionforecastbackend.member.domain.constant.MemberState;
 import com.example.fashionforecastbackend.member.domain.constant.PersonalSetting;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -18,6 +21,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,6 +44,9 @@ public class Member extends BaseTimeEntity {
 	private String nickname;
 
 	private String socialId;
+
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<MemberOutfit> memberOutfits = new ArrayList<>();
 
 	@Column(nullable = false)
 	private LocalDateTime lastLoginDate;
@@ -82,5 +89,10 @@ public class Member extends BaseTimeEntity {
 
 	public void updateGender(Gender gender) {
 		this.gender = gender;
+	}
+
+	public void addMemberOutfit(final MemberOutfit memberOutfit) {
+		memberOutfits.add(memberOutfit);
+		memberOutfit.setMember(this);
 	}
 }

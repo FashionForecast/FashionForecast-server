@@ -493,3 +493,22 @@ include::{snippets}/member-controller-test/add-gender/http-response.adoc[]
 ==== Field
 
 include::{snippets}/member-controller-test/add-gender/request-fields.adoc[]
+
+=== 멤버 옷차림 추가 (POST /api/v1/member/outfit)
+
+
+==== Description
+
+멤버 옷차림 추가
+
+==== Request
+
+include::{snippets}/member-controller-test/add-outfit-test/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/member-controller-test/add-outfit-test/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/member-controller-test/add-outfit-test/request-fields.adoc[]

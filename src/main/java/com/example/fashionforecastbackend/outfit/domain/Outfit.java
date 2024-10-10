@@ -34,6 +34,9 @@ public class Outfit extends BaseTimeEntity {
 	@Enumerated(EnumType.STRING)
 	private OutfitType outfitType;
 
+	@Enumerated(EnumType.STRING)
+	private OutfitGender outfitGender;
+
 	@OneToMany(mappedBy = "outfit", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Recommendation> recommendations = new ArrayList<>();
 
