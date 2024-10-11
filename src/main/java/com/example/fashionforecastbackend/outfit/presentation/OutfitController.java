@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.fashionforecastbackend.global.oauth2.CustomOauth2User;
+import com.example.fashionforecastbackend.global.oauth2.UserDetail;
 import com.example.fashionforecastbackend.global.response.ApiResponse;
 import com.example.fashionforecastbackend.outfit.dto.request.OutfitRequest;
 import com.example.fashionforecastbackend.outfit.dto.response.OutfitGroupResponse;
@@ -30,8 +30,8 @@ public class OutfitController {
 	}
 
 	@GetMapping
-	public ApiResponse<OutfitGroupResponse> getOutfitGroup(@AuthenticationPrincipal CustomOauth2User principal) {
-		final Long memberId = principal.getMemberId();
+	public ApiResponse<OutfitGroupResponse> getOutfitGroup(@AuthenticationPrincipal UserDetail principal) {
+		final Long memberId = principal.memberId();
 		return ApiResponse.ok(outfitService.getOutfitGroup(memberId));
 	}
 
