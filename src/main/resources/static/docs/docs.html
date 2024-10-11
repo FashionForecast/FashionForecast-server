@@ -488,7 +488,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_회원_정보_조회_get_apiv1member">회원 정보 조회 (GET /api/v1/member)</a></li>
 <li><a href="#_성별_추가_post_apiv1membergender">성별 추가 (POST /api/v1/member/gender)</a></li>
-<li><a href="#_멤버_옷차림_추가_post_apiv1memberoutfit">멤버 옷차림 추가 (POST /api/v1/member/outfit)</a></li>
+<li><a href="#_온도_단계별_회원_옷차림_전체_조회_get_apiv1memberoutfits">온도 단계별 회원 옷차림 전체 조회 (GET /api/v1/member/outfits)</a></li>
+<li><a href="#_회원_옷차림_추가_post_apiv1memberoutfit">회원 옷차림 추가 (POST /api/v1/member/outfit)</a></li>
 </ul>
 </li>
 </ul>
@@ -944,7 +945,7 @@ Content-Type: application/json
 Content-Type: application/json;charset=UTF-8
 
 {
-  "uuid" : "abf19934-f6dd-4ae5-90cf-52ca75a4a6ea"
+  "uuid" : "f36c81b8-846a-404a-9879-d0d766b517dc"
 }</code></pre>
 </div>
 </div>
@@ -988,7 +989,7 @@ Content-Type: application/json
 
 {
   "data" : {
-    "uuid" : "abf19934-f6dd-4ae5-90cf-52ca75a4a6ea",
+    "uuid" : "f36c81b8-846a-404a-9879-d0d766b517dc",
     "isNewGuest" : false
   },
   "status" : 200,
@@ -2032,7 +2033,7 @@ Content-Type: application/json
 <h4 id="_request_10"><a class="link" href="#_request_10">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=rg4tr5DRwwZ6Hnikkx4rzRrYXPg-j_jC511qc27Rg6U0AagnzzsUyfLl9j5XfUHC8TMfq3vqccEH7Mnv0WxcRwi0s5wAOJpC HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=0LjfgUVnVl4M_wVohNRMKg8rZ2vvJYwjrZRKv58BRzap7Trptovm4yEEYmshyWYN4fl4HjkfSgmNEO4OlKUvj6dkIQfKjAzb HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Cookie: refresh_token=refreshToken
 
@@ -2111,7 +2112,7 @@ Content-Type: application/json
 <h4 id="_request_11"><a class="link" href="#_request_11">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/board?_csrf=gmmdDKq4Hcw41G9QZI3vAxE_WPv5c5zt9Glwj2cbM5ZGwXcgtFypPpnaePQV419kUqDbMXMKdcKbEPnAxwgV7VUtBKN08xVC HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/board?_csrf=T4Q3XWthiBlF2V3zN8THyJTY24VosKeLUMfFQh_ihxfl2wZrfuYFZFpR7C1o4G-SAunz-vft9rwJh5-maPCkcijQ4iWBvzVb HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -2579,15 +2580,184 @@ Content-Type: application/json
 </div>
 </div>
 <div class="sect2">
-<h3 id="_멤버_옷차림_추가_post_apiv1memberoutfit"><a class="link" href="#_멤버_옷차림_추가_post_apiv1memberoutfit">멤버 옷차림 추가 (POST /api/v1/member/outfit)</a></h3>
+<h3 id="_온도_단계별_회원_옷차림_전체_조회_get_apiv1memberoutfits"><a class="link" href="#_온도_단계별_회원_옷차림_전체_조회_get_apiv1memberoutfits">온도 단계별 회원 옷차림 전체 조회 (GET /api/v1/member/outfits)</a></h3>
 <div class="sect3">
 <h4 id="_description_16"><a class="link" href="#_description_16">Description</a></h4>
 <div class="paragraph">
-<p>멤버 옷차림 추가</p>
+<p>온도 단계별 회원 옷차림 전체 조회</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_request_16"><a class="link" href="#_request_16">Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/member/outfits HTTP/1.1
+Content-Type: application/json;charset=UTF-8</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_16"><a class="link" href="#_response_16">Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "data" : [ {
+    "tempStageLevel" : 1,
+    "memberOutfits" : [ {
+      "memberOutfitId" : 3,
+      "topType" : "반팔티",
+      "topColor" : "#111111",
+      "bottomType" : "반바지",
+      "bottomColor" : "#222222"
+    } ]
+  }, {
+    "tempStageLevel" : 2,
+    "memberOutfits" : [ {
+      "memberOutfitId" : 4,
+      "topType" : "긴팔티",
+      "topColor" : "#333333",
+      "bottomType" : "청바지",
+      "bottomColor" : "#444444"
+    } ]
+  }, {
+    "tempStageLevel" : 3,
+    "memberOutfits" : [ {
+      "memberOutfitId" : 2,
+      "topType" : "셔츠",
+      "topColor" : "#555555",
+      "bottomType" : "면바지",
+      "bottomColor" : "#666666"
+    } ]
+  }, {
+    "tempStageLevel" : 4,
+    "memberOutfits" : [ {
+      "memberOutfitId" : 1,
+      "topType" : "니트",
+      "topColor" : "#777777",
+      "bottomType" : "청바지",
+      "bottomColor" : "#888888"
+    } ]
+  }, {
+    "tempStageLevel" : 5,
+    "memberOutfits" : [ {
+      "memberOutfitId" : 9,
+      "topType" : "후드티",
+      "topColor" : "#999999",
+      "bottomType" : "면바지",
+      "bottomColor" : "#AAAAAA"
+    } ]
+  }, {
+    "tempStageLevel" : 6,
+    "memberOutfits" : [ {
+      "memberOutfitId" : 8,
+      "topType" : "가디건",
+      "topColor" : "#BBBBBB",
+      "bottomType" : "청바지",
+      "bottomColor" : "#CCCCCC"
+    } ]
+  }, {
+    "tempStageLevel" : 7,
+    "memberOutfits" : [ {
+      "memberOutfitId" : 6,
+      "topType" : "패딩",
+      "topColor" : "#DDDDDD",
+      "bottomType" : "청바지",
+      "bottomColor" : "#EEEEEE"
+    } ]
+  }, {
+    "tempStageLevel" : 8,
+    "memberOutfits" : [ {
+      "memberOutfitId" : 10,
+      "topType" : "패딩",
+      "topColor" : "#FFFFFF",
+      "bottomType" : "기모바지",
+      "bottomColor" : "#000000"
+    } ]
+  } ],
+  "status" : 200,
+  "message" : "OK"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_field_19"><a class="link" href="#_field_19">Field</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>status</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HttpStatus</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상태 메세지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">온도 단계별 회원 옷차림 전체 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].tempStageLevel</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">온도 단계 레벨</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].memberOutfits[].memberOutfitId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 옷차림 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].memberOutfits[].topType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상의 유형</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].memberOutfits[].topColor</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상의 색상 코드</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].memberOutfits[].bottomType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">하의 유형</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].memberOutfits[].bottomColor</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">하의 색상 코드</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_회원_옷차림_추가_post_apiv1memberoutfit"><a class="link" href="#_회원_옷차림_추가_post_apiv1memberoutfit">회원 옷차림 추가 (POST /api/v1/member/outfit)</a></h3>
+<div class="sect3">
+<h4 id="_description_17"><a class="link" href="#_description_17">Description</a></h4>
+<div class="paragraph">
+<p>회원 옷차림 추가</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_17"><a class="link" href="#_request_17">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/member/outfit HTTP/1.1
@@ -2604,7 +2774,7 @@ Content-Type: application/json;charset=UTF-8
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_16"><a class="link" href="#_response_16">Response</a></h4>
+<h4 id="_response_17"><a class="link" href="#_response_17">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2619,7 +2789,7 @@ Content-Type: application/json
 </div>
 </div>
 <div class="sect3">
-<h4 id="_field_19"><a class="link" href="#_field_19">Field</a></h4>
+<h4 id="_field_20"><a class="link" href="#_field_20">Field</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
@@ -2683,7 +2853,7 @@ Content-Type: application/json
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-10-10 21:23:06 +0900
+Last updated 2024-10-11 16:55:30 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
