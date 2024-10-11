@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.example.fashionforecastbackend.global.error.exception.ExpiredPeriodJwtException;
 import com.example.fashionforecastbackend.global.error.exception.InvalidJwtException;
@@ -29,6 +30,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 
@@ -76,12 +78,6 @@ public class JwtService {
 	public String generateAccessToken(final String subject, final String role) {
 		return createToken(subject, accessExpirationTime, role);
 	}
-
-	//	public void validateTokens(final MemberTokens memberTokens) {
-	//		validateRefreshToken(memberTokens.getRefreshToken());
-	//		validateAccessToken(memberTokens.getAccessToken());
-	//
-	//	}
 
 	public String getSubject(final String token) {
 		return parseToken(token)
@@ -156,6 +152,15 @@ public class JwtService {
 		User principal = new User(claims.getSubject(), "", authorities);
 
 		return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+	}
+
+	public String parseBearerToken(HttpServletRequest request) {
+		String bearerToken = request.getHeader("Authorization");
+
+		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+			return bearerToken.substring(7);
+		}
+		return bearerToken;
 	}
 
 }
