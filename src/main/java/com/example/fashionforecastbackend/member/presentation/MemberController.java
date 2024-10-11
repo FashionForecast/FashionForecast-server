@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.fashionforecastbackend.global.oauth2.CustomOauth2User;
+import com.example.fashionforecastbackend.global.oauth2.UserDetail;
 import com.example.fashionforecastbackend.global.response.ApiResponse;
 import com.example.fashionforecastbackend.member.dto.request.MemberGenderRequest;
 import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
@@ -25,22 +25,22 @@ public class MemberController {
 	private final MemberService memberService;
 
 	@GetMapping
-	public ApiResponse<MemberInfoResponse> getMemberInfo(@AuthenticationPrincipal CustomOauth2User principal) {
-		MemberInfoResponse memberInfoResponse = memberService.getMemberInfo(principal.getMemberId());
+	public ApiResponse<MemberInfoResponse> getMemberInfo(@AuthenticationPrincipal UserDetail principal) {
+		MemberInfoResponse memberInfoResponse = memberService.getMemberInfo(principal.memberId());
 		return ApiResponse.ok(memberInfoResponse);
 	}
 
 	@PostMapping("/gender")
 	public ApiResponse<Void> addGender(@RequestBody @Valid final MemberGenderRequest memberGenderRequest,
-		@AuthenticationPrincipal CustomOauth2User principal) {
-		memberService.saveGender(memberGenderRequest, principal.getMemberId());
+		@AuthenticationPrincipal UserDetail principal) {
+		memberService.saveGender(memberGenderRequest, principal.memberId());
 		return ApiResponse.noContent();
 	}
 
 	@PostMapping("/outfit")
 	public ApiResponse<Void> addOutfit(@RequestBody @Valid final MemberOutfitRequest memberOutfitRequest,
-		@AuthenticationPrincipal CustomOauth2User principal) {
-		memberService.saveMemberOutfit(memberOutfitRequest, principal.getMemberId());
+		@AuthenticationPrincipal UserDetail principal) {
+		memberService.saveMemberOutfit(memberOutfitRequest, principal.memberId());
 		return ApiResponse.noContent();
 	}
 }
