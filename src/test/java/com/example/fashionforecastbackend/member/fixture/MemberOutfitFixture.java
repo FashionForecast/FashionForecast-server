@@ -28,7 +28,7 @@ public class MemberOutfitFixture {
 		MemberOutfitGroupResponse.of(1, List.of(
 			MemberOutfitResponse.of(
 				MemberOutfit.builder()
-					.id(1L)
+					.id(3L)
 					.tempStage(TempStage.create(1, 28, 50))
 					.topAttribute(TopAttribute.of("반팔티", "#111111"))
 					.bottomAttribute(BottomAttribute.of("반바지", "#222222"))
@@ -38,7 +38,7 @@ public class MemberOutfitFixture {
 		MemberOutfitGroupResponse.of(2, List.of(
 			MemberOutfitResponse.of(
 				MemberOutfit.builder()
-					.id(2L)
+					.id(4L)
 					.tempStage(TempStage.create(2, 23, 27))
 					.topAttribute(TopAttribute.of("긴팔티", "#333333"))
 					.bottomAttribute(BottomAttribute.of("청바지", "#444444"))
@@ -48,7 +48,7 @@ public class MemberOutfitFixture {
 		MemberOutfitGroupResponse.of(3, List.of(
 			MemberOutfitResponse.of(
 				MemberOutfit.builder()
-					.id(3L)
+					.id(2L)
 					.tempStage(TempStage.create(3, 20, 22))
 					.topAttribute(TopAttribute.of("셔츠", "#555555"))
 					.bottomAttribute(BottomAttribute.of("면바지", "#666666"))
@@ -58,7 +58,7 @@ public class MemberOutfitFixture {
 		MemberOutfitGroupResponse.of(4, List.of(
 			MemberOutfitResponse.of(
 				MemberOutfit.builder()
-					.id(4L)
+					.id(1L)
 					.tempStage(TempStage.create(4, 17, 19))
 					.topAttribute(TopAttribute.of("니트", "#777777"))
 					.bottomAttribute(BottomAttribute.of("청바지", "#888888"))
@@ -68,7 +68,7 @@ public class MemberOutfitFixture {
 		MemberOutfitGroupResponse.of(5, List.of(
 			MemberOutfitResponse.of(
 				MemberOutfit.builder()
-					.id(5L)
+					.id(9L)
 					.tempStage(TempStage.create(5, 12, 16))
 					.topAttribute(TopAttribute.of("후드티", "#999999"))
 					.bottomAttribute(BottomAttribute.of("면바지", "#AAAAAA"))
@@ -78,7 +78,7 @@ public class MemberOutfitFixture {
 		MemberOutfitGroupResponse.of(6, List.of(
 			MemberOutfitResponse.of(
 				MemberOutfit.builder()
-					.id(6L)
+					.id(8L)
 					.tempStage(TempStage.create(6, 9, 11))
 					.topAttribute(TopAttribute.of("가디건", "#BBBBBB"))
 					.bottomAttribute(BottomAttribute.of("청바지", "#CCCCCC"))
@@ -88,7 +88,7 @@ public class MemberOutfitFixture {
 		MemberOutfitGroupResponse.of(7, List.of(
 			MemberOutfitResponse.of(
 				MemberOutfit.builder()
-					.id(7L)
+					.id(6L)
 					.tempStage(TempStage.create(7, 5, 8))
 					.topAttribute(TopAttribute.of("패딩", "#DDDDDD"))
 					.bottomAttribute(BottomAttribute.of("청바지", "#EEEEEE"))
@@ -98,7 +98,7 @@ public class MemberOutfitFixture {
 		MemberOutfitGroupResponse.of(8, List.of(
 			MemberOutfitResponse.of(
 				MemberOutfit.builder()
-					.id(8L)
+					.id(10L)
 					.tempStage(TempStage.create(8, -50, 4))
 					.topAttribute(TopAttribute.of("패딩", "#FFFFFF"))
 					.bottomAttribute(BottomAttribute.of("기모바지", "#000000"))
