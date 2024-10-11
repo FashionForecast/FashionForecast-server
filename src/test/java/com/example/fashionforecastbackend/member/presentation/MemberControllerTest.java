@@ -12,7 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +30,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.example.fashionforecastbackend.global.ControllerTest;
-import com.example.fashionforecastbackend.global.oauth2.CustomOauth2User;
+import com.example.fashionforecastbackend.global.oauth2.UserDetail;
 import com.example.fashionforecastbackend.member.dto.request.MemberGenderRequest;
 import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
 import com.example.fashionforecastbackend.member.dto.response.MemberInfoResponse;
@@ -54,26 +53,20 @@ class MemberControllerTest extends ControllerTest {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	private CustomOauth2User customOauth2User;
+	private UserDetail userDetail;
 
 	private UsernamePasswordAuthenticationToken authentication;
 
 	@BeforeEach
 	void setUp() {
-		customOauth2User = new CustomOauth2User(
-			List.of(new SimpleGrantedAuthority("ROLE_USER")),
-			Map.of("sub", "testUser"),
-			"sub",
+		userDetail = new UserDetail(
 			123L,
-			"testUser@example.com",
-			"ROLE_USER",
-			false
+			"ROLE_USER"
 		);
 
-		authentication = new UsernamePasswordAuthenticationToken(customOauth2User, null,
-			customOauth2User.getAuthorities());
+		authentication = new UsernamePasswordAuthenticationToken(userDetail, null,
+			List.of(new SimpleGrantedAuthority("ROLE_USER")));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-
 	}
 
 	@Test

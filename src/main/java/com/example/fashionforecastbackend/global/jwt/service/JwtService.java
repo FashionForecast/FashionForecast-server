@@ -4,9 +4,9 @@ import static com.example.fashionforecastbackend.global.error.ErrorCode.*;
 import static org.springframework.http.HttpHeaders.*;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 import javax.crypto.SecretKey;
 
@@ -14,14 +14,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.example.fashionforecastbackend.global.error.exception.ExpiredPeriodJwtException;
 import com.example.fashionforecastbackend.global.error.exception.InvalidJwtException;
 import com.example.fashionforecastbackend.global.login.domain.MemberTokens;
+import com.example.fashionforecastbackend.global.oauth2.UserDetail;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -145,13 +146,14 @@ public class JwtService {
 	}
 
 	public Authentication getAuthentication(String accessToken) {
-		Claims claims = parseToken(accessToken).getBody();
-		List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(
-			claims.get("role").toString()));
+		Long memberId = Long.valueOf(getSubject(accessToken));
+		String role = getRole(accessToken);
 
-		User principal = new User(claims.getSubject(), "", authorities);
+		UserDetail userDetail = new UserDetail(memberId, role);
 
-		return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+		Collection<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
+
+		return new UsernamePasswordAuthenticationToken(userDetail, null, authorities);
 	}
 
 	public String parseBearerToken(HttpServletRequest request) {
