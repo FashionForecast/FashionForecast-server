@@ -12,7 +12,6 @@ import com.example.fashionforecastbackend.global.jwt.service.JwtService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -29,16 +28,7 @@ public class JwtFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain filterChain) throws ServletException, IOException {
 
-		String accessToken = null;
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("access_token")) {
-					accessToken = cookie.getValue();
-					break;
-				}
-			}
-		}
+		String accessToken = jwtService.parseBearerToken(request);
 
 		if (StringUtils.hasText(accessToken)) {
 			jwtService.validateAccessToken(accessToken);
