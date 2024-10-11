@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import java.util.LinkedList;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +19,8 @@ import com.example.fashionforecastbackend.member.domain.MemberOutfit;
 import com.example.fashionforecastbackend.member.domain.repository.MemberOutfitRepository;
 import com.example.fashionforecastbackend.member.domain.repository.MemberRepository;
 import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
+import com.example.fashionforecastbackend.member.dto.response.MemberOutfitGroupResponse;
+import com.example.fashionforecastbackend.member.fixture.MemberOutfitFixture;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
 import com.example.fashionforecastbackend.tempStage.domain.repository.TempStageRepository;
 
@@ -74,5 +77,28 @@ class MemberServiceTest {
 				memberOutfitRequest.bottomColor()),
 			() -> assertThat(savedOutfit.getTempStage().getLevel()).isEqualTo(memberOutfitRequest.tempStageLevel())
 		);
+	}
+
+	@Test
+	@DisplayName("멤버 옷차림 조회 성공")
+	void getMemberOutfitsTest() throws Exception {
+	    //given
+		final long memberId = 1L;
+		final int tempStageLevel1 = 3;
+		final int tempStageLevel2 = 4;
+		final LinkedList<MemberOutfit> memberOutfits = new LinkedList<>(MemberOutfitFixture.MEMBER_OUTFITS);
+		given(memberOutfitRepository.findByMemberIdWithTempStage(memberId)).willReturn(memberOutfits);
+		//when
+		final LinkedList<MemberOutfitGroupResponse> memberOutfitsGroups = memberService.getMemberOutfits(memberId);
+
+		//then
+		then(memberOutfitRepository).should().findByMemberIdWithTempStage(memberId);
+
+		assertAll(
+			() -> assertThat(memberOutfitsGroups.size()).isEqualTo(2),
+			() -> assertThat(memberOutfitsGroups.get(0).tempStageLevel()).isEqualTo(tempStageLevel1),
+			() -> assertThat(memberOutfitsGroups.get(1).tempStageLevel()).isEqualTo(tempStageLevel2)
+		);
+
 	}
 }
