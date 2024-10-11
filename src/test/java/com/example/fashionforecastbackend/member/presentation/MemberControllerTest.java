@@ -243,11 +243,11 @@ class MemberControllerTest extends ControllerTest {
 				 responseFields(
 					 fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),
 					 fieldWithPath("message").type(JsonFieldType.STRING).description("상태 메세지"),
-					 fieldWithPath("data").type(JsonFieldType.ARRAY).description("회원별 옷차림 그룹 목록"),
+					 fieldWithPath("data").type(JsonFieldType.ARRAY).description("온도 단계별 회원 옷차림 전체 목록"),
 					 fieldWithPath("data[].tempStageLevel").type(JsonFieldType.NUMBER).description("온도 단계 레벨")
 				 )
 					 .andWithPrefix("data[].memberOutfits[].",
-						 fieldWithPath("memberOutfitId").type(JsonFieldType.NUMBER).description("멤버별 옷차림 ID"),
+						 fieldWithPath("memberOutfitId").type(JsonFieldType.NUMBER).description("회원 옷차림 ID"),
 						 fieldWithPath("topType").type(JsonFieldType.STRING).description("상의 유형"),
 						 fieldWithPath("topColor").type(JsonFieldType.STRING).description("상의 색상 코드"),
 						 fieldWithPath("bottomType").type(JsonFieldType.STRING).description("하의 유형"),
