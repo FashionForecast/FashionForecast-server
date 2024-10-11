@@ -48,9 +48,9 @@ public class MemberController {
 	}
 
 	@GetMapping("/outfits")
-	public ApiResponse<LinkedList<MemberOutfitGroupResponse>> getOutfits(@AuthenticationPrincipal CustomOauth2User principal) {
+	public ApiResponse<LinkedList<MemberOutfitGroupResponse>> getOutfits(@AuthenticationPrincipal UserDetail principal) {
 		final LinkedList<MemberOutfitGroupResponse> memberOutfits = memberService.getMemberOutfits(
-			principal.getMemberId());
+			principal.memberId());
 		return ApiResponse.ok(memberOutfits);
 	}
 }
