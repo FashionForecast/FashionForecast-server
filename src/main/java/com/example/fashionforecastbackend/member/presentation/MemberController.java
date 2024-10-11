@@ -1,5 +1,7 @@
 package com.example.fashionforecastbackend.member.presentation;
 
+import java.util.LinkedList;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +14,7 @@ import com.example.fashionforecastbackend.global.response.ApiResponse;
 import com.example.fashionforecastbackend.member.dto.request.MemberGenderRequest;
 import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
 import com.example.fashionforecastbackend.member.dto.response.MemberInfoResponse;
+import com.example.fashionforecastbackend.member.dto.response.MemberOutfitGroupResponse;
 import com.example.fashionforecastbackend.member.service.MemberService;
 
 import jakarta.validation.Valid;
@@ -42,5 +45,12 @@ public class MemberController {
 		@AuthenticationPrincipal CustomOauth2User principal) {
 		memberService.saveMemberOutfit(memberOutfitRequest, principal.getMemberId());
 		return ApiResponse.noContent();
+	}
+
+	@GetMapping("/outfits")
+	public ApiResponse<LinkedList<MemberOutfitGroupResponse>> getOutfits(@AuthenticationPrincipal CustomOauth2User principal) {
+		final LinkedList<MemberOutfitGroupResponse> memberOutfits = memberService.getMemberOutfits(
+			principal.getMemberId());
+		return ApiResponse.ok(memberOutfits);
 	}
 }
