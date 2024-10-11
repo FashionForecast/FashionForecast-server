@@ -10,6 +10,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,8 @@ import com.example.fashionforecastbackend.global.oauth2.CustomOauth2User;
 import com.example.fashionforecastbackend.member.dto.request.MemberGenderRequest;
 import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
 import com.example.fashionforecastbackend.member.dto.response.MemberInfoResponse;
+import com.example.fashionforecastbackend.member.dto.response.MemberOutfitGroupResponse;
+import com.example.fashionforecastbackend.member.fixture.MemberOutfitFixture;
 import com.example.fashionforecastbackend.member.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -80,7 +83,7 @@ class MemberControllerTest extends ControllerTest {
 			"오전 08시", "오후 08시", NORMAL, FEMALE, "http://k.kakaocdn.net/dn/~~.jpg");
 		given(memberService.getMemberInfo(any(Long.class))).willReturn(response);
 
-		final ResultActions resultActions = performGetRequest();
+		final ResultActions resultActions = performGetRequest("");
 
 		resultActions
 			.andDo(print())
@@ -162,11 +165,100 @@ class MemberControllerTest extends ControllerTest {
 					fieldWithPath("tempStageLevel").type(JsonFieldType.NUMBER).description("온도 단계 레벨")
 				)
 			));
+	}
+
+	@Test
+	@DisplayName("회원별 옷차림 조회 성공")
+	void getOutfitsTest() throws Exception {
+	    //given
+		final LinkedList<MemberOutfitGroupResponse> response = new LinkedList<>(MemberOutfitFixture.MEMBER_OUTFITS_GROUPS);
+		given(memberService.getMemberOutfits(any(Long.class))).willReturn(response);
+		//when
+		final ResultActions resultActions = performGetRequest("/outfits");
+
+		//then
+		 resultActions.andExpect(status().isOk())
+			.andExpect(jsonPath("$.status").value(200))
+			.andExpect(jsonPath("$.message").value("OK"))
+			.andExpect(jsonPath("$.data").isArray())
+
+			 // 레벨 1
+			 .andExpect(jsonPath("$.data[0].tempStageLevel").value(1))
+			 .andExpect(jsonPath("$.data[0].memberOutfits[0].topType").value("반팔티"))
+			 .andExpect(jsonPath("$.data[0].memberOutfits[0].topColor").value("#111111"))
+			 .andExpect(jsonPath("$.data[0].memberOutfits[0].bottomType").value("반바지"))
+			 .andExpect(jsonPath("$.data[0].memberOutfits[0].bottomColor").value("#222222"))
+
+			 // 레벨 2
+			 .andExpect(jsonPath("$.data[1].tempStageLevel").value(2))
+			 .andExpect(jsonPath("$.data[1].memberOutfits[0].topType").value("긴팔티"))
+			 .andExpect(jsonPath("$.data[1].memberOutfits[0].topColor").value("#333333"))
+			 .andExpect(jsonPath("$.data[1].memberOutfits[0].bottomType").value("청바지"))
+			 .andExpect(jsonPath("$.data[1].memberOutfits[0].bottomColor").value("#444444"))
+
+			 // 레벨 3
+			 .andExpect(jsonPath("$.data[2].tempStageLevel").value(3))
+			 .andExpect(jsonPath("$.data[2].memberOutfits[0].topType").value("셔츠"))
+			 .andExpect(jsonPath("$.data[2].memberOutfits[0].topColor").value("#555555"))
+			 .andExpect(jsonPath("$.data[2].memberOutfits[0].bottomType").value("면바지"))
+			 .andExpect(jsonPath("$.data[2].memberOutfits[0].bottomColor").value("#666666"))
+
+			 // 레벨 4
+			 .andExpect(jsonPath("$.data[3].tempStageLevel").value(4))
+			 .andExpect(jsonPath("$.data[3].memberOutfits[0].topType").value("니트"))
+			 .andExpect(jsonPath("$.data[3].memberOutfits[0].topColor").value("#777777"))
+			 .andExpect(jsonPath("$.data[3].memberOutfits[0].bottomType").value("청바지"))
+			 .andExpect(jsonPath("$.data[3].memberOutfits[0].bottomColor").value("#888888"))
+
+			 // 레벨 5
+			 .andExpect(jsonPath("$.data[4].tempStageLevel").value(5))
+			 .andExpect(jsonPath("$.data[4].memberOutfits[0].topType").value("후드티"))
+			 .andExpect(jsonPath("$.data[4].memberOutfits[0].topColor").value("#999999"))
+			 .andExpect(jsonPath("$.data[4].memberOutfits[0].bottomType").value("면바지"))
+			 .andExpect(jsonPath("$.data[4].memberOutfits[0].bottomColor").value("#AAAAAA"))
+
+			 // 레벨 6
+			 .andExpect(jsonPath("$.data[5].tempStageLevel").value(6))
+			 .andExpect(jsonPath("$.data[5].memberOutfits[0].topType").value("가디건"))
+			 .andExpect(jsonPath("$.data[5].memberOutfits[0].topColor").value("#BBBBBB"))
+			 .andExpect(jsonPath("$.data[5].memberOutfits[0].bottomType").value("청바지"))
+			 .andExpect(jsonPath("$.data[5].memberOutfits[0].bottomColor").value("#CCCCCC"))
+
+			 // 레벨 7
+			 .andExpect(jsonPath("$.data[6].tempStageLevel").value(7))
+			 .andExpect(jsonPath("$.data[6].memberOutfits[0].topType").value("패딩"))
+			 .andExpect(jsonPath("$.data[6].memberOutfits[0].topColor").value("#DDDDDD"))
+			 .andExpect(jsonPath("$.data[6].memberOutfits[0].bottomType").value("청바지"))
+			 .andExpect(jsonPath("$.data[6].memberOutfits[0].bottomColor").value("#EEEEEE"))
+
+			 // 레벨 8
+			 .andExpect(jsonPath("$.data[7].tempStageLevel").value(8))
+			 .andExpect(jsonPath("$.data[7].memberOutfits[0].topType").value("패딩"))
+			 .andExpect(jsonPath("$.data[7].memberOutfits[0].topColor").value("#FFFFFF"))
+			 .andExpect(jsonPath("$.data[7].memberOutfits[0].bottomType").value("기모바지"))
+			 .andExpect(jsonPath("$.data[7].memberOutfits[0].bottomColor").value("#000000"))
+
+
+			 .andDo(restDocs.document(
+				 responseFields(
+					 fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),
+					 fieldWithPath("message").type(JsonFieldType.STRING).description("상태 메세지"),
+					 fieldWithPath("data").type(JsonFieldType.ARRAY).description("회원별 옷차림 그룹 목록"),
+					 fieldWithPath("data[].tempStageLevel").type(JsonFieldType.NUMBER).description("온도 단계 레벨")
+				 )
+					 .andWithPrefix("data[].memberOutfits[].",
+						 fieldWithPath("memberOutfitId").type(JsonFieldType.NUMBER).description("멤버별 옷차림 ID"),
+						 fieldWithPath("topType").type(JsonFieldType.STRING).description("상의 유형"),
+						 fieldWithPath("topColor").type(JsonFieldType.STRING).description("상의 색상 코드"),
+						 fieldWithPath("bottomType").type(JsonFieldType.STRING).description("하의 유형"),
+						 fieldWithPath("bottomColor").type(JsonFieldType.STRING).description("하의 색상 코드"))
+					 ));
 
 	}
 
-	private ResultActions performGetRequest() throws Exception {
-		return mockMvc.perform(get("/api/v1/member")
+
+	private ResultActions performGetRequest(final String path) throws Exception {
+		return mockMvc.perform(get("/api/v1/member" + path)
 			.contentType(MediaType.APPLICATION_JSON));
 	}
 
@@ -176,5 +268,4 @@ class MemberControllerTest extends ControllerTest {
 			.content(objectMapper.writeValueAsString(request))
 			.with(csrf().asHeader()));
 	}
-
 }
