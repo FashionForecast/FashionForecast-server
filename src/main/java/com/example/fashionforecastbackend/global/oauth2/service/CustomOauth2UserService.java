@@ -67,7 +67,10 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
 	}
 
 	private boolean isNewMember(Oauth2Attributes attributes, MemberJoinType joinType) {
-		return !memberRepository.existsByJoinTypeAndSocialId(joinType, attributes.getOauth2UserInfo().getId());
+		return !memberRepository.existsByJoinTypeAndSocialId(joinType, attributes.getOauth2UserInfo().getId())
+			&& memberRepository.findByJoinTypeAndSocialId(joinType, attributes.getOauth2UserInfo().getId())
+			.orElseGet(() -> savedMember(attributes, joinType))
+			.getGender() == null;
 	}
 
 	private Member getMember(Oauth2Attributes attributes, MemberJoinType joinType) {
