@@ -6,6 +6,8 @@ import com.example.fashionforecastbackend.recommend.domain.TempCondition;
 import com.example.fashionforecastbackend.region.domain.Address;
 
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,7 @@ public class PersonalSetting {
 	private Address address;
 	private LocalTime outingStartTime;
 	private LocalTime outingEndTime;
+	@Enumerated(EnumType.STRING)
 	private TempCondition tempCondition;
 
 	public static String formatting(LocalTime time) {
