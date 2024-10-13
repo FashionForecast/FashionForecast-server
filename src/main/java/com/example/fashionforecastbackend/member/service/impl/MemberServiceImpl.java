@@ -46,14 +46,20 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void updateRegion(final RegionRequest request, final Long memberId) {
 		final Member member = getById(memberId);
-		member.getPersonalSetting().updateRegion(request.region());
+		if (request == null) {
+			member.getPersonalSetting().updateRegion(null);
+		} else
+			member.getPersonalSetting().updateRegion(request.region());
 	}
 
 	@Transactional
 	@Override
 	public void updateOutingTime(final OutingTimeRequest request, final Long memberId) {
 		final Member member = getById(memberId);
-		member.getPersonalSetting().updateOutingTime(request.startTime(), request.endTime());
+		if (request == null) {
+			member.getPersonalSetting().updateOutingTime(null, null);
+		} else
+			member.getPersonalSetting().updateOutingTime(request.startTime(), request.endTime());
 	}
 
 

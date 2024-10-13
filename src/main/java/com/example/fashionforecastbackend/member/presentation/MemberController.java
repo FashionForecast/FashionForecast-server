@@ -3,7 +3,6 @@ package com.example.fashionforecastbackend.member.presentation;
 import java.util.LinkedList;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -51,22 +50,10 @@ public class MemberController {
 		return ApiResponse.noContent();
 	}
 
-	@DeleteMapping("/region")
-	public ApiResponse<Void> deleteRegion(@AuthenticationPrincipal UserDetail principal) {
-		memberService.updateRegion(null, principal.memberId());
-		return ApiResponse.noContent();
-	}
-
 	@PutMapping("/region")
 	public ApiResponse<Void> updateOutingTime(@RequestBody @Valid OutingTimeRequest memberOutingRequest,
 		@AuthenticationPrincipal UserDetail principal) {
 		memberService.updateOutingTime(memberOutingRequest, principal.memberId());
-		return ApiResponse.noContent();
-	}
-
-	@DeleteMapping("/region")
-	public ApiResponse<Void> deleteOutingTime(@AuthenticationPrincipal UserDetail principal) {
-		memberService.updateOutingTime(null, principal.memberId());
 		return ApiResponse.noContent();
 	}
 }
