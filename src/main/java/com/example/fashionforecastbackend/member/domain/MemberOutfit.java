@@ -45,7 +45,8 @@ public class MemberOutfit extends BaseTimeEntity {
 	private Member member;
 
 	@Builder
-	public MemberOutfit(final TopAttribute topAttribute, final BottomAttribute bottomAttribute, final TempStage tempStage) {
+	public MemberOutfit(final Long id, final TopAttribute topAttribute, final BottomAttribute bottomAttribute, final TempStage tempStage) {
+		this.id = id;
 		this.topAttribute = topAttribute;
 		this.bottomAttribute = bottomAttribute;
 		this.tempStage = tempStage;

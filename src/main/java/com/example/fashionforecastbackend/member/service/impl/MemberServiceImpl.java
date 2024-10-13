@@ -2,6 +2,12 @@ package com.example.fashionforecastbackend.member.service.impl;
 
 import static com.example.fashionforecastbackend.global.error.ErrorCode.*;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map.Entry;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +22,8 @@ import com.example.fashionforecastbackend.member.domain.repository.MemberReposit
 import com.example.fashionforecastbackend.member.dto.request.MemberGenderRequest;
 import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
 import com.example.fashionforecastbackend.member.dto.response.MemberInfoResponse;
+import com.example.fashionforecastbackend.member.dto.response.MemberOutfitGroupResponse;
+import com.example.fashionforecastbackend.member.dto.response.MemberOutfitResponse;
 import com.example.fashionforecastbackend.member.service.MemberService;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
 import com.example.fashionforecastbackend.tempStage.domain.repository.TempStageRepository;
@@ -64,6 +72,39 @@ public class MemberServiceImpl implements MemberService {
 		member.addMemberOutfit(memberOutfit);
 
 		memberOutfitRepository.save(memberOutfit);
+	}
+
+	@Override
+	public LinkedList<MemberOutfitGroupResponse> getMemberOutfits(final Long memberId) {
+		final LinkedList<MemberOutfit> memberOutfits = memberOutfitRepository.findByMemberIdWithTempStage(memberId);
+		final LinkedHashMap<Integer, List<MemberOutfit>> memberOutfitsMap = convertToMap(memberOutfits);
+		return convertToList(memberOutfitsMap);
+	}
+
+	private LinkedList<MemberOutfitGroupResponse> convertToList(final LinkedHashMap<Integer, List<MemberOutfit>> memberOutfitsMap) {
+		LinkedList<MemberOutfitGroupResponse> memberOutfitGroupResponses = new LinkedList<>();
+		for (Entry<Integer, List<MemberOutfit>> entry : memberOutfitsMap.entrySet()) {
+			final Integer level = entry.getKey();
+			final List<MemberOutfit> memberOutfits = entry.getValue();
+			final List<MemberOutfitResponse> memberOutfitResponses = memberOutfits.stream()
+				.map(MemberOutfitResponse::of)
+				.toList();
+			final MemberOutfitGroupResponse memberOutfitGroupResponse = MemberOutfitGroupResponse.of(level,
+				memberOutfitResponses);
+			memberOutfitGroupResponses.add(memberOutfitGroupResponse);
+		}
+		return memberOutfitGroupResponses;
+	}
+
+	private LinkedHashMap<Integer, List<MemberOutfit>> convertToMap(final LinkedList<MemberOutfit> memberOutfits) {
+		LinkedHashMap<Integer, List<MemberOutfit>> memberOutfitsMap = new LinkedHashMap<>();
+		for (MemberOutfit memberOutfit : memberOutfits) {
+			final int level = memberOutfit.getTempStage().getLevel();
+			final List<MemberOutfit> values = memberOutfitsMap.getOrDefault(level, new ArrayList<>());
+			values.add(memberOutfit);
+			memberOutfitsMap.put(level, values);
+		}
+		return memberOutfitsMap;
 	}
 
 	private TempStage getByLevel(final Integer level) {
