@@ -60,6 +60,7 @@ public enum ErrorCode {
 
 	NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "M001", "회원이 존재하지 않습니다."),
 	SOCIAL_LOGIN_FAILED(HttpStatus.UNAUTHORIZED, "M002", "소셜 로그인에 실패하였습니다."),
+	MEMBER_OUTFIT_COUNT_EXCEEDED(HttpStatus.BAD_REQUEST, "M003", "저장된 옷차림이 4개 이상 입니다."),
 
 	/**
 	 * 고객의 소리
