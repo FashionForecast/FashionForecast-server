@@ -64,7 +64,7 @@ public class Member extends BaseTimeEntity {
 	private Gender gender;
 
 	@Embedded
-	private PersonalSetting personalSetting;
+	private PersonalSetting personalSetting = new PersonalSetting();
 
 	@Builder
 	public Member(final Long id, final String email, final String imageUrl, final String nickname,
