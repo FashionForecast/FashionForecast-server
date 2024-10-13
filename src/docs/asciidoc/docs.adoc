@@ -515,6 +515,29 @@ include::{snippets}/member-controller-test/add-gender/http-response.adoc[]
 
 include::{snippets}/member-controller-test/add-gender/request-fields.adoc[]
 
+=== 현재 최저 혹은 최고 기온 기준 회원 옷차림 조회 (GET /api/v1/member/outfits/temp-stage)
+
+==== Description
+
+현재 최저 혹은 최고 기온 기준 회원 옷차림 조회
+
+==== Request
+
+include::{snippets}/member-controller-test/get-temp-stage-outfit/http-request.adoc[]
+
+==== Parameter
+
+include::{snippets}/member-controller-test/get-temp-stage-outfit/query-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/member-controller-test/get-temp-stage-outfit/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/member-controller-test/get-temp-stage-outfit/response-fields.adoc[]
+
+
 === 온도 단계별 회원 옷차림 전체 조회 (GET /api/v1/member/outfits)
 
 ==== Description
