@@ -21,4 +21,6 @@ public interface MemberService {
 
 	List<MemberOutfitResponse> getMemberTempStageOutfits(final MemberTempStageOutfitRequest request,
 		final Long memberId);
+
+	void deleteMemberOutfit(final Long memberOutfitId);
 }
