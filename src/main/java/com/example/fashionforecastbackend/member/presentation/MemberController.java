@@ -15,7 +15,8 @@ import com.example.fashionforecastbackend.global.oauth2.UserDetail;
 import com.example.fashionforecastbackend.global.response.ApiResponse;
 import com.example.fashionforecastbackend.member.dto.request.MemberGenderRequest;
 import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
-import com.example.fashionforecastbackend.member.dto.request.MemberRegionRequest;
+import com.example.fashionforecastbackend.member.dto.request.OutingTimeRequest;
+import com.example.fashionforecastbackend.member.dto.request.RegionRequest;
 import com.example.fashionforecastbackend.member.dto.response.MemberInfoResponse;
 import com.example.fashionforecastbackend.member.dto.response.MemberOutfitGroupResponse;
 import com.example.fashionforecastbackend.member.service.MemberService;
@@ -44,7 +45,7 @@ public class MemberController {
 	}
 
 	@PutMapping("/region")
-	public ApiResponse<Void> addRegion(@RequestBody @Valid MemberRegionRequest memberRegionRequest,
+	public ApiResponse<Void> updateRegion(@RequestBody @Valid RegionRequest regionRequest,
 		@AuthenticationPrincipal UserDetail principal) {
 		memberService.updateRegion(memberRegionRequest, principal.memberId());
 		return ApiResponse.noContent();
@@ -56,4 +57,16 @@ public class MemberController {
 		return ApiResponse.noContent();
 	}
 
+	@PutMapping("/region")
+	public ApiResponse<Void> updateOutingTime(@RequestBody @Valid OutingTimeRequest memberOutingRequest,
+		@AuthenticationPrincipal UserDetail principal) {
+		memberService.updateOutingTime(memberOutingRequest, principal.memberId());
+		return ApiResponse.noContent();
+	}
+
+	@DeleteMapping("/region")
+	public ApiResponse<Void> deleteOutingTime(@AuthenticationPrincipal UserDetail principal) {
+		memberService.updateOutingTime(null, principal.memberId());
+		return ApiResponse.noContent();
+	}
 }
