@@ -64,7 +64,7 @@ public class Member extends BaseTimeEntity {
 	private Gender gender;
 
 	@Embedded
-	private PersonalSetting personalSetting = new PersonalSetting();
+	private PersonalSetting personalSetting;
 
 	@Builder
 	public Member(final Long id, final String email, final String imageUrl, final String nickname,
@@ -80,7 +80,6 @@ public class Member extends BaseTimeEntity {
 		this.role = role;
 		this.joinType = joinType;
 		this.gender = gender;
-
 	}
 
 	public void updateState(final MemberState state) {
@@ -94,5 +93,12 @@ public class Member extends BaseTimeEntity {
 	public void addMemberOutfit(final MemberOutfit memberOutfit) {
 		memberOutfits.add(memberOutfit);
 		memberOutfit.setMember(this);
+	}
+
+	public PersonalSetting getPersonalSetting() {
+		if (this.personalSetting == null) {
+			this.personalSetting = new PersonalSetting();
+		}
+		return personalSetting;
 	}
 }
