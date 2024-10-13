@@ -37,4 +37,8 @@ public class PersonalSetting {
 		this.outingStartTime = startTime;
 		this.outingEndTime = endTime;
 	}
+
+	public void updateTempCondition(TempCondition tempCondition) {
+		this.tempCondition = tempCondition;
+	}
 }

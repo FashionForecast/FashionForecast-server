@@ -2,19 +2,28 @@ package com.example.fashionforecastbackend.member.service.impl;
 
 import static com.example.fashionforecastbackend.global.error.ErrorCode.*;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map.Entry;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.fashionforecastbackend.global.error.exception.MemberNotFoundException;
+import com.example.fashionforecastbackend.global.error.exception.TempStageNotFoundException;
 import com.example.fashionforecastbackend.member.domain.Member;
 import com.example.fashionforecastbackend.member.domain.repository.MemberOutfitRepository;
 import com.example.fashionforecastbackend.member.domain.repository.MemberRepository;
 import com.example.fashionforecastbackend.member.dto.request.MemberGenderRequest;
 import com.example.fashionforecastbackend.member.dto.request.OutingTimeRequest;
 import com.example.fashionforecastbackend.member.dto.request.RegionRequest;
+import com.example.fashionforecastbackend.member.dto.request.TempConditionRequest;
 import com.example.fashionforecastbackend.member.dto.request.OutingTimeRequest;
 import com.example.fashionforecastbackend.member.dto.response.MemberInfoResponse;
 import com.example.fashionforecastbackend.member.service.MemberService;
+import com.example.fashionforecastbackend.tempStage.domain.TempStage;
 import com.example.fashionforecastbackend.tempStage.domain.repository.TempStageRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -46,9 +55,9 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void updateRegion(final RegionRequest request, final Long memberId) {
 		final Member member = getById(memberId);
-		if (request == null) {
+		if (request == null)
 			member.getPersonalSetting().updateRegion(null);
-		} else
+		else
 			member.getPersonalSetting().updateRegion(request.region());
 	}
 
@@ -56,12 +65,27 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void updateOutingTime(final OutingTimeRequest request, final Long memberId) {
 		final Member member = getById(memberId);
-		if (request == null) {
+		if (request == null)
 			member.getPersonalSetting().updateOutingTime(null, null);
-		} else
+		else
 			member.getPersonalSetting().updateOutingTime(request.startTime(), request.endTime());
 	}
 
+	@Transactional
+	@Override
+	public void updateTempStage(final TempConditionRequest request, final Long memberId) {
+		final Member member = getById(memberId);
+		if (request == null)
+			member.getPersonalSetting().updateTempCondition(null);
+		else
+			member.getPersonalSetting().updateTempCondition(request.tempCondition());
+
+	}
+
+	private TempStage getByLevel(final Integer level) {
+		return tempStageRepository.findByLevel(level)
+			.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
+	}
 
 	private Member getById(final Long memberId) {
 		return memberRepository.findById(memberId)

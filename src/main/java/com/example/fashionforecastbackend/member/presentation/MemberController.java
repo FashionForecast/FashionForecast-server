@@ -16,6 +16,7 @@ import com.example.fashionforecastbackend.member.dto.request.MemberGenderRequest
 import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
 import com.example.fashionforecastbackend.member.dto.request.OutingTimeRequest;
 import com.example.fashionforecastbackend.member.dto.request.RegionRequest;
+import com.example.fashionforecastbackend.member.dto.request.TempConditionRequest;
 import com.example.fashionforecastbackend.member.dto.response.MemberInfoResponse;
 import com.example.fashionforecastbackend.member.dto.response.MemberOutfitGroupResponse;
 import com.example.fashionforecastbackend.member.service.MemberService;
@@ -50,10 +51,17 @@ public class MemberController {
 		return ApiResponse.noContent();
 	}
 
-	@PutMapping("/region")
+	@PutMapping("/outingTime")
 	public ApiResponse<Void> updateOutingTime(@RequestBody @Valid OutingTimeRequest memberOutingRequest,
 		@AuthenticationPrincipal UserDetail principal) {
 		memberService.updateOutingTime(memberOutingRequest, principal.memberId());
+		return ApiResponse.noContent();
+	}
+
+	@PutMapping("/temp-condition")
+	public ApiResponse<Void> updateTempCondition(@RequestBody @Valid TempConditionRequest tempConditionRequest,
+		@AuthenticationPrincipal UserDetail principal) {
+		memberService.updateTempStage(tempConditionRequest, principal.memberId());
 		return ApiResponse.noContent();
 	}
 }
