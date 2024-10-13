@@ -10,9 +10,16 @@ import com.example.fashionforecastbackend.member.domain.MemberOutfit;
 
 public interface MemberOutfitRepository extends JpaRepository<MemberOutfit, Long> {
 
-	@Query("SELECT mo FROM MemberOutfit mo JOIN FETCH mo.tempStage ts WHERE mo.member.id = :memberId ORDER BY ts.level ASC")
+	@Query("SELECT mo FROM MemberOutfit mo JOIN FETCH mo.tempStage ts "
+		+ "WHERE mo.member.id = :memberId AND mo.isDeleted = false ORDER BY ts.level ASC")
 	List<MemberOutfit> findByMemberIdWithTempStage(@Param("memberId") final Long memberId);
 
-	List<MemberOutfit> findByMemberIdAndTempStageId(final Long memberId, final Long tempStageId);
+	@Query("SELECT mo FROM MemberOutfit mo "
+		+ "WHERE mo.member.id = :memberId AND mo.tempStage.id = :tempStageId AND mo.isDeleted = false")
+	List<MemberOutfit> findByMemberIdAndTempStageId(@Param("memberId") final Long memberId,
+		@Param("tempStageId") final Long tempStageId);
 
+	@Query("SELECT mo FROM MemberOutfit mo "
+		+ "WHERE mo.member.id = :memberId AND mo.isDeleted = false")
+	Integer countByMemberId(final @Param("memberId") Long memberId);
 }
