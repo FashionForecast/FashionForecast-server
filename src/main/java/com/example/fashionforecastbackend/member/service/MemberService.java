@@ -8,4 +8,5 @@ public interface MemberService {
 
 	void saveGender(MemberGenderRequest memberGenderRequest, Long memberId);
 
+	void updateRegion(MemberRegionRequest memberRegionRequest, Long memberId);
 }

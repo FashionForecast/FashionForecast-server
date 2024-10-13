@@ -12,6 +12,7 @@ import com.example.fashionforecastbackend.member.domain.repository.MemberReposit
 import com.example.fashionforecastbackend.member.dto.request.MemberGenderRequest;
 import com.example.fashionforecastbackend.member.dto.response.MemberInfoResponse;
 import com.example.fashionforecastbackend.member.service.MemberService;
+import com.example.fashionforecastbackend.tempStage.domain.TempStage;
 import com.example.fashionforecastbackend.tempStage.domain.repository.TempStageRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,13 @@ public class MemberServiceImpl implements MemberService {
 	public void saveGender(final MemberGenderRequest memberGenderRequest, final Long memberId) {
 		Member member = getById(memberId);
 		member.updateGender(memberGenderRequest.gender());
+	}
+
+	@Transactional
+	@Override
+	public void saveRegion(MemberRegionRequest memberRegionRequest, Long memberId) {
+		Member member = getById(memberId);
+		member.getPersonalSetting().updateRegion(memberRegionRequest.region());
 	}
 
 	private Member getById(final Long memberId) {
