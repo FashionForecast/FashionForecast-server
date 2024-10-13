@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
@@ -19,10 +20,14 @@ import com.example.fashionforecastbackend.member.domain.MemberOutfit;
 import com.example.fashionforecastbackend.member.domain.repository.MemberOutfitRepository;
 import com.example.fashionforecastbackend.member.domain.repository.MemberRepository;
 import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
+import com.example.fashionforecastbackend.member.dto.request.MemberTempStageOutfitRequest;
 import com.example.fashionforecastbackend.member.dto.response.MemberOutfitGroupResponse;
+import com.example.fashionforecastbackend.member.dto.response.MemberOutfitResponse;
 import com.example.fashionforecastbackend.member.fixture.MemberOutfitFixture;
+import com.example.fashionforecastbackend.recommend.domain.TempCondition;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
 import com.example.fashionforecastbackend.tempStage.domain.repository.TempStageRepository;
+import com.example.fashionforecastbackend.tempStage.fixture.TempStageFixture;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
@@ -84,10 +89,10 @@ class MemberServiceTest {
 	void getMemberOutfitsTest() throws Exception {
 	    //given
 		final long memberId = 1L;
-		final int tempStageLevel1 = 3;
-		final int tempStageLevel2 = 4;
 		final LinkedList<MemberOutfit> memberOutfits = new LinkedList<>(MemberOutfitFixture.MEMBER_OUTFITS);
+		final List<TempStage> tempStages = TempStageFixture.TEMP_STAGE_ALL;
 		given(memberOutfitRepository.findByMemberIdWithTempStage(memberId)).willReturn(memberOutfits);
+		given(tempStageRepository.findAll()).willReturn(tempStages);
 		//when
 		final LinkedList<MemberOutfitGroupResponse> memberOutfitsGroups = memberService.getMemberOutfits(memberId);
 
@@ -95,10 +100,34 @@ class MemberServiceTest {
 		then(memberOutfitRepository).should().findByMemberIdWithTempStage(memberId);
 
 		assertAll(
-			() -> assertThat(memberOutfitsGroups.size()).isEqualTo(2),
-			() -> assertThat(memberOutfitsGroups.get(0).tempStageLevel()).isEqualTo(tempStageLevel1),
-			() -> assertThat(memberOutfitsGroups.get(1).tempStageLevel()).isEqualTo(tempStageLevel2)
+			() -> assertThat(memberOutfitsGroups.size()).isEqualTo(tempStages.size()),
+			() -> assertThat(memberOutfitsGroups.get(2).tempStageLevel()).isEqualTo(tempStages.get(2).getLevel()),
+			() -> assertThat(memberOutfitsGroups.get(3).tempStageLevel()).isEqualTo(tempStages.get(3).getLevel())
 		);
+	}
+
+	@Test
+	@DisplayName("멤버 온도에 따른 옷차림 조회 성공")
+	void getTempStageOutfitTest() throws Exception {
+	    //given
+		final long memberId = 1L;
+		final Member member = Member.builder().id(memberId).build();
+		final MemberTempStageOutfitRequest request = new MemberTempStageOutfitRequest(20, TempCondition.NORMAL);
+		final TempStage tempStage = TempStage.create(2, 20, 22);
+		final List<MemberOutfit> memberTempStageOutfits = MemberOutfitFixture.MEMBER_TEMP_STAGE_OUTFITS;
+		given(memberRepository.findById(any(Long.class))).willReturn(Optional.of(member));
+		given(tempStageRepository.findByWeather(request.extremumTmp())).willReturn(Optional.of(tempStage));
+		given(memberOutfitRepository.findByMemberIdAndTempStageId(memberId, tempStage.getId())).willReturn(memberTempStageOutfits);
+
+		//when
+		final List<MemberOutfitResponse> outfits = memberService.getMemberTempStageOutfits(request, memberId);
+
+		//then
+		then(memberRepository).should().findById(memberId);
+		then(tempStageRepository).should().findByWeather(request.extremumTmp());
+		then(memberOutfitRepository).should().findByMemberIdAndTempStageId(memberId, tempStage.getId());
+
+		assertThat(outfits.size()).isEqualTo(memberTempStageOutfits.size());
 
 	}
 }
