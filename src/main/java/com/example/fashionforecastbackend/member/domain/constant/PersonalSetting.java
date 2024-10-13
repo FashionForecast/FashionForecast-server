@@ -30,4 +30,8 @@ public class PersonalSetting {
 
 		return String.format("%s %02d시", amPm, hour);
 	}
+
+	public void updateRegion(String region) {
+		this.region = region;
+	}
 }
