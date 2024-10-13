@@ -143,7 +143,7 @@ class MemberControllerTest extends ControllerTest {
 			"슬랙스",
 			"#RRGGBB",
 			2);
-		doNothing().when(memberService).saveMemberOutfit(any(MemberOutfitRequest.class), any(Long.class));
+		willDoNothing().given(memberService).saveMemberOutfit(any(MemberOutfitRequest.class), any(Long.class));
 
 		//when
 		final ResultActions resultActions = performPostRequest("/outfit", memberOutfitRequest);
@@ -312,10 +312,40 @@ class MemberControllerTest extends ControllerTest {
 						fieldWithPath("topColor").type(JsonFieldType.STRING).description("상의 색상 코드"),
 						fieldWithPath("bottomType").type(JsonFieldType.STRING).description("하의 유형"),
 						fieldWithPath("bottomColor").type(JsonFieldType.STRING).description("하의 색상 코드"))
-				));
+			));
 
 	}
 
+	@Test
+	@DisplayName("멤버 옷차림 삭제")
+	void deleteOutfits() throws Exception {
+		//given
+		final long memberOutfitId = 1L;
+		willDoNothing().given(memberService).deleteMemberOutfit(any(Long.class));
+
+		//when
+		final ResultActions resultActions = mockMvc.perform(delete("/api/v1/member/outfits/{memberOutfitId}", memberOutfitId)
+			.contentType(MediaType.APPLICATION_JSON)
+			.with(csrf().asHeader()));
+
+		//then
+		resultActions.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.status").value(204))
+			.andExpect(jsonPath("$.message").value("NO_CONTENT"))
+			.andExpect(jsonPath("$.data").isEmpty())
+			.andDo(restDocs.document(
+				pathParameters(
+					parameterWithName("memberOutfitId").description("회원 옷차림 ID")
+				),
+				responseFields(
+					fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),
+					fieldWithPath("message").type(JsonFieldType.STRING).description("상태 메세지"),
+					fieldWithPath("data").type(JsonFieldType.NULL).description("반환 데이터")
+				)
+			));
+
+	}
 
 	private ResultActions performGetRequest(final String path) throws Exception {
 		return mockMvc.perform(get("/api/v1/member" + path)
@@ -328,4 +358,5 @@ class MemberControllerTest extends ControllerTest {
 			.content(objectMapper.writeValueAsString(request))
 			.with(csrf().asHeader()));
 	}
+
 }
