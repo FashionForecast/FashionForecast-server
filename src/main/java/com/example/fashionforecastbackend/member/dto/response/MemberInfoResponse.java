@@ -25,7 +25,7 @@ public record MemberInfoResponse(
 		return MemberInfoResponse.builder()
 			.nickname(member.getNickname())
 			.region(Optional.ofNullable(personalSetting)
-				.map(setting -> setting.getAddress().getCityAndDistrict())
+				.map(PersonalSetting::getRegion)
 				.orElse(null))
 			.outingStartTime(Optional.ofNullable(personalSetting)
 				.map(setting -> PersonalSetting.formatting(setting.getOutingStartTime()))

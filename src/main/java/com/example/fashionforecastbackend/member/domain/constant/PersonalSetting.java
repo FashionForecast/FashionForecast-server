@@ -3,7 +3,6 @@ package com.example.fashionforecastbackend.member.domain.constant;
 import java.time.LocalTime;
 
 import com.example.fashionforecastbackend.recommend.domain.TempCondition;
-import com.example.fashionforecastbackend.region.domain.Address;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
@@ -17,7 +16,6 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class PersonalSetting {
 	private String region;
-	private Address address;
 	private LocalTime outingStartTime;
 	private LocalTime outingEndTime;
 	@Enumerated(EnumType.STRING)
@@ -33,5 +31,10 @@ public class PersonalSetting {
 
 	public void updateRegion(String region) {
 		this.region = region;
+	}
+
+	public void updateOutingTime(LocalTime startTime, LocalTime endTime) {
+		this.outingStartTime = startTime;
+		this.outingEndTime = endTime;
 	}
 }
