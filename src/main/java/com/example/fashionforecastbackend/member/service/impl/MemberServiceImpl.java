@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.fashionforecastbackend.global.error.exception.InvalidWeatherRequestException;
 import com.example.fashionforecastbackend.global.error.exception.MemberNotFoundException;
+import com.example.fashionforecastbackend.global.error.exception.MemberOutfitLimitExceededException;
 import com.example.fashionforecastbackend.global.error.exception.TempStageNotFoundException;
 import com.example.fashionforecastbackend.member.domain.Member;
 import com.example.fashionforecastbackend.member.domain.MemberOutfit;
@@ -75,6 +76,12 @@ public class MemberServiceImpl implements MemberService {
 
 		member.addMemberOutfit(memberOutfit);
 		memberOutfitRepository.save(memberOutfit);
+	}
+
+	@Transactional
+	@Override
+	public void deleteMemberOutfit(final Long memberOutfitId) {
+		memberOutfitRepository.deleteById(memberOutfitId);
 	}
 
 	@Override
