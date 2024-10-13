@@ -145,7 +145,7 @@ class MemberControllerTest extends ControllerTest {
 			.andExpect(jsonPath("$.message").value("NO_CONTENT"))
 			.andDo(restDocs.document(
 				requestFields(
-					fieldWithPath("region").type(JsonFieldType.STRING).description("지역 이름")
+					fieldWithPath("region").type(JsonFieldType.STRING).description("지역 이름 - null 허용")
 				)
 			));
 	}
@@ -165,8 +165,8 @@ class MemberControllerTest extends ControllerTest {
 			.andExpect(jsonPath("$.message").value("NO_CONTENT"))
 			.andDo(restDocs.document(
 				requestFields(
-					fieldWithPath("startTime").type(JsonFieldType.STRING).description("시작 시간"),
-					fieldWithPath("endTime").type(JsonFieldType.STRING).description("끝 시간")
+					fieldWithPath("startTime").type(JsonFieldType.STRING).description("시작 시간 - null 허용"),
+					fieldWithPath("endTime").type(JsonFieldType.STRING).description("끝 시간 - null 허용")
 				)
 			));
 	}
@@ -186,7 +186,7 @@ class MemberControllerTest extends ControllerTest {
 			.andExpect(jsonPath("$.message").value("NO_CONTENT"))
 			.andDo(restDocs.document(
 				requestFields(
-					fieldWithPath("tempCondition").type(JsonFieldType.STRING).description("옷차림 두께")
+					fieldWithPath("tempCondition").type(JsonFieldType.STRING).description("옷차림 두께 - null 허용")
 				)
 			));
 	}
