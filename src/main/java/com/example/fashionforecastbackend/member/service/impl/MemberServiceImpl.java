@@ -2,6 +2,7 @@ package com.example.fashionforecastbackend.member.service.impl;
 
 import static com.example.fashionforecastbackend.global.error.ErrorCode.*;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -11,6 +12,7 @@ import java.util.Map.Entry;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.fashionforecastbackend.global.error.exception.InvalidOutingTimeException;
 import com.example.fashionforecastbackend.global.error.exception.MemberNotFoundException;
 import com.example.fashionforecastbackend.global.error.exception.TempStageNotFoundException;
 import com.example.fashionforecastbackend.member.domain.Member;
@@ -67,8 +69,15 @@ public class MemberServiceImpl implements MemberService {
 		final Member member = getById(memberId);
 		if (request == null)
 			member.getPersonalSetting().updateOutingTime(null, null);
-		else
-			member.getPersonalSetting().updateOutingTime(request.startTime(), request.endTime());
+		else {
+			LocalTime start = request.startTime();
+			LocalTime end = request.endTime();
+			if(end.isAfter(start)) {
+				throw new InvalidOutingTimeException(INVALID_OUTING_TIME);
+			}
+
+			member.getPersonalSetting().updateOutingTime(start, end);
+		}
 	}
 
 	@Transactional
