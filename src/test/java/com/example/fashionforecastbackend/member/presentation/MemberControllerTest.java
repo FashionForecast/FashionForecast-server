@@ -318,7 +318,7 @@ class MemberControllerTest extends ControllerTest {
 
 	@Test
 	@DisplayName("멤버 옷차림 삭제")
-	void deleteOutfits() throws Exception {
+	void deleteOutfitsTest() throws Exception {
 		//given
 		final long memberOutfitId = 1L;
 		willDoNothing().given(memberService).deleteMemberOutfit(any(Long.class));
