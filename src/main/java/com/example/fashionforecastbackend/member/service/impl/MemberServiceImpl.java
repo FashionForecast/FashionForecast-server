@@ -59,6 +59,7 @@ public class MemberServiceImpl implements MemberService {
 	@Transactional
 	@Override
 	public void saveMemberOutfit(final MemberOutfitRequest memberOutfitRequest, final Long memberId) {
+		validateCount(memberId);
 		final Member member = getById(memberId);
 		final TopAttribute topAttribute = TopAttribute.of(memberOutfitRequest.topType(),
 			memberOutfitRequest.topColor());
@@ -94,6 +95,13 @@ public class MemberServiceImpl implements MemberService {
 		return outfits.stream()
 			.map(MemberOutfitResponse::of)
 			.toList();
+	}
+
+	private void validateCount(final Long memberId) {
+		final Integer count = memberOutfitRepository.countByMemberId(memberId);
+		if (count >= 4) {
+			throw new MemberOutfitLimitExceededException(MEMBER_OUTFIT_COUNT_EXCEEDED);
+		}
 	}
 
 	private TempStage getTempStageByRequest(final MemberTempStageOutfitRequest request) {
