@@ -254,7 +254,7 @@ class MemberControllerTest extends ControllerTest {
 	}
 
 	@Test
-	@DisplayName("멤버 온도별 옷차림 조회")
+	@DisplayName("현재 최저 혹은 최고 온도 기준 옷차림 조회")
 	void getTempStageOutfit() throws Exception {
 		//given
 		final Integer extremumTemp = 20;
@@ -304,7 +304,7 @@ class MemberControllerTest extends ControllerTest {
 				responseFields(
 					fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),
 					fieldWithPath("message").type(JsonFieldType.STRING).description("상태 메세지"),
-					fieldWithPath("data").type(JsonFieldType.ARRAY).description("현재 온도 기준 회원 옷차림 목록"))
+					fieldWithPath("data").type(JsonFieldType.ARRAY).description("현재 최고 혹은 최고 온도 기준 회원 옷차림 목록"))
 
 					.andWithPrefix("data[].",
 						fieldWithPath("memberOutfitId").type(JsonFieldType.NUMBER).description("회원 옷차림 ID"),
