@@ -10,8 +10,6 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.time.LocalTime;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +33,6 @@ import com.example.fashionforecastbackend.member.dto.request.MemberGenderRequest
 import com.example.fashionforecastbackend.member.dto.request.OutingTimeRequest;
 import com.example.fashionforecastbackend.member.dto.request.RegionRequest;
 import com.example.fashionforecastbackend.member.dto.request.TempConditionRequest;
-import com.example.fashionforecastbackend.member.dto.request.OutingTimeRequest;
 import com.example.fashionforecastbackend.member.dto.response.MemberInfoResponse;
 import com.example.fashionforecastbackend.member.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -145,7 +142,7 @@ class MemberControllerTest extends ControllerTest {
 			.andExpect(jsonPath("$.message").value("NO_CONTENT"))
 			.andDo(restDocs.document(
 				requestFields(
-					fieldWithPath("region").type(JsonFieldType.STRING).description("지역 이름 - null 허용")
+					fieldWithPath("region").type(JsonFieldType.STRING).description("지역 이름")
 				)
 			));
 	}
@@ -153,7 +150,7 @@ class MemberControllerTest extends ControllerTest {
 	@Test
 	void updateOutingTime() throws Exception {
 
-		OutingTimeRequest request = new OutingTimeRequest(LocalTime.of(8, 0), LocalTime.of(19, 0));
+		OutingTimeRequest request = new OutingTimeRequest("오전 08시", "오후 08시");
 		doNothing().when(memberService).updateOutingTime(eq(request), any(Long.class));
 
 		final ResultActions resultActions = performPatchRequest("/outingTime", request);
@@ -165,8 +162,8 @@ class MemberControllerTest extends ControllerTest {
 			.andExpect(jsonPath("$.message").value("NO_CONTENT"))
 			.andDo(restDocs.document(
 				requestFields(
-					fieldWithPath("startTime").type(JsonFieldType.STRING).description("시작 시간 - null 허용"),
-					fieldWithPath("endTime").type(JsonFieldType.STRING).description("끝 시간 - null 허용")
+					fieldWithPath("startTime").type(JsonFieldType.STRING).description("시작 시간"),
+					fieldWithPath("endTime").type(JsonFieldType.STRING).description("끝 시간")
 				)
 			));
 	}
@@ -186,7 +183,7 @@ class MemberControllerTest extends ControllerTest {
 			.andExpect(jsonPath("$.message").value("NO_CONTENT"))
 			.andDo(restDocs.document(
 				requestFields(
-					fieldWithPath("tempCondition").type(JsonFieldType.STRING).description("옷차림 두께 - null 허용")
+					fieldWithPath("tempCondition").type(JsonFieldType.STRING).description("옷차림 두께")
 				)
 			));
 	}

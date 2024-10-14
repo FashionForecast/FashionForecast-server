@@ -3,6 +3,9 @@ package com.example.fashionforecastbackend.member.service.impl;
 import static com.example.fashionforecastbackend.global.error.ErrorCode.*;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.Locale;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,25 +48,22 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void updateRegion(final RegionRequest request, final Long memberId) {
 		final Member member = getById(memberId);
-		if (request == null)
-			member.getPersonalSetting().updateRegion(null);
-		else
-			member.getPersonalSetting().updateRegion(request.region());
+
+		member.getPersonalSetting().updateRegion(request.region());
 	}
 
 	@Transactional
 	@Override
 	public void updateOutingTime(final OutingTimeRequest request, final Long memberId) {
 		final Member member = getById(memberId);
-		if (request == null)
-			member.getPersonalSetting().updateOutingTime(null, null);
-		else {
-			LocalTime start = request.startTime();
-			LocalTime end = request.endTime();
-			validateOutingTime(start, end);
 
-			member.getPersonalSetting().updateOutingTime(start, end);
+		String start = request.startTime();
+		String end = request.endTime();
+		if (!start.equals("DEFAULT") && !end.equals("DEFAULT")) {
+			validateOutingTime(start, end);
 		}
+
+		member.getPersonalSetting().updateOutingTime(start, end);
 	}
 
 	@Transactional
@@ -79,9 +79,25 @@ public class MemberServiceImpl implements MemberService {
 			.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND_MEMBER));
 	}
 
-	private static void validateOutingTime(LocalTime start, LocalTime end) {
-		if (end.isAfter(start)) {
+	private void validateOutingTime(String start, String end) {
+		LocalTime startTime = parseToLocalTime(start);
+		LocalTime endTime = parseToLocalTime(end);
+		if (startTime.isAfter(endTime)) {
 			throw new InvalidOutingTimeException(INVALID_OUTING_TIME);
 		}
+	}
+
+	private LocalTime parseToLocalTime(String timeString) {
+		timeString = timeString.replace("오전", "AM")
+			.replace("오후", "PM")
+			.replace("시", "")
+			.trim();
+
+		DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+			.parseCaseInsensitive()
+			.appendPattern("a hh")
+			.toFormatter(Locale.ENGLISH);
+
+		return LocalTime.parse(timeString, formatter);
 	}
 }

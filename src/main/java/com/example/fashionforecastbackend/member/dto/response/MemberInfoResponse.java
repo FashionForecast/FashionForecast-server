@@ -1,7 +1,5 @@
 package com.example.fashionforecastbackend.member.dto.response;
 
-import static com.example.fashionforecastbackend.member.domain.constant.PersonalSetting.*;
-
 import com.example.fashionforecastbackend.member.domain.Member;
 import com.example.fashionforecastbackend.member.domain.constant.Gender;
 import com.example.fashionforecastbackend.member.domain.constant.PersonalSetting;
@@ -25,8 +23,8 @@ public record MemberInfoResponse(
 		return MemberInfoResponse.builder()
 			.nickname(member.getNickname())
 			.region(personalSetting.getRegion())
-			.outingStartTime(formatting(personalSetting.getOutingStartTime()))
-			.outingEndTime(formatting(personalSetting.getOutingEndTime()))
+			.outingStartTime(personalSetting.getOutingStartTime())
+			.outingEndTime(personalSetting.getOutingEndTime())
 			.tempCondition(personalSetting.getTempCondition())
 			.gender(member.getGender())
 			.imageUrl(member.getImageUrl())

@@ -592,14 +592,13 @@ include::{snippets}/member-outfit-controller-test/delete-outfits-test/http-respo
 
 include::{snippets}/member-outfit-controller-test/delete-outfits-test/response-fields.adoc[]
 
-
 include::{snippets}/member-outfit-controller-test/add-outfit-test/request-fields.adoc[]
 
 === 기본 지역 설정 (PATCH /api/v1/member/region)
 
 ==== Description
 
-기본 지역 설정 (저장, 수정, 삭제)
+기본 지역 설정 (저장, 수정, 삭제) 삭제시 DEFAULT
 
 ==== Request
 
@@ -609,8 +608,6 @@ include::{snippets}/member-controller-test/update-region/http-request.adoc[]
 
 include::{snippets}/member-controller-test/update-region/request-fields.adoc[]
 
-include::{snippets}/outfit-controller-test/add-default-outfit/response-fields.adoc[]
-
 ==== Response
 
 include::{snippets}/member-controller-test/update-region/http-response.adoc[]
@@ -619,17 +616,15 @@ include::{snippets}/member-controller-test/update-region/http-response.adoc[]
 
 ==== Description
 
-기본 외출 시간 설정 (저장, 수정, 삭제)
+기본 외출 시간 설정 (저장, 수정, 삭제) 삭제시 DEFAULT
 
 ==== Request
 
-include::{snippets}/member-controller-test/update-region/http-request.adoc[]
+include::{snippets}/member-controller-test/update-outing-time/http-request.adoc[]
 
 ==== Field
 
 include::{snippets}/member-controller-test/update-outing-time/request-fields.adoc[]
-
-include::{snippets}/outfit-controller-test/add-default-outfit/response-fields.adoc[]
 
 ==== Response
 
@@ -647,9 +642,7 @@ include::{snippets}/member-controller-test/update-temp-condition/http-request.ad
 
 ==== Field
 
-include::{snippets}/member-controller-test/update-region/request-fields.adoc[]
-
-include::{snippets}/outfit-controller-test/add-default-outfit/response-fields.adoc[]
+include::{snippets}/member-controller-test/update-temp-condition/request-fields.adoc[]
 
 ==== Response
 

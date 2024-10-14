@@ -41,14 +41,14 @@ public class MemberController {
 	}
 
 	@PatchMapping("/region")
-	public ApiResponse<Void> updateRegion(@RequestBody RegionRequest regionRequest,
+	public ApiResponse<Void> updateRegion(@RequestBody @Valid RegionRequest regionRequest,
 		@AuthenticationPrincipal UserDetail principal) {
 		memberService.updateRegion(regionRequest, principal.memberId());
 		return ApiResponse.noContent();
 	}
 
 	@PatchMapping("/outingTime")
-	public ApiResponse<Void> updateOutingTime(@RequestBody OutingTimeRequest outingTimeRequest,
+	public ApiResponse<Void> updateOutingTime(@RequestBody @Valid OutingTimeRequest outingTimeRequest,
 		@AuthenticationPrincipal UserDetail principal) {
 		memberService.updateOutingTime(outingTimeRequest, principal.memberId());
 		return ApiResponse.noContent();

@@ -1,6 +1,6 @@
 package com.example.fashionforecastbackend.member.domain.constant;
 
-import java.time.LocalTime;
+import static com.example.fashionforecastbackend.recommend.domain.TempCondition.*;
 
 import com.example.fashionforecastbackend.recommend.domain.TempCondition;
 
@@ -12,25 +12,25 @@ import lombok.Getter;
 @Getter
 @Embeddable
 public class PersonalSetting {
+	private static final String DEFAULT = "DEFAULT";
 	private String region;
-	private LocalTime outingStartTime;
-	private LocalTime outingEndTime;
+	private String outingStartTime;
+	private String outingEndTime;
 	@Enumerated(EnumType.STRING)
 	private TempCondition tempCondition;
 
-	public static String formatting(LocalTime time) {
-		String amPm = time.getHour() < 12 ? "오전" : "오후";
-		int hour = time.getHour() % 12;
-		hour = (hour == 0) ? 12 : hour;
-
-		return String.format("%s %02d시", amPm, hour);
+	public PersonalSetting() {
+		this.region = DEFAULT;
+		this.outingStartTime = DEFAULT;
+		this.outingEndTime = DEFAULT;
+		this.tempCondition = NORMAL;
 	}
 
 	public void updateRegion(String region) {
 		this.region = region;
 	}
 
-	public void updateOutingTime(LocalTime startTime, LocalTime endTime) {
+	public void updateOutingTime(String startTime, String endTime) {
 		this.outingStartTime = startTime;
 		this.outingEndTime = endTime;
 	}
