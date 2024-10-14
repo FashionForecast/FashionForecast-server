@@ -1,5 +1,7 @@
 package com.example.fashionforecastbackend.member.domain;
 
+import org.hibernate.annotations.SQLDelete;
+
 import com.example.fashionforecastbackend.global.BaseTimeEntity;
 import com.example.fashionforecastbackend.member.domain.constant.BottomAttribute;
 import com.example.fashionforecastbackend.member.domain.constant.TopAttribute;
@@ -24,6 +26,7 @@ import lombok.NoArgsConstructor;
 @Table
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@SQLDelete(sql = "UPDATE member_outfit SET is_deleted = true WHERE id = ?")
 public class MemberOutfit extends BaseTimeEntity {
 
 	@Id
@@ -35,6 +38,8 @@ public class MemberOutfit extends BaseTimeEntity {
 
 	@Embedded
 	private BottomAttribute bottomAttribute;
+
+	private boolean isDeleted = false;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "temp_stage_id", nullable = false)
@@ -51,6 +56,8 @@ public class MemberOutfit extends BaseTimeEntity {
 		this.bottomAttribute = bottomAttribute;
 		this.tempStage = tempStage;
 	}
+
+
 
 	public void setMember(final Member member) {
 		this.member = member;

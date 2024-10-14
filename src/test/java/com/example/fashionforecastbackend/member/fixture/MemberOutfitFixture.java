@@ -24,6 +24,36 @@ public class MemberOutfitFixture {
 			.build()
 	);
 
+	public static final List<MemberOutfit> MEMBER_TEMP_STAGE_OUTFITS = List.of(
+		MemberOutfit.builder()
+			.tempStage(TempStage.create(3, 20, 22))
+			.topAttribute(TopAttribute.of("반팔티", "#111111"))
+			.bottomAttribute(BottomAttribute.of("반바지", "#222222"))
+			.build(),
+		MemberOutfit.builder()
+			.tempStage(TempStage.create(3, 20, 22))
+			.topAttribute(TopAttribute.of("긴팔티", "#111111"))
+			.bottomAttribute(BottomAttribute.of("긴바지", "#222222"))
+			.build()
+	);
+
+	public static final List<MemberOutfitResponse> MEMBER_TEMP_STAGE_OUTFITS_RESPONSE = List.of(
+		MemberOutfitResponse.of(
+			MemberOutfit.builder()
+				.id(6L)
+				.tempStage(TempStage.create(3, 20, 22))
+				.topAttribute(TopAttribute.of("반팔티", "#111111"))
+				.bottomAttribute(BottomAttribute.of("반바지", "#222222"))
+				.build()),
+		MemberOutfitResponse.of(
+			MemberOutfit.builder()
+				.id(2L)
+				.tempStage(TempStage.create(3, 20, 22))
+				.topAttribute(TopAttribute.of("긴팔티", "#111111"))
+				.bottomAttribute(BottomAttribute.of("긴바지", "#222222"))
+				.build()
+		));
+
 	public static final List<MemberOutfitGroupResponse> MEMBER_OUTFITS_GROUPS = List.of(
 		MemberOutfitGroupResponse.of(1, List.of(
 			MemberOutfitResponse.of(
