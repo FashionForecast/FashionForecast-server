@@ -523,19 +523,19 @@ include::{snippets}/member-controller-test/add-gender/request-fields.adoc[]
 
 ==== Request
 
-include::{snippets}/member-controller-test/get-temp-stage-outfit/http-request.adoc[]
+include::{snippets}/member-outfit-controller-test/get-temp-stage-outfit/http-request.adoc[]
 
 ==== Parameter
 
-include::{snippets}/member-controller-test/get-temp-stage-outfit/query-parameters.adoc[]
+include::{snippets}/member-outfit-controller-test/get-temp-stage-outfit/query-parameters.adoc[]
 
 ==== Response
 
-include::{snippets}/member-controller-test/get-temp-stage-outfit/http-response.adoc[]
+include::{snippets}/member-outfit-controller-test/get-temp-stage-outfit/http-response.adoc[]
 
 ==== Field
 
-include::{snippets}/member-controller-test/get-temp-stage-outfit/response-fields.adoc[]
+include::{snippets}/member-outfit-controller-test/get-temp-stage-outfit/response-fields.adoc[]
 
 
 === 온도 단계별 회원 옷차림 전체 조회 (GET /api/v1/member/outfits)
@@ -546,15 +546,15 @@ include::{snippets}/member-controller-test/get-temp-stage-outfit/response-fields
 
 ==== Request
 
-include::{snippets}/member-controller-test/get-outfits-test/http-request.adoc[]
+include::{snippets}/member-outfit-controller-test/get-outfits-test/http-request.adoc[]
 
 ==== Response
 
-include::{snippets}/member-controller-test/get-outfits-test/http-response.adoc[]
+include::{snippets}/member-outfit-controller-test/get-outfits-test/http-response.adoc[]
 
 ==== Field
 
-include::{snippets}/member-controller-test/get-outfits-test/response-fields.adoc[]
+include::{snippets}/member-outfit-controller-test/get-outfits-test/response-fields.adoc[]
 
 === 회원 옷차림 추가 (POST /api/v1/member/outfit)
 
@@ -564,15 +564,15 @@ include::{snippets}/member-controller-test/get-outfits-test/response-fields.adoc
 
 ==== Request
 
-include::{snippets}/member-controller-test/add-outfit-test/http-request.adoc[]
+include::{snippets}/member-outfit-controller-test/add-outfit-test/http-request.adoc[]
 
 ==== Response
 
-include::{snippets}/member-controller-test/add-outfit-test/http-response.adoc[]
+include::{snippets}/member-outfit-controller-test/add-outfit-test/http-response.adoc[]
 
 ==== Field
 
-include::{snippets}/member-controller-test/add-outfit-test/request-fields.adoc[]
+include::{snippets}/member-outfit-controller-test/add-outfit-test/request-fields.adoc[]
 
 === 회원 옷차림 삭제 (DELETE /api/v1/member/outfit/++{memberOutfitId}++)
 
@@ -582,16 +582,16 @@ include::{snippets}/member-controller-test/add-outfit-test/request-fields.adoc[]
 
 ==== Request
 
-include::{snippets}/member-controller-test/delete-outfits-test/http-request.adoc[]
+include::{snippets}/member-outfit-controller-test/delete-outfits-test/http-request.adoc[]
 
 ==== Parameter
 
-include::{snippets}/member-controller-test/delete-outfits-test/path-parameters.adoc[]
+include::{snippets}/member-outfit-controller-test/delete-outfits-test/path-parameters.adoc[]
 
 ==== Response
 
-include::{snippets}/member-controller-test/delete-outfits-test/http-response.adoc[]
+include::{snippets}/member-outfit-controller-test/delete-outfits-test/http-response.adoc[]
 
 ==== Field
 
-include::{snippets}/member-controller-test/delete-outfits-test/response-fields.adoc[]
+include::{snippets}/member-outfit-controller-test/delete-outfits-test/response-fields.adoc[]
