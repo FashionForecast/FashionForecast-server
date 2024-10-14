@@ -1,7 +1,5 @@
 package com.example.fashionforecastbackend.member.presentation;
 
-import java.util.LinkedList;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -45,14 +43,14 @@ public class MemberController {
 	@PatchMapping("/region")
 	public ApiResponse<Void> updateRegion(@RequestBody RegionRequest regionRequest,
 		@AuthenticationPrincipal UserDetail principal) {
-		memberService.updateRegion(memberRegionRequest, principal.memberId());
+		memberService.updateRegion(regionRequest, principal.memberId());
 		return ApiResponse.noContent();
 	}
 
 	@PatchMapping("/outingTime")
-	public ApiResponse<Void> updateOutingTime(@RequestBody OutingTimeRequest memberOutingRequest,
+	public ApiResponse<Void> updateOutingTime(@RequestBody OutingTimeRequest outingTimeRequest,
 		@AuthenticationPrincipal UserDetail principal) {
-		memberService.updateOutingTime(memberOutingRequest, principal.memberId());
+		memberService.updateOutingTime(outingTimeRequest, principal.memberId());
 		return ApiResponse.noContent();
 	}
 
