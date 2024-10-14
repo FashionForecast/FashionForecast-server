@@ -72,9 +72,7 @@ public class MemberServiceImpl implements MemberService {
 		else {
 			LocalTime start = request.startTime();
 			LocalTime end = request.endTime();
-			if(end.isAfter(start)) {
-				throw new InvalidOutingTimeException(INVALID_OUTING_TIME);
-			}
+			validateOutingTime(start, end);
 
 			member.getPersonalSetting().updateOutingTime(start, end);
 		}
@@ -84,10 +82,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void updateTempStage(final TempConditionRequest request, final Long memberId) {
 		final Member member = getById(memberId);
-		if (request == null)
-			member.getPersonalSetting().updateTempCondition(null);
-		else
-			member.getPersonalSetting().updateTempCondition(request.tempCondition());
+		member.getPersonalSetting().updateTempCondition(request.tempCondition());
 
 	}
 
@@ -101,4 +96,9 @@ public class MemberServiceImpl implements MemberService {
 			.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND_MEMBER));
 	}
 
+	private static void validateOutingTime(LocalTime start, LocalTime end) {
+		if (end.isAfter(start)) {
+			throw new InvalidOutingTimeException(INVALID_OUTING_TIME);
+		}
+	}
 }

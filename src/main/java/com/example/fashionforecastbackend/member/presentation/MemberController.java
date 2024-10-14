@@ -45,14 +45,14 @@ public class MemberController {
 	}
 
 	@PutMapping("/region")
-	public ApiResponse<Void> updateRegion(@RequestBody @Valid RegionRequest regionRequest,
+	public ApiResponse<Void> updateRegion(@RequestBody RegionRequest regionRequest,
 		@AuthenticationPrincipal UserDetail principal) {
 		memberService.updateRegion(memberRegionRequest, principal.memberId());
 		return ApiResponse.noContent();
 	}
 
 	@PutMapping("/outingTime")
-	public ApiResponse<Void> updateOutingTime(@RequestBody @Valid OutingTimeRequest memberOutingRequest,
+	public ApiResponse<Void> updateOutingTime(@RequestBody OutingTimeRequest memberOutingRequest,
 		@AuthenticationPrincipal UserDetail principal) {
 		memberService.updateOutingTime(memberOutingRequest, principal.memberId());
 		return ApiResponse.noContent();
