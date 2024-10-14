@@ -80,7 +80,7 @@ public class Member extends BaseTimeEntity {
 		this.role = role;
 		this.joinType = joinType;
 		this.gender = gender;
-
+		this.personalSetting = new PersonalSetting();
 	}
 
 	public void updateState(final MemberState state) {
@@ -94,5 +94,13 @@ public class Member extends BaseTimeEntity {
 	public void addMemberOutfit(final MemberOutfit memberOutfit) {
 		memberOutfits.add(memberOutfit);
 		memberOutfit.setMember(this);
+	}
+
+	public PersonalSetting getPersonalSetting() {
+		if (this.personalSetting == null) {
+			this.personalSetting =
+				new PersonalSetting();
+		}
+		return personalSetting;
 	}
 }

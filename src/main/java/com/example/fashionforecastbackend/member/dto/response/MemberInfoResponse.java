@@ -1,7 +1,5 @@
 package com.example.fashionforecastbackend.member.dto.response;
 
-import java.util.Optional;
-
 import com.example.fashionforecastbackend.member.domain.Member;
 import com.example.fashionforecastbackend.member.domain.constant.Gender;
 import com.example.fashionforecastbackend.member.domain.constant.PersonalSetting;
@@ -24,18 +22,10 @@ public record MemberInfoResponse(
 
 		return MemberInfoResponse.builder()
 			.nickname(member.getNickname())
-			.region(Optional.ofNullable(personalSetting)
-				.map(setting -> setting.getAddress().getCityAndDistrict())
-				.orElse(null))
-			.outingStartTime(Optional.ofNullable(personalSetting)
-				.map(setting -> PersonalSetting.formatting(setting.getOutingStartTime()))
-				.orElse(null))
-			.outingEndTime(Optional.ofNullable(personalSetting)
-				.map(setting -> PersonalSetting.formatting(setting.getOutingEndTime()))
-				.orElse(null))
-			.tempCondition(Optional.ofNullable(personalSetting)
-				.map(PersonalSetting::getTempCondition)
-				.orElse(null))
+			.region(personalSetting.getRegion())
+			.outingStartTime(personalSetting.getOutingStartTime())
+			.outingEndTime(personalSetting.getOutingEndTime())
+			.tempCondition(personalSetting.getTempCondition())
 			.gender(member.getGender())
 			.imageUrl(member.getImageUrl())
 			.build();

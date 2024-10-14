@@ -19,7 +19,4 @@ public class Address {
 	private String district;
 	private String neighborhood;
 
-	public String getCityAndDistrict() {
-		return city + " " + district;
-	}
 }

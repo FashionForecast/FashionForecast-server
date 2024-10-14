@@ -30,6 +30,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.example.fashionforecastbackend.global.ControllerTest;
 import com.example.fashionforecastbackend.global.oauth2.UserDetail;
 import com.example.fashionforecastbackend.member.dto.request.MemberGenderRequest;
+import com.example.fashionforecastbackend.member.dto.request.OutingTimeRequest;
+import com.example.fashionforecastbackend.member.dto.request.RegionRequest;
+import com.example.fashionforecastbackend.member.dto.request.TempConditionRequest;
 import com.example.fashionforecastbackend.member.dto.response.MemberInfoResponse;
 import com.example.fashionforecastbackend.member.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -124,6 +127,67 @@ class MemberControllerTest extends ControllerTest {
 			));
 	}
 
+	@Test
+	void updateRegion() throws Exception {
+
+		RegionRequest request = new RegionRequest("서울시 동작구");
+		doNothing().when(memberService).updateRegion(eq(request), any(Long.class));
+
+		final ResultActions resultActions = performPatchRequest("/region", request);
+
+		resultActions
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.status").value(204))
+			.andExpect(jsonPath("$.message").value("NO_CONTENT"))
+			.andDo(restDocs.document(
+				requestFields(
+					fieldWithPath("region").type(JsonFieldType.STRING).description("지역 이름")
+				)
+			));
+	}
+
+	@Test
+	void updateOutingTime() throws Exception {
+
+		OutingTimeRequest request = new OutingTimeRequest("오전 08시", "오후 08시");
+		doNothing().when(memberService).updateOutingTime(eq(request), any(Long.class));
+
+		final ResultActions resultActions = performPatchRequest("/outingTime", request);
+
+		resultActions
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.status").value(204))
+			.andExpect(jsonPath("$.message").value("NO_CONTENT"))
+			.andDo(restDocs.document(
+				requestFields(
+					fieldWithPath("startTime").type(JsonFieldType.STRING).description("시작 시간"),
+					fieldWithPath("endTime").type(JsonFieldType.STRING).description("끝 시간")
+				)
+			));
+	}
+
+	@Test
+	void updateTempCondition() throws Exception {
+
+		TempConditionRequest request = new TempConditionRequest(WARM);
+		doNothing().when(memberService).updateTempStage(eq(request), any(Long.class));
+
+		final ResultActions resultActions = performPatchRequest("/temp-condition", request);
+
+		resultActions
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.status").value(204))
+			.andExpect(jsonPath("$.message").value("NO_CONTENT"))
+			.andDo(restDocs.document(
+				requestFields(
+					fieldWithPath("tempCondition").type(JsonFieldType.STRING).description("옷차림 두께")
+				)
+			));
+	}
+
 	private ResultActions performGetRequest(final String path) throws Exception {
 		return mockMvc.perform(get("/api/v1/member" + path)
 			.contentType(MediaType.APPLICATION_JSON));
@@ -136,5 +200,10 @@ class MemberControllerTest extends ControllerTest {
 			.with(csrf().asHeader()));
 	}
 
-
+	private <T> ResultActions performPatchRequest(final String path, final T request) throws Exception {
+		return mockMvc.perform(patch("/api/v1/member" + path)
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(objectMapper.writeValueAsString(request))
+			.with(csrf().asHeader()));
+	}
 }
