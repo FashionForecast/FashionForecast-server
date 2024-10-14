@@ -576,7 +576,7 @@ include::{snippets}/member-outfit-controller-test/delete-outfits-test/response-f
 
 include::{snippets}/member-controller-test/add-outfit-test/request-fields.adoc[]
 
-=== 기본 지역 설정 (PUT /api/v1/member/region)
+=== 기본 지역 설정 (PATCH /api/v1/member/region)
 
 ==== Description
 
@@ -592,7 +592,7 @@ include::{snippets}/member-controller-test/update-region/request-fields.adoc[]
 
 include::{snippets}/outfit-controller-test/add-default-outfit/response-fields.adoc[]
 
-=== 기본 외출 시간 설정 (PUT /api/v1/member/outingTime)
+=== 기본 외출 시간 설정 (PATCH /api/v1/member/outingTime)
 
 ==== Description
 
@@ -608,11 +608,11 @@ include::{snippets}/member-controller-test/update-outing-time/request-fields.ado
 
 include::{snippets}/outfit-controller-test/add-default-outfit/response-fields.adoc[]
 
-=== 기본 옷차림 두께 설정 (PUT /api/v1/member/temp-condition)
+=== 기본 옷차림 두께 설정 (PATCH /api/v1/member/temp-condition)
 
 ==== Description
 
-기본 옷차림 두께 설정 (저장, 수정, 삭제)
+기본 옷차림 두께 설정 (저장, 수정)
 
 ==== Request
 

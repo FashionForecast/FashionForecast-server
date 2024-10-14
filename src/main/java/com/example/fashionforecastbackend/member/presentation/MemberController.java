@@ -4,8 +4,8 @@ import java.util.LinkedList;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,12 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.fashionforecastbackend.global.oauth2.UserDetail;
 import com.example.fashionforecastbackend.global.response.ApiResponse;
 import com.example.fashionforecastbackend.member.dto.request.MemberGenderRequest;
-import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
 import com.example.fashionforecastbackend.member.dto.request.OutingTimeRequest;
 import com.example.fashionforecastbackend.member.dto.request.RegionRequest;
 import com.example.fashionforecastbackend.member.dto.request.TempConditionRequest;
 import com.example.fashionforecastbackend.member.dto.response.MemberInfoResponse;
-import com.example.fashionforecastbackend.member.dto.response.MemberOutfitGroupResponse;
 import com.example.fashionforecastbackend.member.service.MemberService;
 
 import jakarta.validation.Valid;
@@ -44,21 +42,21 @@ public class MemberController {
 		return ApiResponse.noContent();
 	}
 
-	@PutMapping("/region")
+	@PatchMapping("/region")
 	public ApiResponse<Void> updateRegion(@RequestBody RegionRequest regionRequest,
 		@AuthenticationPrincipal UserDetail principal) {
 		memberService.updateRegion(memberRegionRequest, principal.memberId());
 		return ApiResponse.noContent();
 	}
 
-	@PutMapping("/outingTime")
+	@PatchMapping("/outingTime")
 	public ApiResponse<Void> updateOutingTime(@RequestBody OutingTimeRequest memberOutingRequest,
 		@AuthenticationPrincipal UserDetail principal) {
 		memberService.updateOutingTime(memberOutingRequest, principal.memberId());
 		return ApiResponse.noContent();
 	}
 
-	@PutMapping("/temp-condition")
+	@PatchMapping("/temp-condition")
 	public ApiResponse<Void> updateTempCondition(@RequestBody @Valid TempConditionRequest tempConditionRequest,
 		@AuthenticationPrincipal UserDetail principal) {
 		memberService.updateTempStage(tempConditionRequest, principal.memberId());

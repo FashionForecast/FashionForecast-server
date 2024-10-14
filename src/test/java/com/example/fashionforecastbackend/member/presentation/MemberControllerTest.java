@@ -136,7 +136,7 @@ class MemberControllerTest extends ControllerTest {
 		RegionRequest request = new RegionRequest("서울시 동작구");
 		doNothing().when(memberService).updateRegion(eq(request), any(Long.class));
 
-		final ResultActions resultActions = performPutRequest("/region", request);
+		final ResultActions resultActions = performPatchRequest("/region", request);
 
 		resultActions
 			.andDo(print())
@@ -156,7 +156,7 @@ class MemberControllerTest extends ControllerTest {
 		OutingTimeRequest request = new OutingTimeRequest(LocalTime.of(8, 0), LocalTime.of(19, 0));
 		doNothing().when(memberService).updateOutingTime(eq(request), any(Long.class));
 
-		final ResultActions resultActions = performPutRequest("/outingTime", request);
+		final ResultActions resultActions = performPatchRequest("/outingTime", request);
 
 		resultActions
 			.andDo(print())
@@ -177,7 +177,7 @@ class MemberControllerTest extends ControllerTest {
 		TempConditionRequest request = new TempConditionRequest(WARM);
 		doNothing().when(memberService).updateTempStage(eq(request), any(Long.class));
 
-		final ResultActions resultActions = performPutRequest("/temp-condition", request);
+		final ResultActions resultActions = performPatchRequest("/temp-condition", request);
 
 		resultActions
 			.andDo(print())
@@ -203,8 +203,8 @@ class MemberControllerTest extends ControllerTest {
 			.with(csrf().asHeader()));
 	}
 
-	private <T> ResultActions performPutRequest(final String path, final T request) throws Exception {
-		return mockMvc.perform(put("/api/v1/member" + path)
+	private <T> ResultActions performPatchRequest(final String path, final T request) throws Exception {
+		return mockMvc.perform(patch("/api/v1/member" + path)
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(objectMapper.writeValueAsString(request))
 			.with(csrf().asHeader()));
