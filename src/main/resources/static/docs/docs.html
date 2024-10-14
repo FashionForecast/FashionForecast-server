@@ -490,6 +490,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_성별_추가_post_apiv1membergender">성별 추가 (POST /api/v1/member/gender)</a></li>
 <li><a href="#_온도_단계별_회원_옷차림_전체_조회_get_apiv1memberoutfits">온도 단계별 회원 옷차림 전체 조회 (GET /api/v1/member/outfits)</a></li>
 <li><a href="#_회원_옷차림_추가_post_apiv1memberoutfit">회원 옷차림 추가 (POST /api/v1/member/outfit)</a></li>
+<li><a href="#_기본_지역_설정_patch_apiv1memberregion">기본 지역 설정 (PATCH /api/v1/member/region)</a></li>
+<li><a href="#_기본_외출_시간_설정_patch_apiv1memberoutingtime">기본 외출 시간 설정 (PATCH /api/v1/member/outingTime)</a></li>
+<li><a href="#_기본_옷차림_두께_설정_patch_apiv1membertemp_condition">기본 옷차림 두께 설정 (PATCH /api/v1/member/temp-condition)</a></li>
 </ul>
 </li>
 </ul>
@@ -945,7 +948,7 @@ Content-Type: application/json
 Content-Type: application/json;charset=UTF-8
 
 {
-  "uuid" : "681a5cc4-042e-4f15-a451-df900583c89d"
+  "uuid" : "f9224e20-cf99-4b55-bc89-04030de2cdb8"
 }</code></pre>
 </div>
 </div>
@@ -989,7 +992,7 @@ Content-Type: application/json
 
 {
   "data" : {
-    "uuid" : "c4a15a23-8b0a-482b-958d-c10fc49c3ee8",
+    "uuid" : "f9224e20-cf99-4b55-bc89-04030de2cdb8",
     "isNewGuest" : false
   },
   "status" : 200,
@@ -2033,9 +2036,7 @@ Content-Type: application/json
 <h4 id="_request_10"><a class="link" href="#_request_10">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=zBMZJAurdG3RJ6hfKo2zdH2V98DRZvvaq-Tb4z2jE0wnVo8R9CcrRTPOQ1_8E8k7E6CHQkSi2vmwAsz3zoDvgg-SJigSY78p HTTP/1.1
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=r3cMPTUsjolCHgUl_b0v86n-zX-JgJbDqYfbtlJxaV8w_eRimUVoX1YYtrhvKGMUxJAbx5zH4Ee84vDuzeTs0mJAWW1VmIED HTTP/1.1
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=Ll6VymSX3Vyvb9JxtUszmS1YDL_c3oy8UDWwrOm5RYNyd-n1HGqtq1envGmCWeIXgWYH_x1hIYfqurSRNQOJntHac7tHTtiR HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=of8mQN7j89wIA34LzIKvG87-ycu1Tqjkg_-MApVbd7i3DL4AwsYUcuzXkeQlYUs9_a-beaqd5KqEe57Js5u5NfdqQIuObtsx HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Cookie: refresh_token=refreshToken
 
@@ -2114,9 +2115,7 @@ Content-Type: application/json
 <h4 id="_request_11"><a class="link" href="#_request_11">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/board?_csrf=zUihcsJixAaa6qQzMXOzjQ-2CGtO2ERUWEyCSsRcjEla0JuD_3qXQ_ZSoTO305QBAV6H6W2GJQp56nN5Oy-yefxl6Xpqtarn HTTP/1.1
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/board?_csrf=AXxQkJnF7gnTNpe2X-Ie86e-GYIpPw5hondZsZoDqa5MKJXWOB9gqPqgij3-V_PXOc8qx5KHNOBMXTlMlUI4iP9myMp1Hq3i HTTP/1.1
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/board?_csrf=_BZOz0oZg47VSsRT1VjWF3fYPwLzJijVtkea2qPj9e4HHtgdzScv93p85-r4ffJg53XicUbhEjvFFxz4hyKj6seBxNs2KO8t HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/board?_csrf=dxckqAmGlC7eE1fOHkheIQ4h5_2hJxe39xuoz6CvQmUbpRfuTyMTzTjk8RnzJGOvJ2VqEmgSysTFQyWaxiLO_cSbe1YolXLX HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -2250,8 +2249,8 @@ Content-Type: application/json
   "offset" : 0,
   "sort" : {
     "empty" : true,
-    "unsorted" : true,
-    "sorted" : false
+    "sorted" : false,
+    "unsorted" : true
   },
   "code" : 200,
   "message" : "OK"
@@ -2588,148 +2587,11 @@ Content-Type: application/json
 <div class="sect3">
 <h4 id="_description_16"><a class="link" href="#_description_16">Description</a></h4>
 <div class="paragraph">
-<p>현재 최저 혹은 최고 기온 기준 회원 옷차림 조회</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_request_16"><a class="link" href="#_request_16">Request</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/member/outfits/temp-stage?extremumTmp=20&amp;tempCondition=NORMAL HTTP/1.1
-Content-Type: application/json;charset=UTF-8</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_parameter_6"><a class="link" href="#_parameter_6">Parameter</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Optional</th>
-<th class="tableblock halign-left valign-top">Format</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>extremumTmp</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">정수값</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">현재 최저 혹은 최고 온도</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tempCondition</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">COOL/NORMAL/WARM</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">시원하게/보통/따뜻하게 옵션 - 그룹 1은 WARM 비활성화, 그룹 8은 COOL 비활성화</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_response_16"><a class="link" href="#_response_16">Response</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
-  "data" : [ {
-    "memberOutfitId" : 6,
-    "topType" : "반팔티",
-    "topColor" : "#111111",
-    "bottomType" : "반바지",
-    "bottomColor" : "#222222"
-  }, {
-    "memberOutfitId" : 2,
-    "topType" : "긴팔티",
-    "topColor" : "#111111",
-    "bottomType" : "긴바지",
-    "bottomColor" : "#222222"
-  } ],
-  "status" : 200,
-  "message" : "OK"
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_field_19"><a class="link" href="#_field_19">Field</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>status</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">HttpStatus</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">상태 메세지</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">현재 최저 혹은 최고 온도 기준 회원 옷차림 목록</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].memberOutfitId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원 옷차림 ID</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].topType</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">상의 유형</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].topColor</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">상의 색상 코드</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].bottomType</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">하의 유형</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].bottomColor</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">하의 색상 코드</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_온도_단계별_회원_옷차림_전체_조회_get_apiv1memberoutfits"><a class="link" href="#_온도_단계별_회원_옷차림_전체_조회_get_apiv1memberoutfits">온도 단계별 회원 옷차림 전체 조회 (GET /api/v1/member/outfits)</a></h3>
-<div class="sect3">
-<h4 id="_description_17"><a class="link" href="#_description_17">Description</a></h4>
-<div class="paragraph">
 <p>온도 단계별 회원 옷차림 전체 조회</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_request_17"><a class="link" href="#_request_17">Request</a></h4>
+<h4 id="_request_16"><a class="link" href="#_request_16">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/member/outfits HTTP/1.1
@@ -2738,7 +2600,7 @@ Content-Type: application/json;charset=UTF-8</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_17"><a class="link" href="#_response_17">Response</a></h4>
+<h4 id="_response_16"><a class="link" href="#_response_16">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2825,7 +2687,7 @@ Content-Type: application/json
 </div>
 </div>
 <div class="sect3">
-<h4 id="_field_20"><a class="link" href="#_field_20">Field</a></h4>
+<h4 id="_field_19"><a class="link" href="#_field_19">Field</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -2892,13 +2754,13 @@ Content-Type: application/json
 <div class="sect2">
 <h3 id="_회원_옷차림_추가_post_apiv1memberoutfit"><a class="link" href="#_회원_옷차림_추가_post_apiv1memberoutfit">회원 옷차림 추가 (POST /api/v1/member/outfit)</a></h3>
 <div class="sect3">
-<h4 id="_description_18"><a class="link" href="#_description_18">Description</a></h4>
+<h4 id="_description_17"><a class="link" href="#_description_17">Description</a></h4>
 <div class="paragraph">
 <p>회원 옷차림 추가</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_request_18"><a class="link" href="#_request_18">Request</a></h4>
+<h4 id="_request_17"><a class="link" href="#_request_17">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/member/outfit HTTP/1.1
@@ -2915,7 +2777,7 @@ Content-Type: application/json;charset=UTF-8
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_18"><a class="link" href="#_response_18">Response</a></h4>
+<h4 id="_response_17"><a class="link" href="#_response_17">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2930,7 +2792,7 @@ Content-Type: application/json
 </div>
 </div>
 <div class="sect3">
-<h4 id="_field_21"><a class="link" href="#_field_21">Field</a></h4>
+<h4 id="_field_20"><a class="link" href="#_field_20">Field</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
@@ -2989,96 +2851,7 @@ Content-Type: application/json
 </div>
 </div>
 <div class="sect2">
-<h3 id="_회원_옷차림_삭제_delete_apiv1memberoutfitmemberoutfitid"><a class="link" href="#_회원_옷차림_삭제_delete_apiv1memberoutfitmemberoutfitid">회원 옷차림 삭제 (DELETE /api/v1/member/outfit/{memberOutfitId})</a></h3>
-<div class="sect3">
-<h4 id="_description_19"><a class="link" href="#_description_19">Description</a></h4>
-<div class="paragraph">
-<p>회원 옷차림 삭제</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_request_19"><a class="link" href="#_request_19">Request</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/v1/member/outfits/1 HTTP/1.1
-Content-Type: application/json;charset=UTF-8</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_parameter_7"><a class="link" href="#_parameter_7">Parameter</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. /api/v1/member/outfits/{memberOutfitId}</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberOutfitId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">회원 옷차림 ID</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_response_19"><a class="link" href="#_response_19">Response</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
-  "data" : null,
-  "status" : 204,
-  "message" : "NO_CONTENT"
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_field_22"><a class="link" href="#_field_22">Field</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>status</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">HttpStatus</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">상태 메세지</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">반환 데이터</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_기본_지역_설정_put_apiv1memberregion"><a class="link" href="#_기본_지역_설정_put_apiv1memberregion">기본 지역 설정 (PUT /api/v1/member/region)</a></h3>
+<h3 id="_기본_지역_설정_patch_apiv1memberregion"><a class="link" href="#_기본_지역_설정_patch_apiv1memberregion">기본 지역 설정 (PATCH /api/v1/member/region)</a></h3>
 <div class="sect3">
 <h4 id="_description_18"><a class="link" href="#_description_18">Description</a></h4>
 <div class="paragraph">
@@ -3089,7 +2862,7 @@ Content-Type: application/json
 <h4 id="_request_18"><a class="link" href="#_request_18">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/v1/member/region HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/member/region HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -3159,9 +2932,24 @@ Content-Type: application/json;charset=UTF-8
 </tbody>
 </table>
 </div>
+<div class="sect3">
+<h4 id="_response_18"><a class="link" href="#_response_18">Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "data" : null,
+  "status" : 204,
+  "message" : "NO_CONTENT"
+}</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_기본_외출_시간_설정_put_apiv1memberoutingtime"><a class="link" href="#_기본_외출_시간_설정_put_apiv1memberoutingtime">기본 외출 시간 설정 (PUT /api/v1/member/outingTime)</a></h3>
+<h3 id="_기본_외출_시간_설정_patch_apiv1memberoutingtime"><a class="link" href="#_기본_외출_시간_설정_patch_apiv1memberoutingtime">기본 외출 시간 설정 (PATCH /api/v1/member/outingTime)</a></h3>
 <div class="sect3">
 <h4 id="_description_19"><a class="link" href="#_description_19">Description</a></h4>
 <div class="paragraph">
@@ -3172,7 +2960,7 @@ Content-Type: application/json;charset=UTF-8
 <h4 id="_request_19"><a class="link" href="#_request_19">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/v1/member/region HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/member/region HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -3249,20 +3037,35 @@ Content-Type: application/json;charset=UTF-8
 </tbody>
 </table>
 </div>
+<div class="sect3">
+<h4 id="_response_19"><a class="link" href="#_response_19">Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "data" : null,
+  "status" : 204,
+  "message" : "NO_CONTENT"
+}</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_기본_옷차림_두께_설정_put_apiv1membertemp_condition"><a class="link" href="#_기본_옷차림_두께_설정_put_apiv1membertemp_condition">기본 옷차림 두께 설정 (PUT /api/v1/member/temp-condition)</a></h3>
+<h3 id="_기본_옷차림_두께_설정_patch_apiv1membertemp_condition"><a class="link" href="#_기본_옷차림_두께_설정_patch_apiv1membertemp_condition">기본 옷차림 두께 설정 (PATCH /api/v1/member/temp-condition)</a></h3>
 <div class="sect3">
 <h4 id="_description_20"><a class="link" href="#_description_20">Description</a></h4>
 <div class="paragraph">
-<p>기본 옷차림 두께 설정 (저장, 수정, 삭제)</p>
+<p>기본 옷차림 두께 설정 (저장, 수정)</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_request_20"><a class="link" href="#_request_20">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/v1/member/temp-condition HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/member/temp-condition HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -3332,6 +3135,21 @@ Content-Type: application/json;charset=UTF-8
 </tbody>
 </table>
 </div>
+<div class="sect3">
+<h4 id="_response_20"><a class="link" href="#_response_20">Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "data" : null,
+  "status" : 204,
+  "message" : "NO_CONTENT"
+}</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -3339,7 +3157,7 @@ Content-Type: application/json;charset=UTF-8
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-10-14 14:48:59 +0900
+Last updated 2024-10-14 15:19:45 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

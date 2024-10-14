@@ -592,6 +592,11 @@ include::{snippets}/member-controller-test/update-region/request-fields.adoc[]
 
 include::{snippets}/outfit-controller-test/add-default-outfit/response-fields.adoc[]
 
+==== Response
+
+include::{snippets}/member-controller-test/update-region/http-response.adoc[]
+
+
 === 기본 외출 시간 설정 (PATCH /api/v1/member/outingTime)
 
 ==== Description
@@ -608,6 +613,11 @@ include::{snippets}/member-controller-test/update-outing-time/request-fields.ado
 
 include::{snippets}/outfit-controller-test/add-default-outfit/response-fields.adoc[]
 
+==== Response
+
+include::{snippets}/member-controller-test/update-outing-time/http-response.adoc[]
+
+
 === 기본 옷차림 두께 설정 (PATCH /api/v1/member/temp-condition)
 
 ==== Description
@@ -623,3 +633,7 @@ include::{snippets}/member-controller-test/update-temp-condition/http-request.ad
 include::{snippets}/member-controller-test/update-region/request-fields.adoc[]
 
 include::{snippets}/outfit-controller-test/add-default-outfit/response-fields.adoc[]
+
+==== Response
+
+include::{snippets}/member-controller-test/update-temp-condition/http-response.adoc[]
