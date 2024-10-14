@@ -30,10 +30,10 @@ import com.example.fashionforecastbackend.tempStage.domain.repository.TempStageR
 import com.example.fashionforecastbackend.tempStage.fixture.TempStageFixture;
 
 @ExtendWith(MockitoExtension.class)
-class MemberServiceTest {
+class MemberOutfitServiceTest {
 
 	@InjectMocks
-	private MemberServiceImpl memberService;
+	private MemberOutfitServiceImpl memberOutfitService;
 
 	@Mock
 	private MemberRepository memberRepository;
@@ -65,7 +65,7 @@ class MemberServiceTest {
 		given(tempStageRepository.findByLevel(tempStageLevel)).willReturn(Optional.of(tempStage));
 
 		//when
-		memberService.saveMemberOutfit(memberOutfitRequest, memberId);
+		memberOutfitService.saveMemberOutfit(memberOutfitRequest, memberId);
 
 		//then
 		then(memberRepository).should().findById(memberId);
@@ -94,7 +94,7 @@ class MemberServiceTest {
 		given(memberOutfitRepository.findByMemberIdWithTempStage(memberId)).willReturn(memberOutfits);
 		given(tempStageRepository.findAll()).willReturn(tempStages);
 		//when
-		final LinkedList<MemberOutfitGroupResponse> memberOutfitsGroups = memberService.getMemberOutfits(memberId);
+		final LinkedList<MemberOutfitGroupResponse> memberOutfitsGroups = memberOutfitService.getMemberOutfits(memberId);
 
 		//then
 		then(memberOutfitRepository).should().findByMemberIdWithTempStage(memberId);
@@ -120,7 +120,7 @@ class MemberServiceTest {
 		given(memberOutfitRepository.findByMemberIdAndTempStageId(memberId, tempStage.getId())).willReturn(memberTempStageOutfits);
 
 		//when
-		final List<MemberOutfitResponse> outfits = memberService.getMemberTempStageOutfits(request, memberId);
+		final List<MemberOutfitResponse> outfits = memberOutfitService.getMemberTempStageOutfits(request, memberId);
 
 		//then
 		then(memberRepository).should().findById(memberId);
