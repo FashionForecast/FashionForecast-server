@@ -10,7 +10,9 @@ public interface LoginService {
 	AccessTokenResponse renewTokens(final AccessTokenRequest request, final String refreshToken,
 		final HttpServletResponse response);
 
-	void removeRefreshToken(final String refreshTokenRequest);
+	void removeRefreshToken(final Long memberId);
+
+	void revokeMember(final Long memberId);
 
 	AccessTokenResponse issueAccessToken(final String refreshTokenRequest);
 }
