@@ -3,6 +3,7 @@ package com.example.fashionforecastbackend.member.domain.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -23,4 +24,7 @@ public interface MemberOutfitRepository extends JpaRepository<MemberOutfit, Long
 		+ "WHERE mo.member.id = :memberId AND mo.tempStage.id = :tempStageId AND mo.isDeleted = false")
 	Integer countByTempStageIdAndMemberId(final @Param("tempStageId") Long tempStageId,
 		final @Param("memberId") Long memberId);
+
+	@Modifying
+	void deleteAllByMemberId(final Long memberId);
 }
