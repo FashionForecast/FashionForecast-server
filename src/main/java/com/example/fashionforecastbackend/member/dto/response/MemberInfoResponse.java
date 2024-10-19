@@ -15,7 +15,8 @@ public record MemberInfoResponse(
 	String outingEndTime,
 	TempCondition tempCondition,
 	Gender gender,
-	String imageUrl
+	String imageUrl,
+	String socialId
 ) {
 	public static MemberInfoResponse of(final Member member) {
 		PersonalSetting personalSetting = member.getPersonalSetting();
@@ -28,6 +29,7 @@ public record MemberInfoResponse(
 			.tempCondition(personalSetting.getTempCondition())
 			.gender(member.getGender())
 			.imageUrl(member.getImageUrl())
+			.socialId(member.getSocialId())
 			.build();
 	}
 }
