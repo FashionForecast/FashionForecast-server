@@ -71,7 +71,7 @@ class MemberControllerTest extends ControllerTest {
 	void getMemberInfo() throws Exception {
 
 		MemberInfoResponse response = new MemberInfoResponse("testUser", "서울시 동작구",
-			"오전 08시", "오후 08시", NORMAL, FEMALE, "http://k.kakaocdn.net/dn/~~.jpg");
+			"오전 08시", "오후 08시", NORMAL, FEMALE, "http://k.kakaocdn.net/dn/~~.jpg", "312311213120222");
 		given(memberService.getMemberInfo(any(Long.class))).willReturn(response);
 
 		final ResultActions resultActions = performGetRequest("");
@@ -88,6 +88,7 @@ class MemberControllerTest extends ControllerTest {
 			.andExpect(jsonPath("$.data.tempCondition").value(NORMAL.toString()))
 			.andExpect(jsonPath("$.data.gender").value(FEMALE.toString()))
 			.andExpect(jsonPath("$.data.imageUrl").value("http://k.kakaocdn.net/dn/~~.jpg"))
+			.andExpect(jsonPath("$.data.socialId").value("312311213120222"))
 			.andDo(restDocs.document(
 				responseFields(
 					fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),
@@ -97,11 +98,15 @@ class MemberControllerTest extends ControllerTest {
 					.andWithPrefix("data.",
 						fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
 						fieldWithPath("region").type(JsonFieldType.STRING).description("기본 지역"),
-						fieldWithPath("outingStartTime").type(JsonFieldType.STRING).description("기본 외출 시작 시간"),
-						fieldWithPath("outingEndTime").type(JsonFieldType.STRING).description("기본 외출 끝난 시간"),
-						fieldWithPath("tempCondition").type(JsonFieldType.STRING).description("기본 옷차림 두께"),
+						fieldWithPath("outingStartTime").type(JsonFieldType.STRING)
+							.description("기본 외출 시작 시간"),
+						fieldWithPath("outingEndTime").type(JsonFieldType.STRING)
+							.description("기본 외출 끝난 시간"),
+						fieldWithPath("tempCondition").type(JsonFieldType.STRING)
+							.description("기본 옷차림 두께"),
 						fieldWithPath("gender").type(JsonFieldType.STRING).description("성별"),
-						fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("프로필 이미지 Url")
+						fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("프로필 이미지 Url"),
+						fieldWithPath("socialId").type(JsonFieldType.STRING).description("소셜 ID")
 					)
 			));
 	}

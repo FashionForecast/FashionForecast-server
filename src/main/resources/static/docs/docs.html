@@ -950,7 +950,7 @@ Content-Type: application/json
 Content-Type: application/json;charset=UTF-8
 
 {
-  "uuid" : "d20eb7b1-e417-48c4-b0f3-7a42a9cf25f5"
+  "uuid" : "0e1ebe26-2e01-44eb-afd4-4168397ceae1"
 }</code></pre>
 </div>
 </div>
@@ -994,7 +994,7 @@ Content-Type: application/json
 
 {
   "data" : {
-    "uuid" : "d20eb7b1-e417-48c4-b0f3-7a42a9cf25f5",
+    "uuid" : "0e1ebe26-2e01-44eb-afd4-4168397ceae1",
     "isNewGuest" : false
   },
   "status" : 200,
@@ -2038,7 +2038,7 @@ Content-Type: application/json
 <h4 id="_request_10"><a class="link" href="#_request_10">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=HfVV8wM2CPJPrPZuVRXZcbLD5crHH6x39ddVYR5eEas5n-yxLpFjyjIFasViyM9aMTjtE4P7yPKhLp5aze5sAntuKZIKp4-H HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=MWGhQyOm8kal4N5iZi403l7emH6rwP4Uh2qBJNlNdLGO3JnsAVOZdULExSWIhroAVAMA7G28tRzK9Jo5vgnlRuwvQdW_uviI HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Cookie: refresh_token=refreshToken
 
@@ -2117,7 +2117,7 @@ Content-Type: application/json
 <h4 id="_request_11"><a class="link" href="#_request_11">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/board?_csrf=BFetkoXM712gqS49hrYSJG61Sl8C4BO2ul9ebxHO9NTMT8KAMTWaorKoiWuNm09Y4JsmQlbRZ2Y60iCb2z1tCSH8xLb0LPuw HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/board?_csrf=aNQV3l27MDnG1nhFuPOjD4C9hQvpOn4Z91v4H-MBQ_vo6g-UUbUj7j6NUVjr4xtwit6Xa7PYqDONDkg0kT7KfoU2cp3b3Daj HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -2251,8 +2251,8 @@ Content-Type: application/json
   "offset" : 0,
   "sort" : {
     "empty" : true,
-    "unsorted" : true,
-    "sorted" : false
+    "sorted" : false,
+    "unsorted" : true
   },
   "code" : 200,
   "message" : "OK"
@@ -2382,7 +2382,8 @@ Content-Type: application/json
     "outingEndTime" : "오후 08시",
     "tempCondition" : "NORMAL",
     "gender" : "FEMALE",
-    "imageUrl" : "http://k.kakaocdn.net/dn/~~.jpg"
+    "imageUrl" : "http://k.kakaocdn.net/dn/~~.jpg",
+    "socialId" : "312311213120222"
   },
   "status" : 200,
   "message" : "OK"
@@ -2455,6 +2456,11 @@ Content-Type: application/json
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.imageUrl</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">프로필 이미지 Url</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.socialId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소셜 ID</p></td>
 </tr>
 </tbody>
 </table>
@@ -3348,7 +3354,7 @@ Content-Type: application/json
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-10-14 23:05:03 +0900
+Last updated 2024-10-19 12:27:34 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
