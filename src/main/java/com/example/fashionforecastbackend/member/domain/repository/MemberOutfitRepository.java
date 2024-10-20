@@ -20,7 +20,7 @@ public interface MemberOutfitRepository extends JpaRepository<MemberOutfit, Long
 	List<MemberOutfit> findByMemberIdAndTempStageId(@Param("memberId") final Long memberId,
 		@Param("tempStageId") final Long tempStageId);
 
-	@Query("SELECT mo FROM MemberOutfit mo "
+	@Query("SELECT COUNT(mo) FROM MemberOutfit mo "
 		+ "WHERE mo.member.id = :memberId AND mo.tempStage.id = :tempStageId AND mo.isDeleted = false")
 	Integer countByTempStageIdAndMemberId(final @Param("tempStageId") Long tempStageId,
 		final @Param("memberId") Long memberId);
