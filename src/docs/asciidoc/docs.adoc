@@ -393,6 +393,24 @@ include::{snippets}/login-controller-test/reissue-tokens-test/http-response.adoc
 
 include::{snippets}/login-controller-test/reissue-tokens-test/response-fields.adoc[]
 
+=== 계정 탈퇴 (DELETE /api/v1/login/account)
+
+==== Description
+
+계정(회원) 탈퇴
+
+==== Request
+
+include::{snippets}/login-controller-test/delete-account-test/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/login-controller-test/delete-account-test/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/login-controller-test/delete-account-test/response-fields.adoc[]
+
 == 고객의 소리 API
 
 === 고객의 소리 추가 (POST /api/v1/board)
