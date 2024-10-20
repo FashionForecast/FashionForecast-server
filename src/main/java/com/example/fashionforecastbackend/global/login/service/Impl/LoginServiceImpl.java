@@ -3,10 +3,12 @@ package com.example.fashionforecastbackend.global.login.service.Impl;
 import static com.example.fashionforecastbackend.global.error.ErrorCode.*;
 import static com.example.fashionforecastbackend.member.domain.constant.MemberRole.*;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.fashionforecastbackend.global.error.exception.InvalidJwtException;
+import com.example.fashionforecastbackend.global.error.exception.MemberNotFoundException;
 import com.example.fashionforecastbackend.global.error.exception.NotFoundRefreshToken;
 import com.example.fashionforecastbackend.global.jwt.service.JwtService;
 import com.example.fashionforecastbackend.global.login.domain.MemberTokens;
@@ -15,6 +17,8 @@ import com.example.fashionforecastbackend.global.login.domain.repository.Refresh
 import com.example.fashionforecastbackend.global.login.dto.request.AccessTokenRequest;
 import com.example.fashionforecastbackend.global.login.dto.response.AccessTokenResponse;
 import com.example.fashionforecastbackend.global.login.service.LoginService;
+import com.example.fashionforecastbackend.member.domain.MemberDeleteEvent;
+import com.example.fashionforecastbackend.member.domain.repository.MemberRepository;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +33,8 @@ public class LoginServiceImpl implements LoginService {
 
 	private final JwtService jwtService;
 	private final RefreshTokenRepository refreshTokenRepository;
+	private final ApplicationEventPublisher eventPublisher;
+	private final MemberRepository memberRepository;
 
 	@Transactional
 	@Override
@@ -54,8 +60,9 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public void removeRefreshToken(final String refreshTokenRequest) {
-
+	public void removeRefreshToken(final Long memberId) {
+		validateExistMember(memberId);
+		refreshTokenRepository.deleteById(String.valueOf(memberId));
 	}
 
 	@Override
@@ -65,6 +72,20 @@ public class LoginServiceImpl implements LoginService {
 
 		return AccessTokenResponse.of(accessToken);
 
+	}
+
+	@Transactional
+	@Override
+	public void revokeMember(final Long memberId) {
+		validateExistMember(memberId);
+		removeRefreshToken(memberId);
+		eventPublisher.publishEvent(MemberDeleteEvent.of(memberId));
+	}
+
+	private void validateExistMember(final Long memberId) {
+		if (!memberRepository.existsById(memberId)) {
+			throw new MemberNotFoundException(NOT_FOUND_MEMBER);
+		}
 	}
 
 	private void compareRefreshToken(String refreshToken, String savedRefreshToken) {
