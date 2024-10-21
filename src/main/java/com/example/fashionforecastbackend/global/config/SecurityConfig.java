@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -18,6 +18,7 @@ import com.example.fashionforecastbackend.global.jwt.filter.JwtExceptionHandlerF
 import com.example.fashionforecastbackend.global.jwt.filter.JwtFilter;
 import com.example.fashionforecastbackend.global.jwt.handler.JwtAccessDeniedHandler;
 import com.example.fashionforecastbackend.global.jwt.handler.JwtAuthenticationEntryPoint;
+import com.example.fashionforecastbackend.global.oauth2.handler.LogoutHandler;
 import com.example.fashionforecastbackend.global.oauth2.handler.Oauth2LoginFailureHandler;
 import com.example.fashionforecastbackend.global.oauth2.handler.Oauth2LoginSuccessHandler;
 import com.example.fashionforecastbackend.global.oauth2.service.CustomOauth2UserService;
@@ -36,6 +37,7 @@ public class SecurityConfig {
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 	private final JwtExceptionHandlerFilter jwtExceptionHandlerFilter;
+	private final LogoutHandler logoutHandler;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -52,10 +54,12 @@ public class SecurityConfig {
 				.anyRequest().permitAll());
 
 		http.oauth2Login(oauth2 -> oauth2
-			.userInfoEndpoint(userInfo -> userInfo
-				.userService(customOauth2UserService))
-			.successHandler(oauth2LoginSuccessHandler)
-			.failureHandler(oauth2LoginFailureHandler));
+				.userInfoEndpoint(userInfo -> userInfo
+					.userService(customOauth2UserService))
+				.successHandler(oauth2LoginSuccessHandler)
+				.failureHandler(oauth2LoginFailureHandler))
+			.logout(logout -> logout.logoutUrl("/api/v1/member/logout")
+				.logoutSuccessHandler(logoutHandler));
 
 		http
 			.cors(cors -> cors.configurationSource(getCorsConfiguration()));
@@ -66,7 +70,7 @@ public class SecurityConfig {
 		);
 
 		http
-			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(jwtFilter, LogoutFilter.class)
 			.addFilterBefore(jwtExceptionHandlerFilter, JwtFilter.class);
 
 		return http.build();
