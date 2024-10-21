@@ -12,7 +12,7 @@ public interface LoginService {
 
 	void removeRefreshToken(final Long memberId);
 
-	void revokeMember(final Long memberId);
+	void deleteAccount(final Long memberId);
 
 	AccessTokenResponse issueAccessToken(final String refreshTokenRequest);
 }

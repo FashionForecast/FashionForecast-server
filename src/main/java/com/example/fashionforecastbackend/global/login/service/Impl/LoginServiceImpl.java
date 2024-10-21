@@ -76,7 +76,7 @@ public class LoginServiceImpl implements LoginService {
 
 	@Transactional
 	@Override
-	public void revokeMember(final Long memberId) {
+	public void deleteAccount(final Long memberId) {
 		validateExistMember(memberId);
 		removeRefreshToken(memberId);
 		eventPublisher.publishEvent(MemberDeleteEvent.of(memberId));
