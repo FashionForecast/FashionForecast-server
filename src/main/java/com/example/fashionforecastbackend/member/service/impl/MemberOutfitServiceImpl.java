@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.fashionforecastbackend.global.error.exception.InvalidWeatherRequestException;
 import com.example.fashionforecastbackend.global.error.exception.MemberNotFoundException;
 import com.example.fashionforecastbackend.global.error.exception.MemberOutfitLimitExceededException;
+import com.example.fashionforecastbackend.global.error.exception.MemberOutfitNotFoundException;
 import com.example.fashionforecastbackend.global.error.exception.TempStageNotFoundException;
 import com.example.fashionforecastbackend.member.domain.Member;
 import com.example.fashionforecastbackend.member.domain.MemberOutfit;
@@ -44,7 +45,7 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 	@Transactional
 	@Override
 	public void saveMemberOutfit(final MemberOutfitRequest memberOutfitRequest, final Long memberId) {
-		final Member member = getById(memberId);
+		final Member member = getMemberById(memberId);
 		final TempStage tempStage = getTempStageByLevel(memberOutfitRequest.tempStageLevel());
 		validateCount(tempStage.getId(), memberId);
 		final TopAttribute topAttribute = TopAttribute.of(memberOutfitRequest.topType(),
@@ -79,7 +80,7 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 	@Override
 	public List<MemberOutfitResponse> getMemberTempStageOutfits(final MemberTempStageOutfitRequest request,
 		final Long memberId) {
-		final Member member = getById(memberId);
+		final Member member = getMemberById(memberId);
 		validateTempCondition(request);
 		final TempStage tempStage = getTempStageByRequest(request);
 		final List<MemberOutfit> outfits = memberOutfitRepository.findByMemberIdAndTempStageId(member.getId(),
@@ -88,6 +89,17 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 			.map(MemberOutfitResponse::of)
 			.toList();
 	}
+
+	@Transactional
+	@Override
+	public void updateMemberOutfit(final Long memberOutfitId, final MemberOutfitRequest request) {
+		final MemberOutfit memberOutfit = getMemberOutfitById(memberOutfitId);
+		final TopAttribute topAttribute = TopAttribute.of(request.topType(), request.topColor());
+		final BottomAttribute bottomAttribute = BottomAttribute.of(request.bottomType(), request.bottomColor());
+		memberOutfit.updateTopAttribute(topAttribute);
+		memberOutfit.updateBottomAttribute(bottomAttribute);
+	}
+
 
 	private void validateCount(final Long tempStageId, final Long memberId) {
 		final Integer count = memberOutfitRepository.countByTempStageIdAndMemberId(tempStageId, memberId);
@@ -156,9 +168,14 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 			.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
 	}
 
-	private Member getById(final Long memberId) {
+	private Member getMemberById(final Long memberId) {
 		return memberRepository.findById(memberId)
 			.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND_MEMBER));
+	}
+
+	private MemberOutfit getMemberOutfitById(final Long memberOutfitId) {
+		return memberOutfitRepository.findById(memberOutfitId)
+			.orElseThrow(() -> new MemberOutfitNotFoundException(NOT_FOUND_MEMBER_OUTFIT));
 	}
 
 
