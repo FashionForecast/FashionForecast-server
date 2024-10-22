@@ -62,6 +62,7 @@ public enum ErrorCode {
 	SOCIAL_LOGIN_FAILED(HttpStatus.UNAUTHORIZED, "M002", "소셜 로그인에 실패하였습니다."),
 	MEMBER_OUTFIT_COUNT_EXCEEDED(HttpStatus.BAD_REQUEST, "M003", "저장된 옷차림이 4개 이상 입니다."),
 	INVALID_OUTING_TIME(HttpStatus.BAD_REQUEST, "M003", "외출 끝 시간은 시작 시간보다 과거일 수 없습니다."),
+	NOT_FOUND_MEMBER_OUTFIT(HttpStatus.BAD_REQUEST, "M004", "저장된 옷차림을 찾을 수 없습니다."),
 
 	/**
 	 * 고객의 소리

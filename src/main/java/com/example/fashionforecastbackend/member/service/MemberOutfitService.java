@@ -18,4 +18,6 @@ public interface MemberOutfitService {
 		final Long memberId);
 
 	void deleteMemberOutfit(final Long memberOutfitId);
+
+	void updateMemberOutfit(final Long memberOutfitId, final MemberOutfitRequest request);
 }

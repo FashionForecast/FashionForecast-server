@@ -1,5 +1,6 @@
 package com.example.fashionforecastbackend.member.service.impl;
 
+import static com.example.fashionforecastbackend.member.fixture.MemberOutfitFixture.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
@@ -17,13 +18,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.fashionforecastbackend.member.domain.Member;
 import com.example.fashionforecastbackend.member.domain.MemberOutfit;
+import com.example.fashionforecastbackend.member.domain.constant.BottomAttribute;
+import com.example.fashionforecastbackend.member.domain.constant.TopAttribute;
 import com.example.fashionforecastbackend.member.domain.repository.MemberOutfitRepository;
 import com.example.fashionforecastbackend.member.domain.repository.MemberRepository;
 import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
 import com.example.fashionforecastbackend.member.dto.request.MemberTempStageOutfitRequest;
 import com.example.fashionforecastbackend.member.dto.response.MemberOutfitGroupResponse;
 import com.example.fashionforecastbackend.member.dto.response.MemberOutfitResponse;
-import com.example.fashionforecastbackend.member.fixture.MemberOutfitFixture;
 import com.example.fashionforecastbackend.recommend.domain.TempCondition;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
 import com.example.fashionforecastbackend.tempStage.domain.repository.TempStageRepository;
@@ -89,7 +91,7 @@ class MemberOutfitServiceTest {
 	void getMemberOutfitsTest() throws Exception {
 	    //given
 		final long memberId = 1L;
-		final LinkedList<MemberOutfit> memberOutfits = new LinkedList<>(MemberOutfitFixture.MEMBER_OUTFITS);
+		final LinkedList<MemberOutfit> memberOutfits = new LinkedList<>(MEMBER_OUTFITS);
 		final List<TempStage> tempStages = TempStageFixture.TEMP_STAGE_ALL;
 		given(memberOutfitRepository.findByMemberIdWithTempStage(memberId)).willReturn(memberOutfits);
 		given(tempStageRepository.findAll()).willReturn(tempStages);
@@ -114,7 +116,7 @@ class MemberOutfitServiceTest {
 		final Member member = Member.builder().id(memberId).build();
 		final MemberTempStageOutfitRequest request = new MemberTempStageOutfitRequest(20, TempCondition.NORMAL);
 		final TempStage tempStage = TempStage.create(2, 20, 22);
-		final List<MemberOutfit> memberTempStageOutfits = MemberOutfitFixture.MEMBER_TEMP_STAGE_OUTFITS;
+		final List<MemberOutfit> memberTempStageOutfits = MEMBER_TEMP_STAGE_OUTFITS;
 		given(memberRepository.findById(any(Long.class))).willReturn(Optional.of(member));
 		given(tempStageRepository.findByWeather(request.extremumTmp())).willReturn(Optional.of(tempStage));
 		given(memberOutfitRepository.findByMemberIdAndTempStageId(memberId, tempStage.getId())).willReturn(memberTempStageOutfits);
@@ -129,5 +131,35 @@ class MemberOutfitServiceTest {
 
 		assertThat(outfits.size()).isEqualTo(memberTempStageOutfits.size());
 
+	}
+	
+	@Test
+	@DisplayName("멤버 옷차림 수정 성공")
+	void updateMemberOutfitTest() throws Exception {
+	    //given
+		final Long memberOutfitId = 1L;
+		final MemberOutfit memberOutfit = MemberOutfit.builder()
+			.id(memberOutfitId)
+			.topAttribute(TopAttribute.of("반팔티", "#111111"))
+			.bottomAttribute(BottomAttribute.of("반바지", "222222"))
+			.build();
+		final MemberOutfitRequest memberOutfitRequest = MEMBER_OUTFIT_REQUEST;
+
+		given(memberOutfitRepository.findById(memberOutfitId)).willReturn(Optional.of(memberOutfit));
+		//when
+		memberOutfitService.updateMemberOutfit(memberOutfitId, memberOutfitRequest);
+		final TopAttribute topAttribute = memberOutfit.getTopAttribute();
+		final BottomAttribute bottomAttribute = memberOutfit.getBottomAttribute();
+
+		//then
+		then(memberOutfitRepository).should().findById(memberOutfitId);
+
+		assertAll(
+			() -> assertThat(topAttribute.getTopType()).isEqualTo(memberOutfitRequest.topType()),
+			() -> assertThat(topAttribute.getTopColor()).isEqualTo(memberOutfitRequest.topColor()),
+			() -> assertThat(bottomAttribute.getBottomType()).isEqualTo(memberOutfitRequest.bottomType()),
+			() -> assertThat(bottomAttribute.getBottomColor()).isEqualTo(memberOutfitRequest.bottomColor())
+		);
+	    
 	}
 }

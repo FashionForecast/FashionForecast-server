@@ -56,10 +56,16 @@ public class MemberOutfit extends BaseTimeEntity {
 		this.tempStage = tempStage;
 	}
 
-
-
 	public void setMember(final Member member) {
 		this.member = member;
+	}
+
+	public void updateTopAttribute(final TopAttribute topAttribute) {
+		this.topAttribute = topAttribute;
+	}
+
+	public void updateBottomAttribute(final BottomAttribute bottomAttribute) {
+		this.bottomAttribute = bottomAttribute;
 	}
 
 }
