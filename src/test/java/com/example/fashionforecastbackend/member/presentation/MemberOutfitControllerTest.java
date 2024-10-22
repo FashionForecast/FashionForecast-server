@@ -99,6 +99,11 @@ public class MemberOutfitControllerTest extends ControllerTest {
 					fieldWithPath("bottomType").type(JsonFieldType.STRING).description("하의 유형"),
 					fieldWithPath("bottomColor").type(JsonFieldType.STRING).description("하의 컬러코드"),
 					fieldWithPath("tempStageLevel").type(JsonFieldType.NUMBER).description("온도 단계 레벨")
+				),
+				responseFields(
+					fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),
+					fieldWithPath("message").type(JsonFieldType.STRING).description("상태 메세지"),
+					fieldWithPath("data").type(JsonFieldType.NULL).description("반환 데이터")
 				)
 			));
 	}
