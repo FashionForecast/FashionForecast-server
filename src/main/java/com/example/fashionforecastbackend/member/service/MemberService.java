@@ -1,7 +1,6 @@
 package com.example.fashionforecastbackend.member.service;
 
 import com.example.fashionforecastbackend.member.dto.request.MemberGenderRequest;
-import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
 import com.example.fashionforecastbackend.member.dto.request.OutingTimeRequest;
 import com.example.fashionforecastbackend.member.dto.request.RegionRequest;
 import com.example.fashionforecastbackend.member.dto.request.TempConditionRequest;
