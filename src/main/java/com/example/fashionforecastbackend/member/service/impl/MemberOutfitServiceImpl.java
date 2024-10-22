@@ -11,11 +11,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.fashionforecastbackend.global.error.exception.InvalidWeatherRequestException;
 import com.example.fashionforecastbackend.global.error.exception.MemberNotFoundException;
 import com.example.fashionforecastbackend.global.error.exception.MemberOutfitLimitExceededException;
 import com.example.fashionforecastbackend.global.error.exception.MemberOutfitNotFoundException;
-import com.example.fashionforecastbackend.global.error.exception.TempStageNotFoundException;
 import com.example.fashionforecastbackend.member.domain.Member;
 import com.example.fashionforecastbackend.member.domain.MemberOutfit;
 import com.example.fashionforecastbackend.member.domain.constant.BottomAttribute;
@@ -27,9 +25,8 @@ import com.example.fashionforecastbackend.member.dto.request.MemberTempStageOutf
 import com.example.fashionforecastbackend.member.dto.response.MemberOutfitGroupResponse;
 import com.example.fashionforecastbackend.member.dto.response.MemberOutfitResponse;
 import com.example.fashionforecastbackend.member.service.MemberOutfitService;
-import com.example.fashionforecastbackend.recommend.domain.TempCondition;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
-import com.example.fashionforecastbackend.tempStage.domain.repository.TempStageRepository;
+import com.example.fashionforecastbackend.tempStage.service.TempStageService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,19 +37,18 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 
 	private final MemberRepository memberRepository;
 	private final MemberOutfitRepository memberOutfitRepository;
-	private final TempStageRepository tempStageRepository;
+	private final TempStageService tempStageService;
 
 	@Transactional
 	@Override
 	public void saveMemberOutfit(final MemberOutfitRequest memberOutfitRequest, final Long memberId) {
 		final Member member = getMemberById(memberId);
-		final TempStage tempStage = getTempStageByLevel(memberOutfitRequest.tempStageLevel());
+		final TempStage tempStage = tempStageService.getTempStageByLevel(memberOutfitRequest.tempStageLevel());
 		validateCount(tempStage.getId(), memberId);
 		final TopAttribute topAttribute = TopAttribute.of(memberOutfitRequest.topType(),
 			memberOutfitRequest.topColor());
 		final BottomAttribute bottomAttribute = BottomAttribute.of(memberOutfitRequest.bottomType(),
 			memberOutfitRequest.bottomColor());
-
 
 		final MemberOutfit memberOutfit = MemberOutfit.builder()
 			.topAttribute(topAttribute)
@@ -81,8 +77,7 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 	public List<MemberOutfitResponse> getMemberTempStageOutfits(final MemberTempStageOutfitRequest request,
 		final Long memberId) {
 		final Member member = getMemberById(memberId);
-		validateTempCondition(request);
-		final TempStage tempStage = getTempStageByRequest(request);
+		final TempStage tempStage = tempStageService.getTempStageByTemp(request.extremumTmp(), request.tempCondition());
 		final List<MemberOutfit> outfits = memberOutfitRepository.findByMemberIdAndTempStageId(member.getId(),
 			tempStage.getId());
 		return outfits.stream()
@@ -100,37 +95,10 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 		memberOutfit.updateBottomAttribute(bottomAttribute);
 	}
 
-
 	private void validateCount(final Long tempStageId, final Long memberId) {
 		final Integer count = memberOutfitRepository.countByTempStageIdAndMemberId(tempStageId, memberId);
 		if (count >= 4) {
 			throw new MemberOutfitLimitExceededException(MEMBER_OUTFIT_COUNT_EXCEEDED);
-		}
-	}
-
-	private TempStage getTempStageByRequest(final MemberTempStageOutfitRequest request) {
-		if (request.tempCondition() == TempCondition.WARM) {
-			return tempStageRepository.findByWeatherAndWarmOption(request.extremumTmp())
-				.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
-		}
-		if (request.tempCondition() == TempCondition.NORMAL) {
-			return tempStageRepository.findByWeather(request.extremumTmp())
-				.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
-		}
-		if (request.tempCondition() == TempCondition.COOL) {
-			return tempStageRepository.findByWeatherAndCoolOption(request.extremumTmp())
-				.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
-		}
-		throw new InvalidWeatherRequestException(INVALID_TEMP_CONDITION);
-	}
-
-	private void validateTempCondition(final MemberTempStageOutfitRequest request) {
-		if (request.extremumTmp() < 5 && request.tempCondition() == TempCondition.WARM) {
-			throw new InvalidWeatherRequestException(INVALID_GROUP8_WARM_OPTION);
-		}
-
-		if (request.extremumTmp() >= 28 && request.tempCondition() == TempCondition.COOL) {
-			throw new InvalidWeatherRequestException(INVALID_GROUP1_COOL_OPTION);
 		}
 	}
 
@@ -157,15 +125,10 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 	}
 
 	private void initializeMap(LinkedHashMap<Integer, List<MemberOutfit>> memberOutfitsMap) {
-		final List<TempStage> allTempStage = tempStageRepository.findAll();
+		final List<TempStage> allTempStage = tempStageService.findAllTempStage();
 		for (TempStage tempStage : allTempStage) {
 			memberOutfitsMap.put(tempStage.getLevel(), new ArrayList<>());
 		}
-	}
-
-	private TempStage getTempStageByLevel(final Integer level) {
-		return tempStageRepository.findByLevel(level)
-			.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
 	}
 
 	private Member getMemberById(final Long memberId) {
@@ -177,6 +140,5 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 		return memberOutfitRepository.findById(memberOutfitId)
 			.orElseThrow(() -> new MemberOutfitNotFoundException(NOT_FOUND_MEMBER_OUTFIT));
 	}
-
 
 }
