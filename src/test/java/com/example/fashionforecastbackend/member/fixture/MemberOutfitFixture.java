@@ -5,11 +5,20 @@ import java.util.List;
 import com.example.fashionforecastbackend.member.domain.MemberOutfit;
 import com.example.fashionforecastbackend.member.domain.constant.BottomAttribute;
 import com.example.fashionforecastbackend.member.domain.constant.TopAttribute;
+import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
 import com.example.fashionforecastbackend.member.dto.response.MemberOutfitGroupResponse;
 import com.example.fashionforecastbackend.member.dto.response.MemberOutfitResponse;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
 
 public class MemberOutfitFixture {
+
+	public static final MemberOutfitRequest MEMBER_OUTFIT_REQUEST = new MemberOutfitRequest(
+		"긴팔티",
+		"#333333",
+		"슬랙스",
+		"#444444",
+		2
+	);
 
 	public static final List<MemberOutfit> MEMBER_OUTFITS = List.of(
 		MemberOutfit.builder()
