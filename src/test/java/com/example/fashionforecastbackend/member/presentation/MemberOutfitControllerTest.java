@@ -1,8 +1,9 @@
 package com.example.fashionforecastbackend.member.presentation;
 
 import static com.example.fashionforecastbackend.global.restdocs.RestDocsConfiguration.*;
+import static com.example.fashionforecastbackend.member.fixture.MemberOutfitFixture.*;
 import static com.example.fashionforecastbackend.recommend.domain.TempCondition.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -36,7 +37,6 @@ import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest
 import com.example.fashionforecastbackend.member.dto.request.MemberTempStageOutfitRequest;
 import com.example.fashionforecastbackend.member.dto.response.MemberOutfitGroupResponse;
 import com.example.fashionforecastbackend.member.dto.response.MemberOutfitResponse;
-import com.example.fashionforecastbackend.member.fixture.MemberOutfitFixture;
 import com.example.fashionforecastbackend.member.service.MemberOutfitService;
 import com.example.fashionforecastbackend.recommend.domain.TempCondition;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -108,7 +108,7 @@ public class MemberOutfitControllerTest extends ControllerTest {
 	void getOutfitsTest() throws Exception {
 		//given
 		final LinkedList<MemberOutfitGroupResponse> response = new LinkedList<>(
-			MemberOutfitFixture.MEMBER_OUTFITS_GROUPS);
+			MEMBER_OUTFITS_GROUPS);
 		given(memberOutfitService.getMemberOutfits(any(Long.class))).willReturn(response);
 		//when
 		final ResultActions resultActions = performGetRequest("/outfits");
@@ -198,7 +198,7 @@ public class MemberOutfitControllerTest extends ControllerTest {
 		//given
 		final Integer extremumTemp = 20;
 		final TempCondition tempCondition = NORMAL;
-		final List<MemberOutfitResponse> response = MemberOutfitFixture.MEMBER_TEMP_STAGE_OUTFITS_RESPONSE;
+		final List<MemberOutfitResponse> response = MEMBER_TEMP_STAGE_OUTFITS_RESPONSE;
 		final MemberTempStageOutfitRequest request = new MemberTempStageOutfitRequest(extremumTemp, tempCondition);
 		final MemberOutfitResponse memberOutfit1 = response.get(0);
 		final MemberOutfitResponse memberOutfit2 = response.get(1);
@@ -286,6 +286,46 @@ public class MemberOutfitControllerTest extends ControllerTest {
 
 	}
 
+	@Test
+	@DisplayName("멤버 옷차림 수정")
+	void updateOutfitTest() throws Exception {
+	    //given
+		final Long memberOutfitId = 1L;
+		final MemberOutfitRequest memberOutfitRequest = MEMBER_OUTFIT_REQUEST;
+
+		willDoNothing().given(memberOutfitService).updateMemberOutfit(any(Long.class), any(MemberOutfitRequest.class));
+	    //when
+		final ResultActions resultActions = mockMvc.perform(patch("/api/v1/member/outfits/{memberOutfitId}", memberOutfitId)
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(objectMapper.writeValueAsString(memberOutfitRequest))
+			.with(csrf().asHeader()));
+
+		//then
+		resultActions.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.status").value(204))
+			.andExpect(jsonPath("$.message").value("NO_CONTENT"))
+			.andExpect(jsonPath("$.data").isEmpty())
+			.andDo(restDocs.document(
+				pathParameters(
+					parameterWithName("memberOutfitId").description("회원 옷차림 ID")
+				),
+				requestFields(
+					fieldWithPath("topType").type(JsonFieldType.STRING).description("상의 유형"),
+					fieldWithPath("topColor").type(JsonFieldType.STRING).description("상의 컬러코드"),
+					fieldWithPath("bottomType").type(JsonFieldType.STRING).description("하의 유형"),
+					fieldWithPath("bottomColor").type(JsonFieldType.STRING).description("하의 컬러코드"),
+					fieldWithPath("tempStageLevel").type(JsonFieldType.NUMBER).description("온도 단계 레벨")
+				),
+				responseFields(
+					fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),
+					fieldWithPath("message").type(JsonFieldType.STRING).description("상태 메세지"),
+					fieldWithPath("data").type(JsonFieldType.NULL).description("반환 데이터")
+				)
+			));
+
+	}
+
 	private ResultActions performGetRequest(final String path) throws Exception {
 		return mockMvc.perform(get("/api/v1/member" + path)
 			.contentType(MediaType.APPLICATION_JSON));
@@ -297,5 +337,6 @@ public class MemberOutfitControllerTest extends ControllerTest {
 			.content(objectMapper.writeValueAsString(request))
 			.with(csrf().asHeader()));
 	}
+
 
 }
