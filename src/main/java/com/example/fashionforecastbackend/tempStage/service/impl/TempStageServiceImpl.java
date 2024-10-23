@@ -24,7 +24,7 @@ public class TempStageServiceImpl implements TempStageService {
 	private final TempStageRepository tempStageRepository;
 
 	@Override
-	public TempStage getTempStageByTemp(final int extremumTmp, final TempCondition tempCondition) {
+	public TempStage getTempStageByWeather(final int extremumTmp, final TempCondition tempCondition) {
 		validateTempCondition(extremumTmp, tempCondition);
 
 		if (tempCondition == TempCondition.WARM) {

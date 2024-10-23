@@ -39,7 +39,7 @@ public class RecommendServiceImpl implements RecommendService {
 
 	@Override
 	public List<RecommendResponse> getRecommendedOutfit(RecommendRequest recommendRequest) {
-		TempStage tempStage = tempStageService.getTempStageByTemp(recommendRequest.extremumTmp(),
+		TempStage tempStage = tempStageService.getTempStageByWeather(recommendRequest.extremumTmp(),
 			recommendRequest.tempCondition());
 
 		List<Outfit> outfits = new ArrayList<>(recommendationRepository.findByTempStage(tempStage.getId()).stream()

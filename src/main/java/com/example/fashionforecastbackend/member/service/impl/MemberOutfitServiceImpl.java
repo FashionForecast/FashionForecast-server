@@ -77,7 +77,8 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 	public List<MemberOutfitResponse> getMemberTempStageOutfits(final MemberTempStageOutfitRequest request,
 		final Long memberId) {
 		final Member member = getMemberById(memberId);
-		final TempStage tempStage = tempStageService.getTempStageByTemp(request.extremumTmp(), request.tempCondition());
+		final TempStage tempStage = tempStageService.getTempStageByWeather(request.extremumTmp(),
+			request.tempCondition());
 		final List<MemberOutfit> outfits = memberOutfitRepository.findByMemberIdAndTempStageId(member.getId(),
 			tempStage.getId());
 		return outfits.stream()
