@@ -28,8 +28,8 @@ import com.example.fashionforecastbackend.member.dto.response.MemberOutfitGroupR
 import com.example.fashionforecastbackend.member.dto.response.MemberOutfitResponse;
 import com.example.fashionforecastbackend.recommend.domain.TempCondition;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
-import com.example.fashionforecastbackend.tempStage.domain.repository.TempStageRepository;
 import com.example.fashionforecastbackend.tempStage.fixture.TempStageFixture;
+import com.example.fashionforecastbackend.tempStage.service.TempStageService;
 
 @ExtendWith(MockitoExtension.class)
 class MemberOutfitServiceTest {
@@ -41,7 +41,7 @@ class MemberOutfitServiceTest {
 	private MemberRepository memberRepository;
 
 	@Mock
-	private TempStageRepository tempStageRepository;
+	private TempStageService tempStageService;
 
 	@Mock
 	private MemberOutfitRepository memberOutfitRepository;
@@ -60,11 +60,11 @@ class MemberOutfitServiceTest {
 		final int maxTemp = 27;
 		final TempStage tempStage = TempStage.create(tempStageLevel, minTemp, maxTemp);
 
-		final MemberOutfitRequest memberOutfitRequest = new MemberOutfitRequest("반팔티", "#111111", "슬랙스", "#222222", tempStageLevel);
-
+		final MemberOutfitRequest memberOutfitRequest = new MemberOutfitRequest("반팔티", "#111111", "슬랙스", "#222222",
+			tempStageLevel);
 
 		given(memberRepository.findById(memberId)).willReturn(Optional.of(member));
-		given(tempStageRepository.findByLevel(tempStageLevel)).willReturn(Optional.of(tempStage));
+		given(tempStageService.getTempStageByLevel(tempStageLevel)).willReturn(tempStage);
 
 		//when
 		memberOutfitService.saveMemberOutfit(memberOutfitRequest, memberId);
@@ -89,14 +89,15 @@ class MemberOutfitServiceTest {
 	@Test
 	@DisplayName("멤버 옷차림 조회 성공")
 	void getMemberOutfitsTest() throws Exception {
-	    //given
+		//given
 		final long memberId = 1L;
 		final LinkedList<MemberOutfit> memberOutfits = new LinkedList<>(MEMBER_OUTFITS);
 		final List<TempStage> tempStages = TempStageFixture.TEMP_STAGE_ALL;
 		given(memberOutfitRepository.findByMemberIdWithTempStage(memberId)).willReturn(memberOutfits);
-		given(tempStageRepository.findAll()).willReturn(tempStages);
+		given(tempStageService.findAllTempStage()).willReturn(tempStages);
 		//when
-		final LinkedList<MemberOutfitGroupResponse> memberOutfitsGroups = memberOutfitService.getMemberOutfits(memberId);
+		final LinkedList<MemberOutfitGroupResponse> memberOutfitsGroups = memberOutfitService.getMemberOutfits(
+			memberId);
 
 		//then
 		then(memberOutfitRepository).should().findByMemberIdWithTempStage(memberId);
@@ -111,32 +112,34 @@ class MemberOutfitServiceTest {
 	@Test
 	@DisplayName("멤버 온도에 따른 옷차림 조회 성공")
 	void getTempStageOutfitTest() throws Exception {
-	    //given
+		//given
 		final long memberId = 1L;
 		final Member member = Member.builder().id(memberId).build();
 		final MemberTempStageOutfitRequest request = new MemberTempStageOutfitRequest(20, TempCondition.NORMAL);
 		final TempStage tempStage = TempStage.create(2, 20, 22);
 		final List<MemberOutfit> memberTempStageOutfits = MEMBER_TEMP_STAGE_OUTFITS;
 		given(memberRepository.findById(any(Long.class))).willReturn(Optional.of(member));
-		given(tempStageRepository.findByWeather(request.extremumTmp())).willReturn(Optional.of(tempStage));
-		given(memberOutfitRepository.findByMemberIdAndTempStageId(memberId, tempStage.getId())).willReturn(memberTempStageOutfits);
+		given(tempStageService.getTempStageByWeather(request.extremumTmp(), request.tempCondition())).willReturn(
+			tempStage);
+		given(memberOutfitRepository.findByMemberIdAndTempStageId(memberId, tempStage.getId())).willReturn(
+			memberTempStageOutfits);
 
 		//when
 		final List<MemberOutfitResponse> outfits = memberOutfitService.getMemberTempStageOutfits(request, memberId);
 
 		//then
 		then(memberRepository).should().findById(memberId);
-		then(tempStageRepository).should().findByWeather(request.extremumTmp());
+		then(tempStageService).should().getTempStageByWeather(request.extremumTmp(), request.tempCondition());
 		then(memberOutfitRepository).should().findByMemberIdAndTempStageId(memberId, tempStage.getId());
 
 		assertThat(outfits.size()).isEqualTo(memberTempStageOutfits.size());
 
 	}
-	
+
 	@Test
 	@DisplayName("멤버 옷차림 수정 성공")
 	void updateMemberOutfitTest() throws Exception {
-	    //given
+		//given
 		final Long memberOutfitId = 1L;
 		final MemberOutfit memberOutfit = MemberOutfit.builder()
 			.id(memberOutfitId)
@@ -160,6 +163,6 @@ class MemberOutfitServiceTest {
 			() -> assertThat(bottomAttribute.getBottomType()).isEqualTo(memberOutfitRequest.bottomType()),
 			() -> assertThat(bottomAttribute.getBottomColor()).isEqualTo(memberOutfitRequest.bottomColor())
 		);
-	    
+
 	}
 }
