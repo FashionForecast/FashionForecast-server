@@ -26,5 +26,6 @@ public interface MemberOutfitRepository extends JpaRepository<MemberOutfit, Long
 		final @Param("memberId") Long memberId);
 
 	@Modifying
+	@Query("DELETE FROM MemberOutfit m WHERE m.member.id = :memberId")
 	void deleteAllByMemberId(final Long memberId);
 }
