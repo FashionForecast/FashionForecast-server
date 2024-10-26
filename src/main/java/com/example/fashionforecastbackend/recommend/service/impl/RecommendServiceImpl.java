@@ -65,16 +65,16 @@ public class RecommendServiceImpl implements RecommendService {
 		if (recommendRequest.maximumPop() >= 30) {
 			Outfit outfit;
 			if (recommendRequest.maximumPcp() >= 3) {
-				outfit = outfitRepository.findByUmbrellaType(OutfitType.BASIC_UMBRELLA)
+				outfit = outfitRepository.findByName("장우산")
 					.orElseThrow(() -> new OutfitTypeNotFoundException(UMBRELLA_NOT_FOUND));
 			} else {
-				outfit = outfitRepository.findByUmbrellaType(OutfitType.FOLDING_UMBRELLA)
+				outfit = outfitRepository.findByName("접이식 우산")
 					.orElseThrow(() -> new OutfitTypeNotFoundException(UMBRELLA_NOT_FOUND));
 			}
 			outfits.add(outfit);
 		} else {
 			if (recommendRequest.maximumPcp() >= 3) {
-				Outfit outfit = outfitRepository.findByUmbrellaType(OutfitType.FOLDING_UMBRELLA)
+				Outfit outfit = outfitRepository.findByName("접이식 우산")
 					.orElseThrow(() -> new OutfitTypeNotFoundException(UMBRELLA_NOT_FOUND));
 				outfits.add(outfit);
 			}
@@ -84,7 +84,7 @@ public class RecommendServiceImpl implements RecommendService {
 
 	private void determineLayered(RecommendRequest recommendRequest, List<Outfit> outfits) {
 		if (recommendRequest.maxMinTmpDiff() >= 10) {
-			Outfit outfit = outfitRepository.findByUmbrellaType(OutfitType.LAYERED)
+			Outfit outfit = outfitRepository.findByName("겉옷")
 				.orElseThrow(() -> new OutfitTypeNotFoundException(UMBRELLA_NOT_FOUND));
 			outfits.add(outfit);
 		}
