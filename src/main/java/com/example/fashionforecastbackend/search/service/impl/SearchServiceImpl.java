@@ -12,7 +12,6 @@ import com.example.fashionforecastbackend.search.domain.Search;
 import com.example.fashionforecastbackend.search.dto.request.SearchRequest;
 import com.example.fashionforecastbackend.search.dto.response.SearchResponse;
 import com.example.fashionforecastbackend.search.service.SearchService;
-import com.example.fashionforecastbackend.search.util.SearchValidator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,12 +24,9 @@ public class SearchServiceImpl implements SearchService {
 	private static final String KEY_PREFIX = "Search";
 
 	private final RedisTemplate<String, Search> redisTemplate;
-	private final SearchValidator validator;
-
 
 	@Override
 	public SearchResponse registSearch(final String uuid, final SearchRequest request) {
-		validator.validateExistUser(uuid);
 		String key = KEY_PREFIX + uuid;
 		Search search = Search.builder()
 			.city(request.city())
@@ -51,7 +47,6 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override
 	public List<SearchResponse> getSearch(final String uuid) {
-		validator.validateExistUser(uuid);
 		String key = KEY_PREFIX + uuid;
 		List<Search> searches = redisTemplate.opsForList().range(key, 0, 3);
 		List<SearchResponse> responses = new ArrayList<>();
@@ -65,7 +60,6 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override
 	public void deleteSearch(final String uuid, final SearchRequest request) {
-		validator.validateExistUser(uuid);
 		String key = KEY_PREFIX + uuid;
 		Search search = Search.builder()
 			.city(request.city())
@@ -78,6 +72,12 @@ public class SearchServiceImpl implements SearchService {
 			throw new SearchNotExistException(ErrorCode.SEARCH_NOT_EXIST);
 		}
 
+	}
+
+	@Override
+	public void deleteAllSearch(final String uuid) {
+		final String key = KEY_PREFIX + uuid;
+		redisTemplate.delete(key);
 	}
 
 }
