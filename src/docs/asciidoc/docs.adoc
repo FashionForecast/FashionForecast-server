@@ -166,9 +166,6 @@ include::{snippets}/recommendation-controller-test/get-default-recommend/respons
 |===
 | 값 | 설명
 
-| `OUTER`
-| 외투
-
 | `TOP`
 | 상의
 
@@ -176,16 +173,7 @@ include::{snippets}/recommendation-controller-test/get-default-recommend/respons
 | 하의
 
 | `ETC`
-| 기타 악세사리
-
-| `BASIC_UMBRELLA`
-| 장우산
-
-| `FOLDING_UMBRELLA`
-| 접이식 우산
-
-| `LAYERED`
-| 레이어드(겉옷)
+| 챙기세요
 
 |===
 
@@ -669,7 +657,6 @@ include::{snippets}/member-outfit-controller-test/delete-outfits-test/http-respo
 ==== Field
 
 include::{snippets}/member-outfit-controller-test/delete-outfits-test/response-fields.adoc[]
-
 
 === 회원 옷차림 수정 (PATCH /api/v1/member/outfit/++{memberOutfitId}++)
 

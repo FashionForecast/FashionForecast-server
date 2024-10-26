@@ -15,8 +15,8 @@ import com.example.fashionforecastbackend.outfit.domain.OutfitType;
 public interface OutfitRepository extends JpaRepository<Outfit, Long> {
 
 	@Query("select o from Outfit o "
-		+ "where o.outfitType = :type")
-	Optional<Outfit> findByUmbrellaType(@Param("type") OutfitType type);
+		+ "where o.name = :name")
+	Optional<Outfit> findByName(@Param("name") String name);
 
 	List<Outfit> findByOutfitTypeIn(final List<OutfitType> types);
 

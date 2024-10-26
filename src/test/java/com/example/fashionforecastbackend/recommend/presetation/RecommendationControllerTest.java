@@ -46,7 +46,7 @@ class RecommendationControllerTest extends ControllerTest {
 		List<RecommendResponse> response = Arrays.asList(
 			RecommendResponse.builder().names(List.of("민소매", "반팔티")).outfitType(TOP).build(),
 			RecommendResponse.builder().names(List.of("반바지")).outfitType(BOTTOM).build(),
-			RecommendResponse.builder().names(List.of("장우산")).outfitType(BASIC_UMBRELLA).build()
+			RecommendResponse.builder().names(List.of("장우산")).outfitType(ETC).build()
 		);
 
 		// RecommendService의 동작을 Mocking
@@ -70,7 +70,7 @@ class RecommendationControllerTest extends ControllerTest {
 			.andExpect(jsonPath("$.data[1].names[0]").value("반바지"))
 			.andExpect(jsonPath("$.data[1].outfitType").value("BOTTOM"))
 			.andExpect(jsonPath("$.data[2].names[0]").value("장우산"))
-			.andExpect(jsonPath("$.data[2].outfitType").value("BASIC_UMBRELLA"))
+			.andExpect(jsonPath("$.data[2].outfitType").value("ETC"))
 			.andDo(restDocs.document(
 				queryParameters(
 					parameterWithName("extremumTmp").description("최고 또는 최저 기온"),
