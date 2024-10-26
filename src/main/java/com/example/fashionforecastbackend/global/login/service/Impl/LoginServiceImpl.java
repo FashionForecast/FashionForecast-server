@@ -4,6 +4,7 @@ import static com.example.fashionforecastbackend.global.error.ErrorCode.*;
 import static com.example.fashionforecastbackend.member.domain.constant.MemberRole.*;
 
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,10 +77,23 @@ public class LoginServiceImpl implements LoginService {
 
 	@Transactional
 	@Override
-	public void deleteAccount(final Long memberId) {
+	public void deleteAccount(final Long memberId, HttpServletResponse response) {
 		validateExistMember(memberId);
 		removeRefreshToken(memberId);
 		eventPublisher.publishEvent(MemberDeleteEvent.of(memberId));
+		deleteRefreshToken(response);
+	}
+
+	private void deleteRefreshToken(HttpServletResponse response) {
+		ResponseCookie cookie = ResponseCookie.from("refresh_token", "")
+			.maxAge(0)
+			.sameSite("Lax")
+			.secure(true)
+			.httpOnly(true)
+			.path("/")
+			.build();
+
+		response.setHeader("Set-Cookie", cookie.toString());
 	}
 
 	private void validateExistMember(final Long memberId) {

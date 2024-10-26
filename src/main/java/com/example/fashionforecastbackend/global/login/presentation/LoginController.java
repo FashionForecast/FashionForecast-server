@@ -38,9 +38,11 @@ public class LoginController {
 	}
 
 	@DeleteMapping("/account")
-	public ApiResponse<Void> deleteAccount(@AuthenticationPrincipal UserDetail principal) {
+	public ApiResponse<Void> deleteAccount(
+		@AuthenticationPrincipal final UserDetail principal,
+		HttpServletResponse response) {
 		final Long memberId = principal.memberId();
-		loginService.deleteAccount(memberId);
+		loginService.deleteAccount(memberId, response);
 		return ApiResponse.noContent();
 	}
 }

@@ -26,4 +26,6 @@ VALUES
 (29, '맨투맨', 'TOP', 'UNISEX', NOW(), NOW()),
 (30, '스타킹', 'BOTTOM', 'FEMALE', NOW(), NOW()),
 (31, '레깅스', 'BOTTOM', 'FEMALE', NOW(), NOW()),
-(32, '긴팔티', 'TOP', 'UNISEX', NOW(), NOW());
+(32, '긴팔티', 'TOP', 'UNISEX', NOW(), NOW()),
+(33, '짧은 치마', 'BOTTOM', 'FEMALE', NOW(), NOW()),
+(34, '긴 치마', 'BOTTOM', 'FEMALE', NOW(), NOW());
