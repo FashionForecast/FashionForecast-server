@@ -147,7 +147,7 @@ class LoginControllerTest extends ControllerTest {
 	void deleteAccountTest() throws Exception {
 		//given
 
-		willDoNothing().given(loginService).deleteAccount(userDetail.memberId());
+		willDoNothing().given(loginService).deleteAccount(any(Long.class), any(HttpServletResponse.class));
 		//when
 		final ResultActions resultActions = performDeleteRequest("/account");
 		//then
