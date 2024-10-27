@@ -8,6 +8,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.fashionforecastbackend.global.error.ErrorCode;
 import com.example.fashionforecastbackend.global.error.exception.InvalidJwtException;
 import com.example.fashionforecastbackend.global.error.exception.MemberNotFoundException;
 import com.example.fashionforecastbackend.global.error.exception.NotFoundRefreshToken;
@@ -18,8 +19,10 @@ import com.example.fashionforecastbackend.global.login.domain.repository.Refresh
 import com.example.fashionforecastbackend.global.login.dto.request.AccessTokenRequest;
 import com.example.fashionforecastbackend.global.login.dto.response.AccessTokenResponse;
 import com.example.fashionforecastbackend.global.login.service.LoginService;
+import com.example.fashionforecastbackend.member.domain.Member;
 import com.example.fashionforecastbackend.member.domain.MemberDeleteEvent;
 import com.example.fashionforecastbackend.member.domain.repository.MemberRepository;
+import com.example.fashionforecastbackend.search.service.SearchService;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +39,7 @@ public class LoginServiceImpl implements LoginService {
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final ApplicationEventPublisher eventPublisher;
 	private final MemberRepository memberRepository;
+	private final SearchService searchService;
 
 	@Transactional
 	@Override
@@ -80,8 +84,15 @@ public class LoginServiceImpl implements LoginService {
 	public void deleteAccount(final Long memberId, HttpServletResponse response) {
 		validateExistMember(memberId);
 		removeRefreshToken(memberId);
+		deleteAllSearch(memberId);
 		eventPublisher.publishEvent(MemberDeleteEvent.of(memberId));
 		deleteRefreshToken(response);
+	}
+
+	private void deleteAllSearch(final Long memberId) {
+		final Member member = memberRepository.findById(memberId)
+			.orElseThrow(() -> new MemberNotFoundException(ErrorCode.NOT_FOUND_MEMBER));
+		searchService.deleteAllSearch(member.getSocialId());
 	}
 
 	private void deleteRefreshToken(HttpServletResponse response) {
