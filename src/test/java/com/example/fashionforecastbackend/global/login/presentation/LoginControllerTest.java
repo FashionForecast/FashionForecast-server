@@ -9,6 +9,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +21,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -26,6 +31,7 @@ import com.example.fashionforecastbackend.global.ControllerTest;
 import com.example.fashionforecastbackend.global.login.dto.request.AccessTokenRequest;
 import com.example.fashionforecastbackend.global.login.dto.response.AccessTokenResponse;
 import com.example.fashionforecastbackend.global.login.service.LoginService;
+import com.example.fashionforecastbackend.global.oauth2.UserDetail;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.Cookie;
@@ -34,7 +40,6 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebMvcTest(LoginController.class)
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
-@WithMockUser
 class LoginControllerTest extends ControllerTest {
 
 	private final static String ACCESS_TOKEN = "accessToken";
@@ -49,6 +54,22 @@ class LoginControllerTest extends ControllerTest {
 
 	@MockBean
 	private LoginService loginService;
+
+	private UserDetail userDetail;
+
+	private UsernamePasswordAuthenticationToken authentication;
+
+	@BeforeEach
+	void setUp() {
+		userDetail = new UserDetail(
+			1L,
+			"ROLE_USER"
+		);
+
+		authentication = new UsernamePasswordAuthenticationToken(userDetail, null,
+			List.of(new SimpleGrantedAuthority("ROLE_USER")));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+	}
 
 	@Test
 	@DisplayName("액세스 토큰 발급")
@@ -119,6 +140,36 @@ class LoginControllerTest extends ControllerTest {
 				).andWithPrefix("data.",
 					fieldWithPath("accessToken").type(JsonFieldType.STRING).description("액세스 토큰"))
 			));
+	}
+
+	@Test
+	@DisplayName("회원 탈퇴")
+	void deleteAccountTest() throws Exception {
+		//given
+
+		willDoNothing().given(loginService).deleteAccount(any(Long.class), any(HttpServletResponse.class));
+		//when
+		final ResultActions resultActions = performDeleteRequest("/account");
+		//then
+		resultActions.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.status").value(204))
+			.andExpect(jsonPath("$.message").value("NO_CONTENT"))
+			.andExpect(jsonPath("$.data").isEmpty())
+			.andDo(restDocs.document(
+				responseFields(
+					fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),
+					fieldWithPath("message").type(JsonFieldType.STRING).description("상태 메세지"),
+					fieldWithPath("data").type(JsonFieldType.NULL).description("반환 데이터")
+				)
+			));
+	}
+
+	private ResultActions performDeleteRequest(final String path) throws Exception {
+		return mockMvc.perform(delete("/api/v1/login" + path)
+			.contentType(MediaType.APPLICATION_JSON)
+			.with(csrf().asHeader()));
+
 	}
 
 }

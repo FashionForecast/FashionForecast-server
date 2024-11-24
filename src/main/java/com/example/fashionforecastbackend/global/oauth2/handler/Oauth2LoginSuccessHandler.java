@@ -36,6 +36,7 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		log.info("Oauth2 로그인 성공 : {}", authentication.getPrincipal());
 		final CustomOauth2User principal = (CustomOauth2User)authentication.getPrincipal();
 		final String memberId = String.valueOf(principal.getMemberId());
+		final boolean isNewMember = principal.isNewUser();
 		//		final MemberTokens memberTokens = jwtService.generateLoginToken(response, memberId, principal.getRole());
 		final String refreshToken = jwtService.generateRefreshToken(response, memberId, principal.getRole());
 		saveRefreshTokenInRedis(refreshToken, memberId);
@@ -52,6 +53,7 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		final String redirectUrl = UriComponentsBuilder.fromUriString(baseUrl)
 			.path("/login/auth")
 			.queryParam("social-login", true)
+			.queryParam("isNewMember", isNewMember)
 			.build()
 			.toString();
 

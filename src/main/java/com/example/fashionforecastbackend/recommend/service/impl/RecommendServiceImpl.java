@@ -12,20 +12,17 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.fashionforecastbackend.global.error.exception.InvalidWeatherRequestException;
 import com.example.fashionforecastbackend.global.error.exception.OutfitTypeNotFoundException;
-import com.example.fashionforecastbackend.global.error.exception.TempStageNotFoundException;
 import com.example.fashionforecastbackend.outfit.domain.Outfit;
 import com.example.fashionforecastbackend.outfit.domain.OutfitType;
 import com.example.fashionforecastbackend.outfit.domain.repository.OutfitRepository;
 import com.example.fashionforecastbackend.recommend.domain.Recommendation;
-import com.example.fashionforecastbackend.recommend.domain.TempCondition;
 import com.example.fashionforecastbackend.recommend.domain.repository.RecommendationRepository;
 import com.example.fashionforecastbackend.recommend.dto.RecommendRequest;
 import com.example.fashionforecastbackend.recommend.dto.RecommendResponse;
 import com.example.fashionforecastbackend.recommend.service.RecommendService;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
-import com.example.fashionforecastbackend.tempStage.domain.repository.TempStageRepository;
+import com.example.fashionforecastbackend.tempStage.service.TempStageService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,33 +34,13 @@ import lombok.extern.slf4j.Slf4j;
 public class RecommendServiceImpl implements RecommendService {
 
 	private final OutfitRepository outfitRepository;
-	private final TempStageRepository tempStageRepository;
+	private final TempStageService tempStageService;
 	private final RecommendationRepository recommendationRepository;
 
 	@Override
 	public List<RecommendResponse> getRecommendedOutfit(RecommendRequest recommendRequest) {
-		TempStage tempStage;
-
-		if (recommendRequest.extremumTmp() < 5 && recommendRequest.tempCondition() == TempCondition.WARM) {
-			throw new InvalidWeatherRequestException(INVALID_GROUP8_WARM_OPTION);
-		}
-
-		if (recommendRequest.extremumTmp() >= 28 && recommendRequest.tempCondition() == TempCondition.COOL) {
-			throw new InvalidWeatherRequestException(INVALID_GROUP1_COOL_OPTION);
-		}
-
-		if (recommendRequest.tempCondition() == TempCondition.WARM) {
-			tempStage = tempStageRepository.findByWeatherAndWarmOption(recommendRequest.extremumTmp())
-				.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
-		} else if (recommendRequest.tempCondition() == TempCondition.NORMAL) {
-			tempStage = tempStageRepository.findByWeather(recommendRequest.extremumTmp())
-				.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
-		} else if (recommendRequest.tempCondition() == TempCondition.COOL) {
-			tempStage = tempStageRepository.findByWeatherAndCoolOption(recommendRequest.extremumTmp())
-				.orElseThrow(() -> new TempStageNotFoundException(TEMP_LEVEL_NOT_FOUND));
-		} else {
-			throw new InvalidWeatherRequestException(INVALID_TEMP_CONDITION);
-		}
+		TempStage tempStage = tempStageService.getTempStageByWeather(recommendRequest.extremumTmp(),
+			recommendRequest.tempCondition());
 
 		List<Outfit> outfits = new ArrayList<>(recommendationRepository.findByTempStage(tempStage.getId()).stream()
 			.map(Recommendation::getOutfit).toList());
@@ -88,16 +65,16 @@ public class RecommendServiceImpl implements RecommendService {
 		if (recommendRequest.maximumPop() >= 30) {
 			Outfit outfit;
 			if (recommendRequest.maximumPcp() >= 3) {
-				outfit = outfitRepository.findByUmbrellaType(OutfitType.BASIC_UMBRELLA)
+				outfit = outfitRepository.findByName("장우산")
 					.orElseThrow(() -> new OutfitTypeNotFoundException(UMBRELLA_NOT_FOUND));
 			} else {
-				outfit = outfitRepository.findByUmbrellaType(OutfitType.FOLDING_UMBRELLA)
+				outfit = outfitRepository.findByName("접이식 우산")
 					.orElseThrow(() -> new OutfitTypeNotFoundException(UMBRELLA_NOT_FOUND));
 			}
 			outfits.add(outfit);
 		} else {
 			if (recommendRequest.maximumPcp() >= 3) {
-				Outfit outfit = outfitRepository.findByUmbrellaType(OutfitType.FOLDING_UMBRELLA)
+				Outfit outfit = outfitRepository.findByName("접이식 우산")
 					.orElseThrow(() -> new OutfitTypeNotFoundException(UMBRELLA_NOT_FOUND));
 				outfits.add(outfit);
 			}
@@ -107,7 +84,7 @@ public class RecommendServiceImpl implements RecommendService {
 
 	private void determineLayered(RecommendRequest recommendRequest, List<Outfit> outfits) {
 		if (recommendRequest.maxMinTmpDiff() >= 10) {
-			Outfit outfit = outfitRepository.findByUmbrellaType(OutfitType.LAYERED)
+			Outfit outfit = outfitRepository.findByName("겉옷")
 				.orElseThrow(() -> new OutfitTypeNotFoundException(UMBRELLA_NOT_FOUND));
 			outfits.add(outfit);
 		}

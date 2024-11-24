@@ -1,12 +1,16 @@
 package com.example.fashionforecastbackend.global.login.service.Impl;
 
 import static com.example.fashionforecastbackend.global.error.ErrorCode.*;
-import static com.example.fashionforecastbackend.member.domain.MemberRole.*;
+import static com.example.fashionforecastbackend.member.domain.constant.MemberRole.*;
 
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.fashionforecastbackend.global.error.ErrorCode;
 import com.example.fashionforecastbackend.global.error.exception.InvalidJwtException;
+import com.example.fashionforecastbackend.global.error.exception.MemberNotFoundException;
 import com.example.fashionforecastbackend.global.error.exception.NotFoundRefreshToken;
 import com.example.fashionforecastbackend.global.jwt.service.JwtService;
 import com.example.fashionforecastbackend.global.login.domain.MemberTokens;
@@ -15,6 +19,10 @@ import com.example.fashionforecastbackend.global.login.domain.repository.Refresh
 import com.example.fashionforecastbackend.global.login.dto.request.AccessTokenRequest;
 import com.example.fashionforecastbackend.global.login.dto.response.AccessTokenResponse;
 import com.example.fashionforecastbackend.global.login.service.LoginService;
+import com.example.fashionforecastbackend.member.domain.Member;
+import com.example.fashionforecastbackend.member.domain.MemberDeleteEvent;
+import com.example.fashionforecastbackend.member.domain.repository.MemberRepository;
+import com.example.fashionforecastbackend.search.service.SearchService;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +37,9 @@ public class LoginServiceImpl implements LoginService {
 
 	private final JwtService jwtService;
 	private final RefreshTokenRepository refreshTokenRepository;
+	private final ApplicationEventPublisher eventPublisher;
+	private final MemberRepository memberRepository;
+	private final SearchService searchService;
 
 	@Transactional
 	@Override
@@ -54,8 +65,9 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public void removeRefreshToken(final String refreshTokenRequest) {
-
+	public void removeRefreshToken(final Long memberId) {
+		validateExistMember(memberId);
+		refreshTokenRepository.deleteById(String.valueOf(memberId));
 	}
 
 	@Override
@@ -65,6 +77,40 @@ public class LoginServiceImpl implements LoginService {
 
 		return AccessTokenResponse.of(accessToken);
 
+	}
+
+	@Transactional
+	@Override
+	public void deleteAccount(final Long memberId, HttpServletResponse response) {
+		validateExistMember(memberId);
+		removeRefreshToken(memberId);
+		deleteAllSearch(memberId);
+		eventPublisher.publishEvent(MemberDeleteEvent.of(memberId));
+		deleteRefreshToken(response);
+	}
+
+	private void deleteAllSearch(final Long memberId) {
+		final Member member = memberRepository.findById(memberId)
+			.orElseThrow(() -> new MemberNotFoundException(ErrorCode.NOT_FOUND_MEMBER));
+		searchService.deleteAllSearch(member.getSocialId());
+	}
+
+	private void deleteRefreshToken(HttpServletResponse response) {
+		ResponseCookie cookie = ResponseCookie.from("refresh_token", "")
+			.maxAge(0)
+			.sameSite("Lax")
+			.secure(true)
+			.httpOnly(true)
+			.path("/")
+			.build();
+
+		response.setHeader("Set-Cookie", cookie.toString());
+	}
+
+	private void validateExistMember(final Long memberId) {
+		if (!memberRepository.existsById(memberId)) {
+			throw new MemberNotFoundException(NOT_FOUND_MEMBER);
+		}
 	}
 
 	private void compareRefreshToken(String refreshToken, String savedRefreshToken) {

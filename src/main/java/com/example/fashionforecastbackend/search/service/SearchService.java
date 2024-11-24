@@ -7,9 +7,11 @@ import com.example.fashionforecastbackend.search.dto.response.SearchResponse;
 
 public interface SearchService {
 
-	SearchResponse registSearch(String uuid, SearchRequest request);
+	SearchResponse registSearch(final String uuid, final SearchRequest request);
 
-	List<SearchResponse> getSearch(String uuid);
+	List<SearchResponse> getSearch(final String uuid);
 
-	void deleteSearch(String uuid, SearchRequest request);
+	void deleteSearch(final String uuid, final SearchRequest request);
+
+	void deleteAllSearch(final String uuid);
 }

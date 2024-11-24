@@ -1,6 +1,8 @@
 package com.example.fashionforecastbackend.global.login.presentation;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.fashionforecastbackend.global.login.dto.request.AccessTokenRequest;
 import com.example.fashionforecastbackend.global.login.dto.response.AccessTokenResponse;
 import com.example.fashionforecastbackend.global.login.service.LoginService;
+import com.example.fashionforecastbackend.global.oauth2.UserDetail;
 import com.example.fashionforecastbackend.global.response.ApiResponse;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,4 +37,12 @@ public class LoginController {
 		return ApiResponse.created(loginService.renewTokens(request, refreshToken, response));
 	}
 
+	@DeleteMapping("/account")
+	public ApiResponse<Void> deleteAccount(
+		@AuthenticationPrincipal final UserDetail principal,
+		HttpServletResponse response) {
+		final Long memberId = principal.memberId();
+		loginService.deleteAccount(memberId, response);
+		return ApiResponse.noContent();
+	}
 }

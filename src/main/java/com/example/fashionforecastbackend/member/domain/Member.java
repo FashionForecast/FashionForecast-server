@@ -3,15 +3,25 @@ package com.example.fashionforecastbackend.member.domain;
 import static jakarta.persistence.EnumType.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.example.fashionforecastbackend.global.BaseTimeEntity;
+import com.example.fashionforecastbackend.member.domain.constant.Gender;
+import com.example.fashionforecastbackend.member.domain.constant.MemberJoinType;
+import com.example.fashionforecastbackend.member.domain.constant.MemberRole;
+import com.example.fashionforecastbackend.member.domain.constant.MemberState;
+import com.example.fashionforecastbackend.member.domain.constant.PersonalSetting;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,6 +45,9 @@ public class Member extends BaseTimeEntity {
 
 	private String socialId;
 
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<MemberOutfit> memberOutfits = new ArrayList<>();
+
 	@Column(nullable = false)
 	private LocalDateTime lastLoginDate;
 
@@ -47,9 +60,15 @@ public class Member extends BaseTimeEntity {
 	@Enumerated(value = STRING)
 	private MemberJoinType joinType;
 
+	@Enumerated(value = STRING)
+	private Gender gender;
+
+	@Embedded
+	private PersonalSetting personalSetting;
+
 	@Builder
 	public Member(final Long id, final String email, final String imageUrl, final String nickname,
-		final String socialId, final MemberRole role, final MemberJoinType joinType) {
+		final String socialId, final MemberRole role, final MemberJoinType joinType, final Gender gender) {
 
 		this.id = id;
 		this.email = email;
@@ -60,11 +79,28 @@ public class Member extends BaseTimeEntity {
 		this.state = MemberState.ACTIVE;
 		this.role = role;
 		this.joinType = joinType;
-
+		this.gender = gender;
+		this.personalSetting = new PersonalSetting();
 	}
 
 	public void updateState(final MemberState state) {
 		this.state = state;
 	}
 
+	public void updateGender(Gender gender) {
+		this.gender = gender;
+	}
+
+	public void addMemberOutfit(final MemberOutfit memberOutfit) {
+		memberOutfits.add(memberOutfit);
+		memberOutfit.setMember(this);
+	}
+
+	public PersonalSetting getPersonalSetting() {
+		if (this.personalSetting == null) {
+			this.personalSetting =
+				new PersonalSetting();
+		}
+		return personalSetting;
+	}
 }

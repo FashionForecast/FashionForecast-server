@@ -17,17 +17,17 @@ import com.example.fashionforecastbackend.global.response.ErrorResponse;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-	@ExceptionHandler(value = Exception.class)
-	public ResponseEntity<ErrorResponse<Void>> handleException(Exception e) {
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-			.body(ErrorResponse.error("500", e.getMessage()));
-	}
-
-	@ExceptionHandler(value = RuntimeException.class)
-	public ResponseEntity<ErrorResponse<Void>> handleRuntimeException(RuntimeException e) {
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-			.body(ErrorResponse.error("500", e.getMessage()));
-	}
+	// @ExceptionHandler(value = Exception.class)
+	// public ResponseEntity<ErrorResponse<Void>> handleException(Exception e) {
+	// 	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	// 		.body(ErrorResponse.error("500", e.getMessage()));
+	// }
+	//
+	// @ExceptionHandler(value = RuntimeException.class)
+	// public ResponseEntity<ErrorResponse<Void>> handleRuntimeException(RuntimeException e) {
+	// 	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	// 		.body(ErrorResponse.error("500", e.getMessage()));
+	// }
 
 	/**
 	 * 커스텀 예외

@@ -166,9 +166,6 @@ include::{snippets}/recommendation-controller-test/get-default-recommend/respons
 |===
 | 값 | 설명
 
-| `OUTER`
-| 외투
-
 | `TOP`
 | 상의
 
@@ -176,16 +173,7 @@ include::{snippets}/recommendation-controller-test/get-default-recommend/respons
 | 하의
 
 | `ETC`
-| 기타 악세사리
-
-| `BASIC_UMBRELLA`
-| 장우산
-
-| `FOLDING_UMBRELLA`
-| 접이식 우산
-
-| `LAYERED`
-| 레이어드(겉옷)
+| 챙기세요
 
 |===
 
@@ -257,9 +245,27 @@ include::{snippets}/outfit-controller-test/add-default-outfit/response-fields.ad
 
 |===
 
+=== 옷유형(상의, 하의) 조회 (GET /api/v1/outfit)
+
+==== Description
+
+성별에 따른 옷유형(상의, 하의) 조회
+
+==== Request
+
+include::{snippets}/outfit-controller-test/get-outfit-group-test/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/outfit-controller-test/get-outfit-group-test/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/outfit-controller-test/get-outfit-group-test/response-fields.adoc[]
+
 == 최근 검색어 API
 
-=== 최근 검색어 조회 (GET /api/v1/search/+{uuid}+)
+=== 최근 검색어 조회 (GET /api/v1/search/++{uuid}++)
 
 ==== Description
 
@@ -281,7 +287,7 @@ include::{snippets}/search-controller-test/get-search-test/http-response.adoc[]
 
 include::{snippets}/search-controller-test/get-search-test/response-fields.adoc[]
 
-=== 최근 검색어 등록 (POST /api/v1/search/+{uuid}+)
+=== 최근 검색어 등록 (POST /api/v1/search/++{uuid}++)
 
 ==== Description
 
@@ -307,7 +313,7 @@ include::{snippets}/search-controller-test/regist-search-test/http-response.adoc
 
 include::{snippets}/search-controller-test/regist-search-test/response-fields.adoc[]
 
-=== 최근 검색어 삭제 (DELETE /api/v1/search/+{uuid}+)
+=== 최근 검색어 삭제 (DELETE /api/v1/search/++{uuid}++)
 
 ==== Description
 
@@ -375,6 +381,24 @@ include::{snippets}/login-controller-test/reissue-tokens-test/http-response.adoc
 
 include::{snippets}/login-controller-test/reissue-tokens-test/response-fields.adoc[]
 
+=== 계정 탈퇴 (DELETE /api/v1/login/account)
+
+==== Description
+
+계정(회원) 탈퇴
+
+==== Request
+
+include::{snippets}/login-controller-test/delete-account-test/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/login-controller-test/delete-account-test/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/login-controller-test/delete-account-test/response-fields.adoc[]
+
 == 고객의 소리 API
 
 === 고객의 소리 추가 (POST /api/v1/board)
@@ -409,7 +433,7 @@ include::{snippets}/board-controller-test/get-board-detail/http-response.adoc[]
 
 include::{snippets}/board-controller-test/get-board-detail/response-fields.adoc[]
 
-=== 고객의 소리 상세 조회 (POST /api/v1/board)
+=== 고객의 소리 리스트 조회 (POST /api/v1/board)
 
 ==== Description
 
@@ -426,3 +450,237 @@ include::{snippets}/board-controller-test/get-board-list/http-response.adoc[]
 ==== Field
 
 include::{snippets}/board-controller-test/get-board-list/response-fields.adoc[]
+
+== 멤버 API
+
+=== 회원 정보 조회 (GET /api/v1/member)
+
+==== Description
+
+회원 정보 조회
+
+==== Request
+
+include::{snippets}/member-controller-test/get-member-info/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/member-controller-test/get-member-info/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/member-controller-test/get-member-info/response-fields.adoc[]
+
+==== Enum Type
+
+===== TempCondition
+
+|===
+| 값 | 설명
+
+| `COOL`
+| 시원하게
+
+| `NORMAL`
+| 보통
+
+| `WARM`
+| 따뜻하게
+|===
+
+===== Gender
+
+|===
+| 값 | 설명
+
+| `MALE`
+| 남성
+
+| `FEMALE`
+| 여성
+|===
+
+=== 성별 추가 (POST /api/v1/member/gender)
+
+==== Description
+
+사용자 성별 추가
+
+==== Request
+
+include::{snippets}/member-controller-test/add-gender/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/member-controller-test/add-gender/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/member-controller-test/add-gender/request-fields.adoc[]
+
+=== 기본 지역 설정 (PATCH /api/v1/member/region)
+
+==== Description
+
+기본 지역 설정 (저장, 수정, 삭제) 삭제시 DEFAULT
+
+==== Request
+
+include::{snippets}/member-controller-test/update-region/http-request.adoc[]
+
+==== Field
+
+include::{snippets}/member-controller-test/update-region/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/member-controller-test/update-region/http-response.adoc[]
+
+=== 기본 외출 시간 설정 (PATCH /api/v1/member/outingTime)
+
+==== Description
+
+기본 외출 시간 설정 (저장, 수정, 삭제) 삭제시 DEFAULT
+
+==== Request
+
+include::{snippets}/member-controller-test/update-outing-time/http-request.adoc[]
+
+==== Field
+
+include::{snippets}/member-controller-test/update-outing-time/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/member-controller-test/update-outing-time/http-response.adoc[]
+
+=== 기본 옷차림 두께 설정 (PATCH /api/v1/member/temp-condition)
+
+==== Description
+
+기본 옷차림 두께 설정 (저장, 수정)
+
+==== Request
+
+include::{snippets}/member-controller-test/update-temp-condition/http-request.adoc[]
+
+==== Field
+
+include::{snippets}/member-controller-test/update-temp-condition/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/member-controller-test/update-temp-condition/http-response.adoc[]
+
+== 회원 옷차림 API
+
+=== 현재 최저 혹은 최고 기온 기준 회원 옷차림 조회 (GET /api/v1/member/outfits/temp-stage)
+
+==== Description
+
+현재 최저 혹은 최고 기온 기준 회원 옷차림 조회
+
+==== Request
+
+include::{snippets}/member-outfit-controller-test/get-temp-stage-outfit/http-request.adoc[]
+
+==== Parameter
+
+include::{snippets}/member-outfit-controller-test/get-temp-stage-outfit/query-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/member-outfit-controller-test/get-temp-stage-outfit/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/member-outfit-controller-test/get-temp-stage-outfit/response-fields.adoc[]
+
+=== 온도 단계별 회원 옷차림 전체 조회 (GET /api/v1/member/outfits)
+
+==== Description
+
+온도 단계별 회원 옷차림 전체 조회
+
+==== Request
+
+include::{snippets}/member-outfit-controller-test/get-outfits-test/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/member-outfit-controller-test/get-outfits-test/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/member-outfit-controller-test/get-outfits-test/response-fields.adoc[]
+
+=== 회원 옷차림 추가 (POST /api/v1/member/outfit)
+
+==== Description
+
+회원 옷차림 추가
+
+==== Request
+
+include::{snippets}/member-outfit-controller-test/add-outfit-test/http-request.adoc[]
+
+==== Field
+
+include::{snippets}/member-outfit-controller-test/add-outfit-test/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/member-outfit-controller-test/add-outfit-test/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/member-outfit-controller-test/add-outfit-test/response-fields.adoc[]
+
+=== 회원 옷차림 삭제 (DELETE /api/v1/member/outfit/++{memberOutfitId}++)
+
+==== Description
+
+회원 옷차림 삭제
+
+==== Request
+
+include::{snippets}/member-outfit-controller-test/delete-outfits-test/http-request.adoc[]
+
+==== Parameter
+
+include::{snippets}/member-outfit-controller-test/delete-outfits-test/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/member-outfit-controller-test/delete-outfits-test/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/member-outfit-controller-test/delete-outfits-test/response-fields.adoc[]
+
+=== 회원 옷차림 수정 (PATCH /api/v1/member/outfit/++{memberOutfitId}++)
+
+==== Description
+
+회원 옷차림 수정
+
+==== Request
+
+include::{snippets}/member-outfit-controller-test/update-outfit-test/http-request.adoc[]
+
+==== Field
+
+include::{snippets}/member-outfit-controller-test/update-outfit-test/request-fields.adoc[]
+
+==== Parameter
+
+include::{snippets}/member-outfit-controller-test/update-outfit-test/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/member-outfit-controller-test/update-outfit-test/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/member-outfit-controller-test/update-outfit-test/response-fields.adoc[]
+

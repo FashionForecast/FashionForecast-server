@@ -6,8 +6,8 @@ import com.example.fashionforecastbackend.global.oauth2.userinfo.GoogleOatuh2Use
 import com.example.fashionforecastbackend.global.oauth2.userinfo.KakaoOauth2UserInfo;
 import com.example.fashionforecastbackend.global.oauth2.userinfo.Oauth2UserInfo;
 import com.example.fashionforecastbackend.member.domain.Member;
-import com.example.fashionforecastbackend.member.domain.MemberJoinType;
-import com.example.fashionforecastbackend.member.domain.MemberRole;
+import com.example.fashionforecastbackend.member.domain.constant.MemberJoinType;
+import com.example.fashionforecastbackend.member.domain.constant.MemberRole;
 
 import lombok.Builder;
 import lombok.Getter;
