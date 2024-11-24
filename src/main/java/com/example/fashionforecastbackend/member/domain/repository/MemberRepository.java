@@ -14,6 +14,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
 	boolean existsByJoinTypeAndSocialId(MemberJoinType joinType, String socialId);
 
+	boolean existsBySocialId(final String socialId);
+
 	@Modifying
 	void deleteById(final Long memberId);
 
