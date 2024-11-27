@@ -2,12 +2,12 @@ package com.example.fashionforecastbackend.member.fixture;
 
 import java.util.List;
 
-import com.example.fashionforecastbackend.member.domain.MemberOutfit;
-import com.example.fashionforecastbackend.member.domain.constant.BottomAttribute;
-import com.example.fashionforecastbackend.member.domain.constant.TopAttribute;
-import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
-import com.example.fashionforecastbackend.member.dto.response.MemberOutfitGroupResponse;
-import com.example.fashionforecastbackend.member.dto.response.MemberOutfitResponse;
+import com.example.fashionforecastbackend.customOutfit.domain.MemberOutfit;
+import com.example.fashionforecastbackend.customOutfit.domain.constant.BottomAttribute;
+import com.example.fashionforecastbackend.customOutfit.domain.constant.TopAttribute;
+import com.example.fashionforecastbackend.customOutfit.dto.request.MemberOutfitRequest;
+import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitGroupResponse;
+import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitResponse;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
 
 public class MemberOutfitFixture {

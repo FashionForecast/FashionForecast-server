@@ -1,4 +1,4 @@
-package com.example.fashionforecastbackend.member.service.impl;
+package com.example.fashionforecastbackend.customOutfit.service.impl;
 
 import static com.example.fashionforecastbackend.global.error.ErrorCode.*;
 
@@ -11,20 +11,20 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.fashionforecastbackend.customOutfit.domain.MemberOutfit;
+import com.example.fashionforecastbackend.customOutfit.domain.constant.BottomAttribute;
+import com.example.fashionforecastbackend.customOutfit.domain.constant.TopAttribute;
+import com.example.fashionforecastbackend.customOutfit.dto.request.MemberOutfitRequest;
+import com.example.fashionforecastbackend.customOutfit.dto.request.MemberTempStageOutfitRequest;
+import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitGroupResponse;
+import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitResponse;
+import com.example.fashionforecastbackend.customOutfit.service.MemberOutfitService;
 import com.example.fashionforecastbackend.global.error.exception.MemberNotFoundException;
 import com.example.fashionforecastbackend.global.error.exception.MemberOutfitLimitExceededException;
 import com.example.fashionforecastbackend.global.error.exception.MemberOutfitNotFoundException;
 import com.example.fashionforecastbackend.member.domain.Member;
-import com.example.fashionforecastbackend.member.domain.MemberOutfit;
-import com.example.fashionforecastbackend.member.domain.constant.BottomAttribute;
-import com.example.fashionforecastbackend.member.domain.constant.TopAttribute;
 import com.example.fashionforecastbackend.member.domain.repository.MemberOutfitRepository;
 import com.example.fashionforecastbackend.member.domain.repository.MemberRepository;
-import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
-import com.example.fashionforecastbackend.member.dto.request.MemberTempStageOutfitRequest;
-import com.example.fashionforecastbackend.member.dto.response.MemberOutfitGroupResponse;
-import com.example.fashionforecastbackend.member.dto.response.MemberOutfitResponse;
-import com.example.fashionforecastbackend.member.service.MemberOutfitService;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
 import com.example.fashionforecastbackend.tempStage.service.TempStageService;
 

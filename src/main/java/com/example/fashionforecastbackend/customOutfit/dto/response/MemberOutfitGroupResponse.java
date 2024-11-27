@@ -1,4 +1,4 @@
-package com.example.fashionforecastbackend.member.dto.response;
+package com.example.fashionforecastbackend.customOutfit.dto.response;
 
 import java.util.List;
 

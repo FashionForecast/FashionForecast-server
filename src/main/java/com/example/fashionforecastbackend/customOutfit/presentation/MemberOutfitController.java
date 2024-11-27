@@ -1,4 +1,4 @@
-package com.example.fashionforecastbackend.member.presentation;
+package com.example.fashionforecastbackend.customOutfit.presentation;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.fashionforecastbackend.customOutfit.dto.request.MemberOutfitRequest;
+import com.example.fashionforecastbackend.customOutfit.dto.request.MemberTempStageOutfitRequest;
+import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitGroupResponse;
+import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitResponse;
+import com.example.fashionforecastbackend.customOutfit.service.MemberOutfitService;
 import com.example.fashionforecastbackend.global.oauth2.UserDetail;
 import com.example.fashionforecastbackend.global.response.ApiResponse;
-import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
-import com.example.fashionforecastbackend.member.dto.request.MemberTempStageOutfitRequest;
-import com.example.fashionforecastbackend.member.dto.response.MemberOutfitGroupResponse;
-import com.example.fashionforecastbackend.member.dto.response.MemberOutfitResponse;
-import com.example.fashionforecastbackend.member.service.MemberOutfitService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
