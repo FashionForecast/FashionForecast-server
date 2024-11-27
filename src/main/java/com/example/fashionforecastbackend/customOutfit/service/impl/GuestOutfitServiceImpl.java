@@ -39,13 +39,8 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 		validateCount(guestOutfitRequest.tempStageLevel(), guest.getId());
 
 		final String key = KEY_PREFIX + guest.getId();
-		final GuestOutfit guestOutfit = GuestOutfit.builder()
-			.tempStageLevel(guestOutfitRequest.tempStageLevel())
-			.topType(guestOutfitRequest.topType())
-			.topColor(guestOutfitRequest.topColor())
-			.bottomType(guestOutfitRequest.bottomType())
-			.bottomColor(guestOutfitRequest.bottomColor())
-			.build();
+		final GuestOutfit guestOutfit = createGuestOutfit(
+			guestOutfitRequest);
 
 		redisTemplate.opsForList().leftPush(key, guestOutfit);
 	}
@@ -76,17 +71,30 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 	@Override
 	public void deleteGuestOutfit(final DeleteGuestOutfitRequest request) {
 		final Guest guest = guestService.getGuestByUuid(request.uuid());
-		String key = KEY_PREFIX + guest.getId();
-		final List<GuestOutfit> guestOutfits = getGuestOutfitsByGuest(guest.getId());
-		final GuestOutfit guestOutfit = guestOutfits.stream()
-			.filter(outfit -> outfit.getTempStageLevel() == request.tempStageLevel())
-			.findFirst()
-			.orElse(null);
+		final String key = KEY_PREFIX + guest.getId();
 
-		if (guestOutfit == null) {
-			throw new GuestOutfitException(NOT_FOUND_GUEST_OUTFIT);
-		}
+		validateGuestOutfit(request.tempStageLevel(), guest.getId());
+		final GuestOutfit guestOutfit = getGuestOutfit(request.tempStageLevel(), guest.getId());
 		redisTemplate.opsForList().remove(key, 1, guestOutfit);
+	}
+
+	@Transactional
+	@Override
+	public void updateGuestOutfit(final GuestOutfitRequest request) {
+		final Guest guest = guestService.getGuestByUuid(request.uuid());
+		final String key = KEY_PREFIX + guest.getId();
+		final List<GuestOutfit> guestOutfits = getGuestOutfitsByGuest(guest.getId());
+		validateGuestOutfit(request.tempStageLevel(), guest.getId());
+
+		final GuestOutfit updatedOutfit = createGuestOutfit(request);
+
+		for (int i = 0; i < guestOutfits.size(); i++) {
+			GuestOutfit outfit = guestOutfits.get(i);
+			if (outfit.getTempStageLevel() == request.tempStageLevel()) {
+				redisTemplate.opsForList().set(key, i, updatedOutfit);
+				return;
+			}
+		}
 	}
 
 	private void validateCount(final int tempStageLevel, final Long guestId) {
@@ -97,14 +105,34 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 		}
 	}
 
+	private GuestOutfit createGuestOutfit(GuestOutfitRequest request) {
+		return GuestOutfit.builder()
+			.tempStageLevel(request.tempStageLevel())
+			.topType(request.topType())
+			.topColor(request.topColor())
+			.bottomType(request.bottomType())
+			.bottomColor(request.bottomColor())
+			.build();
+	}
+
+	private void validateGuestOutfit(final int tempStageLevel, final Long guestId) {
+		final GuestOutfit guestOutfit = getGuestOutfit(tempStageLevel, guestId);
+
+		if (guestOutfit == null) {
+			throw new GuestOutfitException(NOT_FOUND_GUEST_OUTFIT);
+		}
+	}
+
+	private GuestOutfit getGuestOutfit(final int tempStageLevel, final Long guestId) {
+		final List<GuestOutfit> guestOutfits = getGuestOutfitsByGuest(guestId);
+		return guestOutfits.stream()
+			.filter(outfit -> outfit.getTempStageLevel() == tempStageLevel)
+			.findFirst()
+			.orElse(null);
+	}
+
 	private List<GuestOutfit> getGuestOutfitsByGuest(final Long guestId) {
 		String key = KEY_PREFIX + guestId;
 		return redisTemplate.opsForList().range(key, 0, -1);
-	}
-
-	@Transactional
-	@Override
-	public void updateGuestOutfit(GuestOutfitRequest request) {
-
 	}
 }
