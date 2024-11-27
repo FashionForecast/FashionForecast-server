@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fashionforecastbackend.customOutfit.dto.request.GuestOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.request.GuestTempStageOutfitRequest;
-import com.example.fashionforecastbackend.customOutfit.dto.response.GuestOutfitGroupResponse;
 import com.example.fashionforecastbackend.customOutfit.dto.response.GuestOutfitResponse;
 import com.example.fashionforecastbackend.customOutfit.service.GuestOutfitService;
 import com.example.fashionforecastbackend.global.response.ApiResponse;
@@ -36,8 +35,8 @@ public class GuestOutfitController {
 	}
 
 	@GetMapping("/outfits/{uuid}")
-	public ApiResponse<List<GuestOutfitGroupResponse>> getOutfits(@PathVariable final String uuid) {
-		final List<GuestOutfitGroupResponse> guestOutfits = guestOutfitService.getGuestOutfits(uuid);
+	public ApiResponse<List<GuestOutfitResponse>> getOutfits(@PathVariable final String uuid) {
+		final List<GuestOutfitResponse> guestOutfits = guestOutfitService.getGuestOutfitsByUuid(uuid);
 		return ApiResponse.ok(guestOutfits);
 	}
 

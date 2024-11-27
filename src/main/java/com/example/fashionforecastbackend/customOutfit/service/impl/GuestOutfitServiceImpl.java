@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.fashionforecastbackend.customOutfit.domain.GuestOutfit;
 import com.example.fashionforecastbackend.customOutfit.dto.request.GuestOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.request.GuestTempStageOutfitRequest;
-import com.example.fashionforecastbackend.customOutfit.dto.response.GuestOutfitGroupResponse;
 import com.example.fashionforecastbackend.customOutfit.dto.response.GuestOutfitResponse;
 import com.example.fashionforecastbackend.customOutfit.service.GuestOutfitService;
 import com.example.fashionforecastbackend.global.error.exception.GuestOutfitException;
@@ -49,18 +48,26 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 		redisTemplate.opsForList().leftPush(key, guestOutfit);
 	}
 
-	private void validateCount(int tempStageLevel, Long guestId) {
-		String key = KEY_PREFIX + guestId;
-		List<GuestOutfit> guestOutfits = redisTemplate.opsForList().range(key, 0, -1);
+	@Override
+	public List<GuestOutfitResponse> getGuestOutfitsByUuid(String uuid) {
+		final Guest guest = guestService.getGuestByUuid(uuid);
+		final List<GuestOutfit> guestOutfits = getGuestOutfitsByGuest(guest.getId());
+		return guestOutfits.stream()
+			.map(GuestOutfitResponse::of)
+			.toList();
+	}
+
+	private void validateCount(final int tempStageLevel, final Long guestId) {
+		final List<GuestOutfit> guestOutfits = getGuestOutfitsByGuest(guestId);
 		if (guestOutfits != null && guestOutfits.stream()
 			.anyMatch(guestOutfit -> guestOutfit.getTempStageLevel() == tempStageLevel)) {
 			throw new GuestOutfitException(OUTFIT_ALREADY_EXIST);
 		}
 	}
 
-	@Override
-	public List<GuestOutfitGroupResponse> getGuestOutfits(String uuid) {
-		return null;
+	private List<GuestOutfit> getGuestOutfitsByGuest(final Long guestId) {
+		String key = KEY_PREFIX + guestId;
+		return redisTemplate.opsForList().range(key, 0, -1);
 	}
 
 	@Override

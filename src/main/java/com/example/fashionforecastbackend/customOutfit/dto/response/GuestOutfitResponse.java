@@ -1,26 +1,22 @@
 package com.example.fashionforecastbackend.customOutfit.dto.response;
 
-import com.example.fashionforecastbackend.customOutfit.domain.MemberOutfit;
-import com.example.fashionforecastbackend.customOutfit.domain.constant.BottomAttribute;
-import com.example.fashionforecastbackend.customOutfit.domain.constant.TopAttribute;
+import com.example.fashionforecastbackend.customOutfit.domain.GuestOutfit;
 
 public record GuestOutfitResponse(
-	Long memberOutfitId,
+	int tempStageLevel,
 	String topType,
 	String topColor,
 	String bottomType,
 	String bottomColor
 ) {
 
-	public static GuestOutfitResponse of(final MemberOutfit memberOutfit) {
-		final TopAttribute topAttribute = memberOutfit.getTopAttribute();
-		final BottomAttribute bottomAttribute = memberOutfit.getBottomAttribute();
+	public static GuestOutfitResponse of(final GuestOutfit guestOutfit) {
 		return new GuestOutfitResponse(
-			memberOutfit.getId(),
-			topAttribute.getTopType(),
-			topAttribute.getTopColor(),
-			bottomAttribute.getBottomType(),
-			bottomAttribute.getBottomColor()
+			guestOutfit.getTempStageLevel(),
+			guestOutfit.getTopType(),
+			guestOutfit.getTopColor(),
+			guestOutfit.getBottomType(),
+			guestOutfit.getBottomColor()
 		);
 	}
 }
