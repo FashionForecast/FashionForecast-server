@@ -1,4 +1,4 @@
-package com.example.fashionforecastbackend.member.domain.repository;
+package com.example.fashionforecastbackend.customOutfit.domain.repository;
 
 import java.util.List;
 

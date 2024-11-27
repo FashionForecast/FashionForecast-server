@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.fashionforecastbackend.customOutfit.domain.MemberOutfit;
 import com.example.fashionforecastbackend.customOutfit.domain.constant.BottomAttribute;
 import com.example.fashionforecastbackend.customOutfit.domain.constant.TopAttribute;
+import com.example.fashionforecastbackend.customOutfit.domain.repository.MemberOutfitRepository;
 import com.example.fashionforecastbackend.customOutfit.dto.request.MemberOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.request.MemberTempStageOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitGroupResponse;
@@ -23,7 +24,6 @@ import com.example.fashionforecastbackend.global.error.exception.MemberNotFoundE
 import com.example.fashionforecastbackend.global.error.exception.MemberOutfitLimitExceededException;
 import com.example.fashionforecastbackend.global.error.exception.MemberOutfitNotFoundException;
 import com.example.fashionforecastbackend.member.domain.Member;
-import com.example.fashionforecastbackend.member.domain.repository.MemberOutfitRepository;
 import com.example.fashionforecastbackend.member.domain.repository.MemberRepository;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
 import com.example.fashionforecastbackend.tempStage.service.TempStageService;
