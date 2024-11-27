@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.fashionforecastbackend.customOutfit.dto.request.DeleteGuestOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.request.GuestOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.request.GuestTempStageOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.response.GuestOutfitResponse;
@@ -48,14 +49,14 @@ public class GuestOutfitController {
 		return ApiResponse.ok(guestOutfit);
 	}
 
-	@DeleteMapping("/outfits/{uuid}")
-	public ApiResponse<Void> deleteOutfit(@PathVariable final String uuid) {
-		guestOutfitService.deleteGuestOutfit(uuid);
+	@DeleteMapping("/outfits")
+	public ApiResponse<Void> deleteOutfit(@RequestBody @Valid final DeleteGuestOutfitRequest request) {
+		guestOutfitService.deleteGuestOutfit(request);
 		return ApiResponse.noContent();
 	}
 
 	@PatchMapping("/outfits")
-	public ApiResponse<Void> updateOutfit(@RequestBody final GuestOutfitRequest request) {
+	public ApiResponse<Void> updateOutfit(@RequestBody @Valid final GuestOutfitRequest request) {
 		guestOutfitService.updateGuestOutfit(request);
 		return ApiResponse.noContent();
 	}

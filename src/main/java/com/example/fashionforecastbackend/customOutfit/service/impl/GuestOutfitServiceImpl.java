@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.fashionforecastbackend.customOutfit.domain.GuestOutfit;
+import com.example.fashionforecastbackend.customOutfit.dto.request.DeleteGuestOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.request.GuestOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.request.GuestTempStageOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.response.GuestOutfitResponse;
@@ -71,23 +72,34 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 			.orElse(null);
 	}
 
+	@Transactional
+	@Override
+	public void deleteGuestOutfit(final DeleteGuestOutfitRequest request) {
+		final Guest guest = guestService.getGuestByUuid(request.uuid());
+		String key = KEY_PREFIX + guest.getId();
+		final List<GuestOutfit> guestOutfits = getGuestOutfitsByGuest(guest.getId());
+		final GuestOutfit guestOutfit = guestOutfits.stream()
+			.filter(outfit -> outfit.getTempStageLevel() == request.tempStageLevel())
+			.findFirst()
+			.orElse(null);
+
+		if (guestOutfit == null) {
+			throw new GuestOutfitException(NOT_FOUND_GUEST_OUTFIT);
+		}
+		redisTemplate.opsForList().remove(key, 1, guestOutfit);
+	}
+
 	private void validateCount(final int tempStageLevel, final Long guestId) {
 		final List<GuestOutfit> guestOutfits = getGuestOutfitsByGuest(guestId);
 		if (guestOutfits != null && guestOutfits.stream()
 			.anyMatch(guestOutfit -> guestOutfit.getTempStageLevel() == tempStageLevel)) {
-			throw new GuestOutfitException(OUTFIT_ALREADY_EXIST);
+			throw new GuestOutfitException(ALREADY_EXIST_GUEST_OUTFIT);
 		}
 	}
 
 	private List<GuestOutfit> getGuestOutfitsByGuest(final Long guestId) {
 		String key = KEY_PREFIX + guestId;
 		return redisTemplate.opsForList().range(key, 0, -1);
-	}
-
-	@Transactional
-	@Override
-	public void deleteGuestOutfit(String uuid) {
-
 	}
 
 	@Transactional
