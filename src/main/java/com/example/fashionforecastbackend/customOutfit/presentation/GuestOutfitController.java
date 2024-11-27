@@ -35,17 +35,17 @@ public class GuestOutfitController {
 	}
 
 	@GetMapping("/outfits/{uuid}")
-	public ApiResponse<List<GuestOutfitResponse>> getOutfits(@PathVariable final String uuid) {
+	public ApiResponse<List<GuestOutfitResponse>> getOutfits(@PathVariable("uuid") final String uuid) {
 		final List<GuestOutfitResponse> guestOutfits = guestOutfitService.getGuestOutfitsByUuid(uuid);
 		return ApiResponse.ok(guestOutfits);
 	}
 
 	@GetMapping("/outfits/temp-stage/{uuid}")
-	public ApiResponse<List<GuestOutfitResponse>> getTempStageOutfits(
+	public ApiResponse<GuestOutfitResponse> getTempStageOutfits(
 		@ModelAttribute @Valid GuestTempStageOutfitRequest request,
-		@PathVariable final String uuid) {
-		final List<GuestOutfitResponse> guestOutfits = guestOutfitService.getGuestTempStageOutfits(request, uuid);
-		return ApiResponse.ok(guestOutfits);
+		@PathVariable("uuid") final String uuid) {
+		final GuestOutfitResponse guestOutfit = guestOutfitService.getGuestTempStageOutfits(request, uuid);
+		return ApiResponse.ok(guestOutfit);
 	}
 
 	@DeleteMapping("/outfits/{uuid}")

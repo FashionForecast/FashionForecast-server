@@ -16,6 +16,7 @@ import com.example.fashionforecastbackend.customOutfit.service.GuestOutfitServic
 import com.example.fashionforecastbackend.global.error.exception.GuestOutfitException;
 import com.example.fashionforecastbackend.guest.domain.Guest;
 import com.example.fashionforecastbackend.guest.service.GuestService;
+import com.example.fashionforecastbackend.tempStage.domain.TempStage;
 import com.example.fashionforecastbackend.tempStage.service.TempStageService;
 
 import lombok.RequiredArgsConstructor;
@@ -49,12 +50,25 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 	}
 
 	@Override
-	public List<GuestOutfitResponse> getGuestOutfitsByUuid(String uuid) {
+	public List<GuestOutfitResponse> getGuestOutfitsByUuid(final String uuid) {
 		final Guest guest = guestService.getGuestByUuid(uuid);
 		final List<GuestOutfit> guestOutfits = getGuestOutfitsByGuest(guest.getId());
 		return guestOutfits.stream()
 			.map(GuestOutfitResponse::of)
 			.toList();
+	}
+
+	@Override
+	public GuestOutfitResponse getGuestTempStageOutfits(final GuestTempStageOutfitRequest request, final String uuid) {
+		final Guest guest = guestService.getGuestByUuid(uuid);
+		final TempStage tempStage = tempStageService.getTempStageByWeather(request.extremumTmp(),
+			request.tempCondition());
+
+		return getGuestOutfitsByGuest(guest.getId()).stream()
+			.filter(outfit -> outfit.getTempStageLevel() == tempStage.getLevel())
+			.findFirst()
+			.map(GuestOutfitResponse::of)
+			.orElse(null);
 	}
 
 	private void validateCount(final int tempStageLevel, final Long guestId) {
@@ -68,12 +82,6 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 	private List<GuestOutfit> getGuestOutfitsByGuest(final Long guestId) {
 		String key = KEY_PREFIX + guestId;
 		return redisTemplate.opsForList().range(key, 0, -1);
-	}
-
-	@Override
-	public List<GuestOutfitResponse> getGuestTempStageOutfits(GuestTempStageOutfitRequest request,
-		String uuid) {
-		return null;
 	}
 
 	@Transactional
