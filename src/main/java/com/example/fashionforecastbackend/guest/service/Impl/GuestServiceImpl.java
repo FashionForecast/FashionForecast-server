@@ -25,9 +25,14 @@ public class GuestServiceImpl implements GuestService {
 		return findOrCreateGuest(dto.uuid());
 	}
 
+	@Override
+	public Guest getGuestByUuid(final String uuid) {
+		return guestRepository.findByUuid(uuid).orElseGet(this::createGuest);
+	}
+
 	private GuestLoginResponse findOrCreateGuest(final String uuid) {
 		boolean isExist = guestRepository.existsByUuid(uuid);
-		Guest guest = guestRepository.findByUuid(uuid).orElseGet(this::createGuest);
+		Guest guest = getGuestByUuid(uuid);
 		return GuestLoginResponse.of(guest.getUuid(), !isExist);
 	}
 
