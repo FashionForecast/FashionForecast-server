@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.fashionforecastbackend.global.error.ErrorCode;
 import com.example.fashionforecastbackend.global.error.exception.SearchNotExistException;
+import com.example.fashionforecastbackend.search.ValidateUuid;
 import com.example.fashionforecastbackend.search.domain.Search;
 import com.example.fashionforecastbackend.search.dto.request.SearchRequest;
 import com.example.fashionforecastbackend.search.dto.response.SearchResponse;
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@ValidateUuid
 public class SearchServiceImpl implements SearchService {
 
 	private static final String KEY_PREFIX = "Search";
