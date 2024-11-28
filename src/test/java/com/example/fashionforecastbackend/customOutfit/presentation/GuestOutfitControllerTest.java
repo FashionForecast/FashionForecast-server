@@ -50,7 +50,7 @@ class GuestOutfitControllerTest extends ControllerTest {
 
 	@Test
 	@DisplayName("옷차림 추가 성공")
-	void addOutfitTest() throws Exception {
+	void addOutfit() throws Exception {
 		// given
 		GuestOutfitRequest request =
 			new GuestOutfitRequest("guest123", "긴팔티", "#111111", "면바지", "#000000", 2);
@@ -84,7 +84,7 @@ class GuestOutfitControllerTest extends ControllerTest {
 
 	@Test
 	@DisplayName("옷차림 조회 성공")
-	void getOutfitsTest() throws Exception {
+	void getOutfits() throws Exception {
 		// given
 		String uuid = "guest123";
 		GuestOutfitResponse guestOutfit1 = new GuestOutfitResponse(
@@ -123,7 +123,7 @@ class GuestOutfitControllerTest extends ControllerTest {
 
 	@Test
 	@DisplayName("온도 단계별 옷차림 조회 성공")
-	void getTempStageOutfitsTest() throws Exception {
+	void getTempStageOutfits() throws Exception {
 		// given
 		String uuid = "guest123";
 		GuestTempStageOutfitRequest request = new GuestTempStageOutfitRequest(20, NORMAL);
@@ -135,7 +135,7 @@ class GuestOutfitControllerTest extends ControllerTest {
 			"#000000"
 		);
 
-		given(guestOutfitService.getGuestTempStageOutfits(any(GuestTempStageOutfitRequest.class), eq(uuid)))
+		given(guestOutfitService.getGuestTempStageOutfit(any(GuestTempStageOutfitRequest.class), eq(uuid)))
 			.willReturn(response);
 
 		// when
@@ -177,7 +177,7 @@ class GuestOutfitControllerTest extends ControllerTest {
 
 	@Test
 	@DisplayName("옷차림 수정 성공")
-	void updateOutfitTest() throws Exception {
+	void updateOutfit() throws Exception {
 		// given
 		GuestOutfitRequest request =
 			new GuestOutfitRequest("guest123", "긴팔티", "#111111", "면바지", "#000000", 2);
@@ -210,7 +210,7 @@ class GuestOutfitControllerTest extends ControllerTest {
 
 	@Test
 	@DisplayName("옷차림 삭제 성공")
-	void deleteOutfitTest() throws Exception {
+	void deleteOutfit() throws Exception {
 		// given
 		DeleteGuestOutfitRequest request = new DeleteGuestOutfitRequest("guest123", 2);
 		willDoNothing().given(guestOutfitService).deleteGuestOutfit(any(DeleteGuestOutfitRequest.class));
