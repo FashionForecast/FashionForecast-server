@@ -1,6 +1,6 @@
-package com.example.fashionforecastbackend.member.service.impl;
+package com.example.fashionforecastbackend.customOutfit.service.impl;
 
-import static com.example.fashionforecastbackend.member.fixture.MemberOutfitFixture.*;
+import static com.example.fashionforecastbackend.customOutfit.fixture.MemberOutfitFixture.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
@@ -24,7 +24,6 @@ import com.example.fashionforecastbackend.customOutfit.dto.request.MemberOutfitR
 import com.example.fashionforecastbackend.customOutfit.dto.request.MemberTempStageOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitGroupResponse;
 import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitResponse;
-import com.example.fashionforecastbackend.customOutfit.service.impl.MemberOutfitServiceImpl;
 import com.example.fashionforecastbackend.member.domain.Member;
 import com.example.fashionforecastbackend.member.domain.repository.MemberRepository;
 import com.example.fashionforecastbackend.recommend.domain.TempCondition;

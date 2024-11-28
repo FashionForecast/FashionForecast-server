@@ -1,7 +1,7 @@
-package com.example.fashionforecastbackend.member.presentation;
+package com.example.fashionforecastbackend.customOutfit.presentation;
 
+import static com.example.fashionforecastbackend.customOutfit.fixture.MemberOutfitFixture.*;
 import static com.example.fashionforecastbackend.global.restdocs.RestDocsConfiguration.*;
-import static com.example.fashionforecastbackend.member.fixture.MemberOutfitFixture.*;
 import static com.example.fashionforecastbackend.recommend.domain.TempCondition.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.*;
@@ -35,7 +35,6 @@ import com.example.fashionforecastbackend.customOutfit.dto.request.MemberOutfitR
 import com.example.fashionforecastbackend.customOutfit.dto.request.MemberTempStageOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitGroupResponse;
 import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitResponse;
-import com.example.fashionforecastbackend.customOutfit.presentation.MemberOutfitController;
 import com.example.fashionforecastbackend.customOutfit.service.MemberOutfitService;
 import com.example.fashionforecastbackend.global.ControllerTest;
 import com.example.fashionforecastbackend.global.oauth2.UserDetail;

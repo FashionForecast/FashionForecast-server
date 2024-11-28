@@ -1,4 +1,4 @@
-package com.example.fashionforecastbackend.member.fixture;
+package com.example.fashionforecastbackend.customOutfit.fixture;
 
 import java.util.List;
 
