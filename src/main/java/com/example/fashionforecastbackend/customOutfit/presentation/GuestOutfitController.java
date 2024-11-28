@@ -23,25 +23,25 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/guest")
+@RequestMapping("/api/v1/guest/outfit")
 @RequiredArgsConstructor
 public class GuestOutfitController {
 
 	private final GuestOutfitService guestOutfitService;
 
-	@PostMapping("/outfit")
+	@PostMapping
 	public ApiResponse<Void> addOutfit(@RequestBody @Valid final GuestOutfitRequest guestOutfitRequest) {
 		guestOutfitService.saveGuestOutfit(guestOutfitRequest);
 		return ApiResponse.noContent();
 	}
 
-	@GetMapping("/outfits/{uuid}")
+	@GetMapping("/{uuid}")
 	public ApiResponse<List<GuestOutfitResponse>> getOutfits(@PathVariable("uuid") final String uuid) {
 		final List<GuestOutfitResponse> guestOutfits = guestOutfitService.getGuestOutfitsByUuid(uuid);
 		return ApiResponse.ok(guestOutfits);
 	}
 
-	@GetMapping("/outfits/temp-stage/{uuid}")
+	@GetMapping("/temp-stage/{uuid}")
 	public ApiResponse<GuestOutfitResponse> getTempStageOutfits(
 		@ModelAttribute @Valid GuestTempStageOutfitRequest request,
 		@PathVariable("uuid") final String uuid) {
@@ -49,13 +49,13 @@ public class GuestOutfitController {
 		return ApiResponse.ok(guestOutfit);
 	}
 
-	@DeleteMapping("/outfits")
+	@DeleteMapping
 	public ApiResponse<Void> deleteOutfit(@RequestBody @Valid final DeleteGuestOutfitRequest request) {
 		guestOutfitService.deleteGuestOutfit(request);
 		return ApiResponse.noContent();
 	}
 
-	@PatchMapping("/outfits")
+	@PatchMapping
 	public ApiResponse<Void> updateOutfit(@RequestBody @Valid final GuestOutfitRequest request) {
 		guestOutfitService.updateGuestOutfit(request);
 		return ApiResponse.noContent();
