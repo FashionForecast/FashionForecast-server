@@ -12,7 +12,7 @@ public interface GuestOutfitService {
 
 	List<GuestOutfitResponse> getGuestOutfitsByUuid(final String uuid);
 
-	GuestOutfitResponse getGuestTempStageOutfit(final GuestTempStageOutfitRequest request, final String uuid);
+	GuestOutfitResponse getGuestTempStageOutfit(final GuestTempStageOutfitRequest request);
 
 	void deleteGuestOutfit(final DeleteGuestOutfitRequest request);
 

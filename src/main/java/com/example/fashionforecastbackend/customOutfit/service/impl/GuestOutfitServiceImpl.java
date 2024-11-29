@@ -55,8 +55,8 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 	}
 
 	@Override
-	public GuestOutfitResponse getGuestTempStageOutfit(final GuestTempStageOutfitRequest request, final String uuid) {
-		final Guest guest = guestService.getGuestByUuid(uuid);
+	public GuestOutfitResponse getGuestTempStageOutfit(final GuestTempStageOutfitRequest request) {
+		final Guest guest = guestService.getGuestByUuid(request.uuid());
 		final TempStage tempStage = tempStageService.getTempStageByWeather(request.extremumTmp(),
 			request.tempCondition());
 

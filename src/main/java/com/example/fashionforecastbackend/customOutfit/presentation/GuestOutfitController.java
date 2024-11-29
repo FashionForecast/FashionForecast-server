@@ -41,11 +41,10 @@ public class GuestOutfitController {
 		return ApiResponse.ok(guestOutfits);
 	}
 
-	@GetMapping("/temp-stage/{uuid}")
+	@GetMapping("/temp-stage")
 	public ApiResponse<GuestOutfitResponse> getTempStageOutfit(
-		@ModelAttribute @Valid GuestTempStageOutfitRequest request,
-		@PathVariable("uuid") final String uuid) {
-		final GuestOutfitResponse guestOutfit = guestOutfitService.getGuestTempStageOutfit(request, uuid);
+		@ModelAttribute @Valid GuestTempStageOutfitRequest request) {
+		final GuestOutfitResponse guestOutfit = guestOutfitService.getGuestTempStageOutfit(request);
 		return ApiResponse.ok(guestOutfit);
 	}
 

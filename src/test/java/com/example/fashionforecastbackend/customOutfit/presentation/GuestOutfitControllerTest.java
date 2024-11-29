@@ -126,7 +126,7 @@ class GuestOutfitControllerTest extends ControllerTest {
 	void getTempStageOutfits() throws Exception {
 		// given
 		String uuid = "guest123";
-		GuestTempStageOutfitRequest request = new GuestTempStageOutfitRequest(20, NORMAL);
+		GuestTempStageOutfitRequest request = new GuestTempStageOutfitRequest(uuid, 20, NORMAL);
 		GuestOutfitResponse response = new GuestOutfitResponse(
 			3,
 			"후드티",
@@ -135,11 +135,12 @@ class GuestOutfitControllerTest extends ControllerTest {
 			"#000000"
 		);
 
-		given(guestOutfitService.getGuestTempStageOutfit(any(GuestTempStageOutfitRequest.class), eq(uuid)))
+		given(guestOutfitService.getGuestTempStageOutfit(any(GuestTempStageOutfitRequest.class)))
 			.willReturn(response);
 
 		// when
-		ResultActions resultActions = mockMvc.perform(get("/api/v1/guest/outfit/temp-stage/{uuid}", uuid) // URL 템플릿 사용
+		ResultActions resultActions = mockMvc.perform(get("/api/v1/guest/outfit/temp-stage")
+				.param("uuid", String.valueOf(request.uuid()))
 				.param("extremumTmp", String.valueOf(request.extremumTmp()))
 				.param("tempCondition", request.tempCondition().name())
 				.contentType(MediaType.APPLICATION_JSON)
@@ -155,10 +156,8 @@ class GuestOutfitControllerTest extends ControllerTest {
 			.andExpect(jsonPath("$.data.bottomType").value(response.bottomType()))
 			.andExpect(jsonPath("$.data.bottomColor").value(response.bottomColor()))
 			.andDo(restDocs.document(
-				pathParameters(
-					parameterWithName("uuid").description("게스트 UUID")
-				),
 				queryParameters(
+					parameterWithName("uuid").description("게스트 UUID"),
 					parameterWithName("extremumTmp").description("현재 최저 혹은 최고 온도"),
 					parameterWithName("tempCondition").description("옷차림 설정 옵션 (COOL/NORMAL/WARM)")
 				),
