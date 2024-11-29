@@ -961,7 +961,7 @@ Content-Type: application/json
 Content-Type: application/json;charset=UTF-8
 
 {
-  "uuid" : "f2991311-eba5-4306-a21c-4619d58a5574"
+  "uuid" : "923eafe2-c9ef-4ff3-9e5f-0797a7237bdc"
 }</code></pre>
 </div>
 </div>
@@ -1005,7 +1005,7 @@ Content-Type: application/json
 
 {
   "data" : {
-    "uuid" : "f2991311-eba5-4306-a21c-4619d58a5574",
+    "uuid" : "923eafe2-c9ef-4ff3-9e5f-0797a7237bdc",
     "isNewGuest" : false
   },
   "status" : 200,
@@ -1071,7 +1071,7 @@ Content-Type: application/json
 <h4 id="_request_3"><a class="link" href="#_request_3">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/guest/outfit?_csrf=GMzhFY4O0-vV8Q6bEBQw8HKpmqSWhEZcYi1SMGHwZsrCocYzffXYdLc-6tP4wz6pKDkEkkGbt8agsXRxBhpgUVDCUPugk6JW HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/guest/outfit?_csrf=E-3Cle3MkUSvV_rHX2jGJL8EWejOoK3EBwl0TDmreSAYkUPlJYz79Iv-8ieCZMrzaEXyQYY1dNH3xJ_pMT5HKQ3OSBYhoCGA HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -1110,7 +1110,7 @@ Content-Type: application/json;charset=UTF-8
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Guest UUID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 UUID</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>topType</code></p></td>
@@ -1212,7 +1212,7 @@ Content-Type: application/json
 <h4 id="_request_4"><a class="link" href="#_request_4">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/guest/outfit?_csrf=zUF61BIYIQdbt5OLdFc4oJPJLcMGY3eIWpftiWgEc6JZcegY_yBJtnQsRzd2g6W5FnoMwaX-APpkBROlP6_a7V02EMQ6FNEq HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/guest/outfit?_csrf=zmZBmD646LCXsLerp77gYyzJq35S75A5i3kUlveY_ZKgIKY-_AIg-gyMi9K6hoeYkJPUUxr5hhw2i_MUsx8n8sSpxaWWQZBa HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -1251,7 +1251,7 @@ Content-Type: application/json;charset=UTF-8
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게스트 UUID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 UUID</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>topType</code></p></td>
@@ -1353,7 +1353,7 @@ Content-Type: application/json
 <h4 id="_request_5"><a class="link" href="#_request_5">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/v1/guest/outfit?_csrf=7POLbpcHH17pGMAeghV4KOAHoWwx2C8ic4pf_083S86inWMQjsq_CPE2ezvELaF7sDhMG4U3jFRV7RYPFbJqnnoBcqyS_wAg HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/v1/guest/outfit?_csrf=1Xeda8cPGASTUt4KR7ZGBG16lafSGQ6GWMBvInOpl4-CApZn4xKlCPE7fja-a-4_cptyNVVOuJ7mfDirO6ZeQUrKr7nmM6VQ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -1425,7 +1425,7 @@ Content-Type: application/json
 <h4 id="_request_6"><a class="link" href="#_request_6">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/guest/outfit/guest123?uuid=guest123 HTTP/1.1</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/guest/outfit/guest123?uuid=%EC%82%AC%EC%9A%A9%EC%9E%90+uuid HTTP/1.1</code></pre>
 </div>
 </div>
 </div>
@@ -1446,7 +1446,7 @@ Content-Type: application/json
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>uuid</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게스트 uuid</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 uuid</p></td>
 </tr>
 </tbody>
 </table>
@@ -1572,7 +1572,7 @@ Content-Type: application/json;charset=UTF-8</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>uuid</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게스트 UUID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 UUID</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>extremumTmp</code></p></td>
@@ -1598,10 +1598,10 @@ Content-Type: application/json
 
 {
   "data" : {
-    "tempStageLevel" : 3,
-    "topType" : "후드티",
+    "tempStageLevel" : 2,
+    "topType" : "긴팔티",
     "topColor" : "#111111",
-    "bottomType" : "청바지",
+    "bottomType" : "면바지",
     "bottomColor" : "#000000"
   },
   "status" : 200,
@@ -2639,7 +2639,7 @@ Content-Type: application/json
 <h4 id="_request_15"><a class="link" href="#_request_15">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=1_LJW8bTVTboSq6M2WdZlKzL6fJyKfZuQ_LgiZLyqGtZmI1a5pP7P__gbFTFLsi44UptpZ__xMoXHpVDJ5PX76qUyQphqOs7 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/login/reissue?_csrf=P4tfuQglb4Ii18iFOaNd9vRFgj_qIVXWpgwH5dN1fKkXLBswXu1sjzFGXLYP4_q8W45pxpYgr17dEzf7lmo3gLFCRZtxGn4H HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Cookie: refresh_token=refreshToken
 
@@ -2785,7 +2785,7 @@ Content-Type: application/json
 <h4 id="_request_17"><a class="link" href="#_request_17">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/board?_csrf=BH3HVkxr1MhJbUgi-MMPDfr7TeRaTumsdnJuYnStYmPRC4m1N0yjMHsItf5kWioSmu47Oc7IYN1ieIyBExZZVxGdA1HiPL6F HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/board?_csrf=X9B4Pox_R04v9doqjKyjCPAY0ISQeI4_T8XkI2uIuY5SnvkebeAdDb5OdncCxuMd6oGXO5Yp_bygSroSLfPcFVy9i7lnrp97 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 
 {
@@ -4161,7 +4161,7 @@ Content-Type: application/json
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-11-29 18:23:13 +0900
+Last updated 2024-11-29 18:28:32 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
