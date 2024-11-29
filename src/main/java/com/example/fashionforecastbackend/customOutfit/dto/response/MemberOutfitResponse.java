@@ -1,8 +1,8 @@
-package com.example.fashionforecastbackend.member.dto.response;
+package com.example.fashionforecastbackend.customOutfit.dto.response;
 
-import com.example.fashionforecastbackend.member.domain.MemberOutfit;
-import com.example.fashionforecastbackend.member.domain.constant.BottomAttribute;
-import com.example.fashionforecastbackend.member.domain.constant.TopAttribute;
+import com.example.fashionforecastbackend.customOutfit.domain.MemberOutfit;
+import com.example.fashionforecastbackend.customOutfit.domain.constant.BottomAttribute;
+import com.example.fashionforecastbackend.customOutfit.domain.constant.TopAttribute;
 
 public record MemberOutfitResponse(
 	Long memberOutfitId,

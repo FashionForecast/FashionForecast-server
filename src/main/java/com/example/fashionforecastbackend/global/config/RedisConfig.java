@@ -13,6 +13,7 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import com.example.fashionforecastbackend.customOutfit.domain.GuestOutfit;
 import com.example.fashionforecastbackend.global.login.domain.RefreshToken;
 import com.example.fashionforecastbackend.search.domain.Search;
 
@@ -40,9 +41,19 @@ public class RedisConfig {
 	 */
 	@Bean
 	@Qualifier("redisConnectionFactoryForRefreshToken")
-	LettuceConnectionFactory connectionFactory2() {
+	LettuceConnectionFactory redisConnectionFactoryForRefreshToken() {
 		return createRedisConnectionFactory(1);
 	}
+
+	/*
+	비회원 옷차림은 2번 데이터베이스 사용
+	 */
+	@Bean
+	@Qualifier("redisConnectionFactoryForGuestOutfit")
+	LettuceConnectionFactory connectionFactory3() {
+		return createRedisConnectionFactory(2);
+	}
+
 
 	@Bean
 	public RedisTemplate<String, Search> searchRedisTemplate(
@@ -72,12 +83,26 @@ public class RedisConfig {
 		return redisTemplate;
 	}
 
+	@Bean
+	public RedisTemplate<String, GuestOutfit> guestOutfitRedisTemplate(
+		@Qualifier("redisConnectionFactoryForGuestOutfit") RedisConnectionFactory redisConnectionFactory) {
+
+		RedisTemplate<String, GuestOutfit> redisTemplate = new RedisTemplate<>();
+		redisTemplate.setConnectionFactory(redisConnectionFactory);
+		redisTemplate.setKeySerializer(new StringRedisSerializer());
+		redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+		redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(GuestOutfit.class));
+		redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(GuestOutfit.class));
+
+		return redisTemplate;
+	}
+
 	public LettuceConnectionFactory createRedisConnectionFactory(final int idx) {
 		RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
 		config.setHostName(properties.getHost());
 		config.setPort(properties.getPort());
 		config.setPassword(properties.getPassword());
-		config.setDatabase(idx); // 0번 또는 1번 데이터베이스 지정
+		config.setDatabase(idx); // 0번 또는 1번 또는 2번 데이터베이스 지정
 		return new LettuceConnectionFactory(config);
 	}
 

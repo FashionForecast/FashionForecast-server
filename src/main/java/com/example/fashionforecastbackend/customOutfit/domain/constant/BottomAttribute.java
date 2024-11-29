@@ -1,4 +1,4 @@
-package com.example.fashionforecastbackend.member.domain.constant;
+package com.example.fashionforecastbackend.customOutfit.domain.constant;
 
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;

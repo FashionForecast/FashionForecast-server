@@ -9,8 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.example.fashionforecastbackend.customOutfit.domain.repository.MemberOutfitRepository;
 import com.example.fashionforecastbackend.member.domain.MemberDeleteEvent;
-import com.example.fashionforecastbackend.member.domain.repository.MemberOutfitRepository;
 import com.example.fashionforecastbackend.member.domain.repository.MemberRepository;
 
 @ExtendWith(MockitoExtension.class)

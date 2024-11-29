@@ -1,12 +1,12 @@
-package com.example.fashionforecastbackend.member.service;
+package com.example.fashionforecastbackend.customOutfit.service;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
-import com.example.fashionforecastbackend.member.dto.request.MemberTempStageOutfitRequest;
-import com.example.fashionforecastbackend.member.dto.response.MemberOutfitGroupResponse;
-import com.example.fashionforecastbackend.member.dto.response.MemberOutfitResponse;
+import com.example.fashionforecastbackend.customOutfit.dto.request.MemberOutfitRequest;
+import com.example.fashionforecastbackend.customOutfit.dto.request.MemberTempStageOutfitRequest;
+import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitGroupResponse;
+import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitResponse;
 
 public interface MemberOutfitService {
 

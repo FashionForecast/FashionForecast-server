@@ -1,10 +1,11 @@
-package com.example.fashionforecastbackend.member.domain;
+package com.example.fashionforecastbackend.customOutfit.domain;
 
 import org.hibernate.annotations.SQLDelete;
 
+import com.example.fashionforecastbackend.customOutfit.domain.constant.BottomAttribute;
+import com.example.fashionforecastbackend.customOutfit.domain.constant.TopAttribute;
 import com.example.fashionforecastbackend.global.BaseTimeEntity;
-import com.example.fashionforecastbackend.member.domain.constant.BottomAttribute;
-import com.example.fashionforecastbackend.member.domain.constant.TopAttribute;
+import com.example.fashionforecastbackend.member.domain.Member;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
 
 import jakarta.persistence.Embedded;

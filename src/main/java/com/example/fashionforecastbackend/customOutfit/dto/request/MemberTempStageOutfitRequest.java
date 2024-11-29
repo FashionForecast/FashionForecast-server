@@ -1,4 +1,4 @@
-package com.example.fashionforecastbackend.member.dto.request;
+package com.example.fashionforecastbackend.customOutfit.dto.request;
 
 import com.example.fashionforecastbackend.recommend.domain.TempCondition;
 

@@ -5,6 +5,8 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.fashionforecastbackend.global.error.ErrorCode;
+import com.example.fashionforecastbackend.global.error.exception.NotFoundGuestException;
 import com.example.fashionforecastbackend.guest.domain.Guest;
 import com.example.fashionforecastbackend.guest.domain.repository.GuestRepository;
 import com.example.fashionforecastbackend.guest.dto.GuestLoginRequest;
@@ -23,6 +25,11 @@ public class GuestServiceImpl implements GuestService {
 	@Override
 	public GuestLoginResponse login(final GuestLoginRequest dto) {
 		return findOrCreateGuest(dto.uuid());
+	}
+
+	@Override
+	public Guest getGuestByUuid(final String uuid) {
+		return guestRepository.findByUuid(uuid).orElseThrow(() -> new NotFoundGuestException(ErrorCode.NOT_FOUND_GUEST));
 	}
 
 	private GuestLoginResponse findOrCreateGuest(final String uuid) {

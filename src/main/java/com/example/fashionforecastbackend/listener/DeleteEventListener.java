@@ -5,8 +5,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+import com.example.fashionforecastbackend.customOutfit.domain.repository.MemberOutfitRepository;
 import com.example.fashionforecastbackend.member.domain.MemberDeleteEvent;
-import com.example.fashionforecastbackend.member.domain.repository.MemberOutfitRepository;
 import com.example.fashionforecastbackend.member.domain.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
