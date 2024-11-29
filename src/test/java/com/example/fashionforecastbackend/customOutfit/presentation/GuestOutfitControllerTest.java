@@ -104,11 +104,15 @@ class GuestOutfitControllerTest extends ControllerTest {
 		given(guestOutfitService.getGuestOutfitsByUuid(anyString())).willReturn(List.of(guestOutfit1, guestOutfit2));
 
 		// when
-		ResultActions resultActions = mockMvc.perform(get("/api/v1/guest/outfit/{uuid}", uuid));
+		ResultActions resultActions = mockMvc.perform(get("/api/v1/guest/outfit/{uuid}", uuid)
+			.param("uuid", uuid));
 
 		// then
 		resultActions.andExpect(status().isOk())
 			.andDo(restDocs.document(
+				pathParameters(
+					parameterWithName("uuid").description("게스트 uuid")
+				),
 				responseFields(
 					fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),
 					fieldWithPath("message").type(JsonFieldType.STRING).description("상태 메세지"),
@@ -140,7 +144,7 @@ class GuestOutfitControllerTest extends ControllerTest {
 
 		// when
 		ResultActions resultActions = mockMvc.perform(get("/api/v1/guest/outfit/temp-stage")
-				.param("uuid", String.valueOf(request.uuid()))
+				.param("uuid", request.uuid())
 				.param("extremumTmp", String.valueOf(request.extremumTmp()))
 				.param("tempCondition", request.tempCondition().name())
 				.contentType(MediaType.APPLICATION_JSON)
