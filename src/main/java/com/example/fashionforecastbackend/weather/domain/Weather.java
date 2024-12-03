@@ -86,11 +86,11 @@ public class Weather extends BaseTimeEntity {
 	/**
 	 * 위도
 	 */
-	private int nx;
+	private double nx;
 	/**
 	 * 경도
 	 */
-	private int ny;
+	private double ny;
 
 	@Builder
 	public Weather(
@@ -106,8 +106,8 @@ public class Weather extends BaseTimeEntity {
 		Season season,
 		SkyStatus skyStatus,
 		RainType rainType,
-		int nx,
-		int ny
+		double nx,
+		double ny
 	) {
 		this.baseDate = baseDate;
 		this.baseTime = baseTime;
