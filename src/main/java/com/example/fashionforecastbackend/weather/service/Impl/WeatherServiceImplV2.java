@@ -1,5 +1,7 @@
 package com.example.fashionforecastbackend.weather.service.Impl;
 
+import static org.springframework.transaction.annotation.Propagation.*;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
@@ -8,7 +10,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.fashionforecastbackend.region.domain.Region;
 import com.example.fashionforecastbackend.region.domain.repository.RegionRepository;
@@ -21,8 +26,8 @@ import com.example.fashionforecastbackend.weather.dto.request.WeatherRequest;
 import com.example.fashionforecastbackend.weather.dto.response.WeatherApiV2;
 import com.example.fashionforecastbackend.weather.dto.response.WeatherForecast;
 import com.example.fashionforecastbackend.weather.dto.response.WeatherResponse;
-import com.example.fashionforecastbackend.weather.service.WeatherMapperV2;
 import com.example.fashionforecastbackend.weather.service.WeatherMapper;
+import com.example.fashionforecastbackend.weather.service.WeatherMapperV2;
 import com.example.fashionforecastbackend.weather.service.WeatherService;
 import com.example.fashionforecastbackend.weather.util.WeatherDateTimeValidator;
 
@@ -44,7 +49,7 @@ public class WeatherServiceImplV2 implements WeatherService {
 
 	@Override
 	public WeatherResponse getWeather(WeatherRequest dto) {
-		validateDtoDateTime(dto);
+//		validateDtoDateTime(dto);
 		final Region region = findRegion(dto.nx(), dto.ny());
 		final WeatherFilter weatherFilter = getWeatherFilter(dto, region);
 
@@ -68,6 +73,34 @@ public class WeatherServiceImplV2 implements WeatherService {
 
 		return getWeatherResponse(weatherForecasts, season);
 	}
+
+	@Async
+	@Transactional(propagation = REQUIRES_NEW)
+	@Scheduled(cron = "0 15 * * * *")
+	public void insertWeather() {
+		LocalDateTime now = LocalDateTime.now();
+		final String baseDate = now.format(DATE_FORMATTER);
+		final String baseTime = now.withMinute(0).format(TIME_FORMATTER);
+		final List<Region> regions = regionRepository.findByCities(List.of("서울특별시", "경기도"));
+		final List<Weather> weathers = regions.stream()
+			.map(region -> getWeathersByBaseDateTimeAndRegion(baseDate, baseTime, region))
+			.flatMap(Collection::stream)
+			.toList();
+		if (!weathers.isEmpty()) {
+			weatherRepository.saveAll(weathers);
+		}
+	}
+
+	private List<Weather> getWeathersByBaseDateTimeAndRegion(final String baseDate, final String baseTime, final Region region) {
+		List<Weather> weathers = weatherRepository.findByBaseDateAndBaseTimeAndNxAndNy(
+			baseDate, baseTime, region.getNx(), region.getNy());
+		if (weathers.isEmpty()) {
+			WeatherApiV2 response = restClientWeatherRequesterV2.getWeatherForecast(region.getNx(), region.getNy(), DEFAULT_FORECAST_DAYS);
+			weathers = WeatherMapperV2.mapToWeatherForecast(response, region);
+		}
+		return weathers;
+	}
+
 
 	private boolean isUnderSize(List<Weather> weathers, WeatherFilter weatherFilter) {
 		int startTime = Integer.parseInt(weatherFilter.startTime().substring(2));
