@@ -33,7 +33,7 @@ import com.example.fashionforecastbackend.weather.util.WeatherDateTimeValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Service
+@Service("weatherServiceImpl")
 @RequiredArgsConstructor
 @Slf4j
 public class WeatherServiceImpl implements WeatherService {
