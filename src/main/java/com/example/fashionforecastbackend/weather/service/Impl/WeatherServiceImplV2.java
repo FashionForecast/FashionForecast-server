@@ -49,7 +49,7 @@ public class WeatherServiceImplV2 implements WeatherService {
 
 	@Override
 	public WeatherResponse getWeather(WeatherRequest dto) {
-//		validateDtoDateTime(dto);
+		validateDtoDateTime(dto);
 		final Region region = findRegion(dto.nx(), dto.ny());
 		final WeatherFilter weatherFilter = getWeatherFilter(dto, region);
 
