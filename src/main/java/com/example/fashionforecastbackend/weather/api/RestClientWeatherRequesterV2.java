@@ -37,7 +37,7 @@ public class RestClientWeatherRequesterV2 {
 	private String getUrl(double lat, double lon, int days) {
 		return UriComponentsBuilder.fromHttpUrl(apiProperties.getBaseUrl())
 			.path("/forecast.json")
-			.queryParam("key", apiProperties.getApiKey())
+			.queryParam("key", apiProperties.getKey())
 			.queryParam("q", String.format("%f,%f", lat, lon))
 			.queryParam("days", days)
 			.queryParam("aqi", "no")

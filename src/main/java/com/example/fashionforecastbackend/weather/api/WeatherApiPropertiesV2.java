@@ -10,5 +10,5 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "weather-v2.api")
 public class WeatherApiPropertiesV2 {
 	private String baseUrl;
-	private String apiKey;
+	private String key;
 }
