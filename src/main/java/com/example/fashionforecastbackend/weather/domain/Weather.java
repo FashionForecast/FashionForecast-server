@@ -106,8 +106,8 @@ public class Weather extends BaseTimeEntity {
 		Season season,
 		SkyStatus skyStatus,
 		RainType rainType,
-		int nx,
-		int ny
+		double nx,
+		double ny
 	) {
 		this.baseDate = baseDate;
 		this.baseTime = baseTime;
