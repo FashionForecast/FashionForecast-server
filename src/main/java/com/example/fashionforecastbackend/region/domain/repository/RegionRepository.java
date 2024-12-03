@@ -16,5 +16,5 @@ public interface RegionRepository extends JpaRepository<Region, Long>, RegionCus
 	Optional<Region> findByAddress(@Param("city") String city, @Param("district") String district,
 		@Param("neighborhood") String neighborhood);
 
-	Optional<Region> findByNxAndNy(int nx, int ny);
+	Optional<Region> findByNxAndNy(double nx, double ny);
 }
