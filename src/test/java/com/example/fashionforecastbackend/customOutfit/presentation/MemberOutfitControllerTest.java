@@ -1,7 +1,7 @@
-package com.example.fashionforecastbackend.member.presentation;
+package com.example.fashionforecastbackend.customOutfit.presentation;
 
+import static com.example.fashionforecastbackend.customOutfit.fixture.MemberOutfitFixture.*;
 import static com.example.fashionforecastbackend.global.restdocs.RestDocsConfiguration.*;
-import static com.example.fashionforecastbackend.member.fixture.MemberOutfitFixture.*;
 import static com.example.fashionforecastbackend.recommend.domain.TempCondition.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.*;
@@ -31,13 +31,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import com.example.fashionforecastbackend.customOutfit.dto.request.MemberOutfitRequest;
+import com.example.fashionforecastbackend.customOutfit.dto.request.MemberTempStageOutfitRequest;
+import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitGroupResponse;
+import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitResponse;
+import com.example.fashionforecastbackend.customOutfit.service.MemberOutfitService;
 import com.example.fashionforecastbackend.global.ControllerTest;
 import com.example.fashionforecastbackend.global.oauth2.UserDetail;
-import com.example.fashionforecastbackend.member.dto.request.MemberOutfitRequest;
-import com.example.fashionforecastbackend.member.dto.request.MemberTempStageOutfitRequest;
-import com.example.fashionforecastbackend.member.dto.response.MemberOutfitGroupResponse;
-import com.example.fashionforecastbackend.member.dto.response.MemberOutfitResponse;
-import com.example.fashionforecastbackend.member.service.MemberOutfitService;
 import com.example.fashionforecastbackend.recommend.domain.TempCondition;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
