@@ -14,8 +14,8 @@ public record WeatherForecast(
 	String pcp,
 	RainType rainType,
 	SkyStatus skyStatus,
-	int nx,
-	int ny
+	double nx,
+	double ny
 ) {
 	public static WeatherForecast from(Weather weather) {
 		return new WeatherForecast(

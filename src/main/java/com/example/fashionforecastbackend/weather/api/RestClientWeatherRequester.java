@@ -43,8 +43,8 @@ public class RestClientWeatherRequester {
 	private String getUrl(String forecastType, WeatherFilter weatherFilter) {
 		String baseDate = weatherFilter.baseDate();
 		String baseTime = weatherFilter.baseTime();
-		int nx = weatherFilter.nx();
-		int ny = weatherFilter.ny();
+		double nx = weatherFilter.nx();
+		double ny = weatherFilter.ny();
 		return UriComponentsBuilder.fromHttpUrl(apiProperties.getBaseUrl())
 			.path(forecastType)
 			.queryParam("serviceKey", apiProperties.getKey())
