@@ -97,6 +97,14 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 		}
 	}
 
+	@Transactional
+	@Override
+	public void deleteAllGuestOutfit(final String uuid) {
+		final Guest guest = guestService.getGuestByUuid(uuid);
+		final String key = KEY_PREFIX + guest.getId();
+		redisTemplate.delete(key);
+	}
+
 	private void validateCount(final int tempStageLevel, final Long guestId) {
 		final List<GuestOutfit> guestOutfits = getGuestOutfitsByGuest(guestId);
 		if (guestOutfits != null && guestOutfits.stream()
@@ -105,7 +113,7 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 		}
 	}
 
-	private GuestOutfit createGuestOutfit(GuestOutfitRequest request) {
+	private GuestOutfit createGuestOutfit(final GuestOutfitRequest request) {
 		return GuestOutfit.builder()
 			.tempStageLevel(request.tempStageLevel())
 			.topType(request.topType())
