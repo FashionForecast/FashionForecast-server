@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.fashionforecastbackend.customOutfit.dto.request.GuestOutfitsRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.request.MemberOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.request.MemberTempStageOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitGroupResponse;
@@ -66,6 +67,13 @@ public class MemberOutfitController {
 		@PathVariable final Long memberOutfitId,
 		@RequestBody final MemberOutfitRequest request) {
 		memberOutfitService.updateMemberOutfit(memberOutfitId, request);
+		return ApiResponse.noContent();
+	}
+
+	@PostMapping("/guestOutfits")
+	public ApiResponse<Void> addOutfitFromGuestOutfit(@RequestBody @Valid final GuestOutfitsRequest guestOutfitsRequest,
+		@AuthenticationPrincipal UserDetail principal) {
+		memberOutfitService.saveMemberOutfitFromGuestOutfit(guestOutfitsRequest, principal.memberId());
 		return ApiResponse.noContent();
 	}
 }

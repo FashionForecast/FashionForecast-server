@@ -32,6 +32,13 @@ public class GuestServiceImpl implements GuestService {
 		return guestRepository.findByUuid(uuid).orElseThrow(() -> new NotFoundGuestException(ErrorCode.NOT_FOUND_GUEST));
 	}
 
+	@Transactional
+	@Override
+	public void deleteGuest(String uuid) {
+		Guest guest = getGuestByUuid(uuid);
+		guestRepository.delete(guest);
+	}
+
 	private GuestLoginResponse findOrCreateGuest(final String uuid) {
 		boolean isExist = guestRepository.existsByUuid(uuid);
 		Guest guest = guestRepository.findByUuid(uuid).orElseGet(this::createGuest);

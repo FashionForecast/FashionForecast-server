@@ -37,6 +37,7 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		final CustomOauth2User principal = (CustomOauth2User)authentication.getPrincipal();
 		final String memberId = String.valueOf(principal.getMemberId());
 		final boolean isNewMember = principal.isNewUser();
+		final boolean canAddGuestOutfit = principal.isCanAddGuestOutfit();
 		//		final MemberTokens memberTokens = jwtService.generateLoginToken(response, memberId, principal.getRole());
 		final String refreshToken = jwtService.generateRefreshToken(response, memberId, principal.getRole());
 		saveRefreshTokenInRedis(refreshToken, memberId);
@@ -54,6 +55,7 @@ public class Oauth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 			.path("/login/auth")
 			.queryParam("social-login", true)
 			.queryParam("isNewMember", isNewMember)
+			.queryParam("canAddGuestOutfit", canAddGuestOutfit)
 			.build()
 			.toString();
 

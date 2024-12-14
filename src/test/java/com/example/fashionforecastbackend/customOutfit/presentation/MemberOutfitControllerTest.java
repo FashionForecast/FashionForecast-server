@@ -31,6 +31,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import com.example.fashionforecastbackend.customOutfit.dto.request.GuestOutfitsRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.request.MemberOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.request.MemberTempStageOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitGroupResponse;
@@ -329,6 +330,34 @@ public class MemberOutfitControllerTest extends ControllerTest {
 				)
 			));
 
+	}
+
+	@Test
+	@DisplayName("회원 옷차림에 기존 게스트 옷차림 추가 성공")
+	void addOutfitFromGuestOutfitTest() throws Exception {
+		// given
+		GuestOutfitsRequest request = new GuestOutfitsRequest("guest123");
+		willDoNothing().given(memberOutfitService)
+			.saveMemberOutfitFromGuestOutfit(any(GuestOutfitsRequest.class), any(Long.class));
+
+		// when
+		ResultActions resultActions = performPostRequest("/guestOutfits", request);
+
+		// then
+		resultActions.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.status").value(204))
+			.andExpect(jsonPath("$.message").value("NO_CONTENT"))
+			.andDo(restDocs.document(
+				requestFields(
+					fieldWithPath("uuid").type(JsonFieldType.STRING).description("사용자 UUID")
+				),
+				responseFields(
+					fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),
+					fieldWithPath("message").type(JsonFieldType.STRING).description("상태 메세지"),
+					fieldWithPath("data").type(JsonFieldType.NULL).description("반환 데이터")
+				)
+			));
 	}
 
 	private ResultActions performGetRequest(final String path) throws Exception {

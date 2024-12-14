@@ -15,14 +15,18 @@ import com.example.fashionforecastbackend.customOutfit.domain.MemberOutfit;
 import com.example.fashionforecastbackend.customOutfit.domain.constant.BottomAttribute;
 import com.example.fashionforecastbackend.customOutfit.domain.constant.TopAttribute;
 import com.example.fashionforecastbackend.customOutfit.domain.repository.MemberOutfitRepository;
+import com.example.fashionforecastbackend.customOutfit.dto.request.GuestOutfitsRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.request.MemberOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.request.MemberTempStageOutfitRequest;
+import com.example.fashionforecastbackend.customOutfit.dto.response.GuestOutfitResponse;
 import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitGroupResponse;
 import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitResponse;
+import com.example.fashionforecastbackend.customOutfit.service.GuestOutfitService;
 import com.example.fashionforecastbackend.customOutfit.service.MemberOutfitService;
 import com.example.fashionforecastbackend.global.error.exception.MemberNotFoundException;
 import com.example.fashionforecastbackend.global.error.exception.MemberOutfitLimitExceededException;
 import com.example.fashionforecastbackend.global.error.exception.MemberOutfitNotFoundException;
+import com.example.fashionforecastbackend.guest.service.GuestService;
 import com.example.fashionforecastbackend.member.domain.Member;
 import com.example.fashionforecastbackend.member.domain.repository.MemberRepository;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
@@ -38,6 +42,8 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 	private final MemberRepository memberRepository;
 	private final MemberOutfitRepository memberOutfitRepository;
 	private final TempStageService tempStageService;
+	private final GuestOutfitService guestOutfitService;
+	private final GuestService guestService;
 
 	@Transactional
 	@Override
@@ -94,6 +100,26 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 		final BottomAttribute bottomAttribute = BottomAttribute.of(request.bottomType(), request.bottomColor());
 		memberOutfit.updateTopAttribute(topAttribute);
 		memberOutfit.updateBottomAttribute(bottomAttribute);
+	}
+
+	@Transactional
+	@Override
+	public void saveMemberOutfitFromGuestOutfit(final GuestOutfitsRequest guestOutfitsRequest, final Long memberId) {
+		String uuid = guestOutfitsRequest.uuid();
+		List<GuestOutfitResponse> guestOutfits = guestOutfitService.getGuestOutfitsByUuid(uuid);
+		List<MemberOutfit> memberOutfits = guestOutfits.stream()
+			.map(guestOutfit -> MemberOutfit.builder()
+				.topAttribute(TopAttribute.of(guestOutfit.topType(), guestOutfit.topColor()))
+				.bottomAttribute(
+					BottomAttribute.of(guestOutfit.bottomType(), guestOutfit.bottomColor()))
+				.tempStage(tempStageService.getTempStageByLevel(guestOutfit.tempStageLevel()))
+				.build())
+			.toList();
+		memberOutfitRepository.saveAll(memberOutfits);
+
+		guestOutfitService.deleteAllGuestOutfit(uuid);
+
+		guestService.deleteGuest(uuid);
 	}
 
 	private void validateCount(final Long tempStageId, final Long memberId) {

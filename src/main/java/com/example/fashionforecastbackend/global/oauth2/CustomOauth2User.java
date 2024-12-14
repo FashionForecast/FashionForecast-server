@@ -19,6 +19,7 @@ public class CustomOauth2User extends DefaultOAuth2User {
 	private final String email;
 	private final String role;
 	private final boolean isNewUser;
+	private final boolean canAddGuestOutfit;
 
 	/**
 	 * CustomOauth2User 생성자.
@@ -29,15 +30,17 @@ public class CustomOauth2User extends DefaultOAuth2User {
 	 * @param email                이메일
 	 * @param role                 권한
 	 * @param isNewUser            새로운 유저인지 여부
+	 * @param canAddGuestOutfit         게스트 옷차림을 저장할 수 있는지 여부
 	 */
 	public CustomOauth2User(final Collection<? extends GrantedAuthority> authorities,
 		final Map<String, Object> attributes, final String userNameAttributeKey, final Long memberId,
 		final String email, final String role,
-		boolean isNewUser) {
+		boolean isNewUser, boolean canAddGuestOutfit) {
 		super(authorities, attributes, userNameAttributeKey);
 		this.memberId = memberId;
 		this.email = email;
 		this.role = role;
 		this.isNewUser = isNewUser;
+		this.canAddGuestOutfit = canAddGuestOutfit;
 	}
 }

@@ -104,4 +104,8 @@ public class Member extends BaseTimeEntity {
 		}
 		return personalSetting;
 	}
+
+	public boolean notExistOutfit() {
+		return memberOutfits == null || memberOutfits.isEmpty();
+	}
 }

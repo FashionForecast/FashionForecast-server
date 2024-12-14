@@ -219,7 +219,7 @@ include::{snippets}/guest-outfit-controller-test/get-outfits/http-response.adoc[
 
 include::{snippets}/guest-outfit-controller-test/get-outfits/response-fields.adoc[]
 
-=== 온도 단계별 옷차림 조회 (GET /api/v1/guest/outfit/temp-stage)
+=== 온도 단계별 게스트 옷차림 조회 (GET /api/v1/guest/outfit/temp-stage)
 
 ==== Description
 
@@ -791,3 +791,24 @@ include::{snippets}/member-outfit-controller-test/update-outfit-test/http-respon
 
 include::{snippets}/member-outfit-controller-test/update-outfit-test/response-fields.adoc[]
 
+=== 게스트 옷차림을 회원 옷차림에 추가 (POST /api/v1/member/guestOutfits)
+
+==== Description
+
+게스트의 옷차림 데이터를 회원 옷차림으로 저장합니다.
+
+==== Request
+
+include::{snippets}/member-outfit-controller-test/add-outfit-from-guest-outfit-test/http-request.adoc[]
+
+==== Field
+
+include::{snippets}/member-outfit-controller-test/add-outfit-from-guest-outfit-test/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/member-outfit-controller-test/add-outfit-from-guest-outfit-test/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/member-outfit-controller-test/add-outfit-from-guest-outfit-test/response-fields.adoc[]
