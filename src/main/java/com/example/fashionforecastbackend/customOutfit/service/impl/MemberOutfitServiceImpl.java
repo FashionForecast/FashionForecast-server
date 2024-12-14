@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.fashionforecastbackend.customOutfit.domain.MemberOutfit;
-import com.example.fashionforecastbackend.customOutfit.domain.constant.OutfitAttribute;
+import com.example.fashionforecastbackend.customOutfit.domain.constant.BottomAttribute;
+import com.example.fashionforecastbackend.customOutfit.domain.constant.TopAttribute;
 import com.example.fashionforecastbackend.customOutfit.domain.repository.MemberOutfitRepository;
 import com.example.fashionforecastbackend.customOutfit.dto.request.GuestOutfitsRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.request.MemberOutfitRequest;
@@ -28,7 +29,6 @@ import com.example.fashionforecastbackend.global.error.exception.MemberOutfitNot
 import com.example.fashionforecastbackend.guest.service.GuestService;
 import com.example.fashionforecastbackend.member.domain.Member;
 import com.example.fashionforecastbackend.member.domain.repository.MemberRepository;
-import com.example.fashionforecastbackend.outfit.domain.OutfitType;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
 import com.example.fashionforecastbackend.tempStage.service.TempStageService;
 
@@ -51,9 +51,9 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 		final Member member = getMemberById(memberId);
 		final TempStage tempStage = tempStageService.getTempStageByLevel(memberOutfitRequest.tempStageLevel());
 		validateCount(tempStage.getId(), memberId);
-		final OutfitAttribute topAttribute = OutfitAttribute.of(OutfitType.TOP, memberOutfitRequest.topType(),
+		final TopAttribute topAttribute = TopAttribute.of(memberOutfitRequest.topType(),
 			memberOutfitRequest.topColor());
-		final OutfitAttribute bottomAttribute = OutfitAttribute.of(OutfitType.BOTTOM, memberOutfitRequest.bottomType(),
+		final BottomAttribute bottomAttribute = BottomAttribute.of(memberOutfitRequest.bottomType(),
 			memberOutfitRequest.bottomColor());
 
 		final MemberOutfit memberOutfit = MemberOutfit.builder()
@@ -96,9 +96,8 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 	@Override
 	public void updateMemberOutfit(final Long memberOutfitId, final MemberOutfitRequest request) {
 		final MemberOutfit memberOutfit = getMemberOutfitById(memberOutfitId);
-		final OutfitAttribute topAttribute = OutfitAttribute.of(OutfitType.TOP, request.topType(), request.topColor());
-		final OutfitAttribute bottomAttribute = OutfitAttribute.of(OutfitType.BOTTOM, request.bottomType(),
-			request.bottomColor());
+		final TopAttribute topAttribute = TopAttribute.of(request.topType(), request.topColor());
+		final BottomAttribute bottomAttribute = BottomAttribute.of(request.bottomType(), request.bottomColor());
 		memberOutfit.updateTopAttribute(topAttribute);
 		memberOutfit.updateBottomAttribute(bottomAttribute);
 	}
@@ -110,9 +109,9 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 		List<GuestOutfitResponse> guestOutfits = guestOutfitService.getGuestOutfitsByUuid(uuid);
 		List<MemberOutfit> memberOutfits = guestOutfits.stream()
 			.map(guestOutfit -> MemberOutfit.builder()
-				.topAttribute(OutfitAttribute.of(OutfitType.TOP, guestOutfit.topType(), guestOutfit.topColor()))
+				.topAttribute(TopAttribute.of(guestOutfit.topType(), guestOutfit.topColor()))
 				.bottomAttribute(
-					OutfitAttribute.of(OutfitType.BOTTOM, guestOutfit.bottomType(), guestOutfit.bottomColor()))
+					BottomAttribute.of(guestOutfit.bottomType(), guestOutfit.bottomColor()))
 				.tempStage(tempStageService.getTempStageByLevel(guestOutfit.tempStageLevel()))
 				.build())
 			.toList();

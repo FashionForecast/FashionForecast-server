@@ -1,7 +1,8 @@
 package com.example.fashionforecastbackend.customOutfit.dto.response;
 
 import com.example.fashionforecastbackend.customOutfit.domain.MemberOutfit;
-import com.example.fashionforecastbackend.customOutfit.domain.constant.OutfitAttribute;
+import com.example.fashionforecastbackend.customOutfit.domain.constant.BottomAttribute;
+import com.example.fashionforecastbackend.customOutfit.domain.constant.TopAttribute;
 
 public record MemberOutfitResponse(
 	Long memberOutfitId,
@@ -12,14 +13,14 @@ public record MemberOutfitResponse(
 ) {
 
 	public static MemberOutfitResponse of(final MemberOutfit memberOutfit) {
-		final OutfitAttribute topAttribute = memberOutfit.getTopAttribute();
-		final OutfitAttribute bottomAttribute = memberOutfit.getBottomAttribute();
+		final TopAttribute topAttribute = memberOutfit.getTopAttribute();
+		final BottomAttribute bottomAttribute = memberOutfit.getBottomAttribute();
 		return new MemberOutfitResponse(
 			memberOutfit.getId(),
-			topAttribute.getType(),
-			topAttribute.getColor(),
-			bottomAttribute.getType(),
-			bottomAttribute.getColor()
+			topAttribute.getTopType(),
+			topAttribute.getTopColor(),
+			bottomAttribute.getBottomType(),
+			bottomAttribute.getBottomColor()
 		);
 	}
 }

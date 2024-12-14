@@ -3,11 +3,11 @@ package com.example.fashionforecastbackend.customOutfit.fixture;
 import java.util.List;
 
 import com.example.fashionforecastbackend.customOutfit.domain.MemberOutfit;
-import com.example.fashionforecastbackend.customOutfit.domain.constant.OutfitAttribute;
+import com.example.fashionforecastbackend.customOutfit.domain.constant.BottomAttribute;
+import com.example.fashionforecastbackend.customOutfit.domain.constant.TopAttribute;
 import com.example.fashionforecastbackend.customOutfit.dto.request.MemberOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitGroupResponse;
 import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitResponse;
-import com.example.fashionforecastbackend.outfit.domain.OutfitType;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
 
 public class MemberOutfitFixture {
@@ -23,26 +23,26 @@ public class MemberOutfitFixture {
 	public static final List<MemberOutfit> MEMBER_OUTFITS = List.of(
 		MemberOutfit.builder()
 			.tempStage(TempStage.create(3, 20, 22))
-			.topAttribute(OutfitAttribute.of(OutfitType.TOP, "반팔티", "#111111"))
-			.bottomAttribute(OutfitAttribute.of(OutfitType.BOTTOM, "반바지", "#222222"))
+			.topAttribute(TopAttribute.of("반팔티", "#111111"))
+			.bottomAttribute(BottomAttribute.of("반바지", "#222222"))
 			.build(),
 		MemberOutfit.builder()
 			.tempStage(TempStage.create(4, 17, 19))
-			.topAttribute(OutfitAttribute.of(OutfitType.TOP, "긴팔티", "#111111"))
-			.bottomAttribute(OutfitAttribute.of(OutfitType.BOTTOM, "긴바지", "#222222"))
+			.topAttribute(TopAttribute.of("긴팔티", "#111111"))
+			.bottomAttribute(BottomAttribute.of("긴바지", "#222222"))
 			.build()
 	);
 
 	public static final List<MemberOutfit> MEMBER_TEMP_STAGE_OUTFITS = List.of(
 		MemberOutfit.builder()
 			.tempStage(TempStage.create(3, 20, 22))
-			.topAttribute(OutfitAttribute.of(OutfitType.TOP, "반팔티", "#111111"))
-			.bottomAttribute(OutfitAttribute.of(OutfitType.BOTTOM, "반바지", "#222222"))
+			.topAttribute(TopAttribute.of("반팔티", "#111111"))
+			.bottomAttribute(BottomAttribute.of("반바지", "#222222"))
 			.build(),
 		MemberOutfit.builder()
 			.tempStage(TempStage.create(3, 20, 22))
-			.topAttribute(OutfitAttribute.of(OutfitType.TOP, "긴팔티", "#111111"))
-			.bottomAttribute(OutfitAttribute.of(OutfitType.BOTTOM, "긴바지", "#222222"))
+			.topAttribute(TopAttribute.of("긴팔티", "#111111"))
+			.bottomAttribute(BottomAttribute.of("긴바지", "#222222"))
 			.build()
 	);
 
@@ -51,15 +51,15 @@ public class MemberOutfitFixture {
 			MemberOutfit.builder()
 				.id(6L)
 				.tempStage(TempStage.create(3, 20, 22))
-				.topAttribute(OutfitAttribute.of(OutfitType.TOP, "반팔티", "#111111"))
-				.bottomAttribute(OutfitAttribute.of(OutfitType.BOTTOM, "반바지", "#222222"))
+				.topAttribute(TopAttribute.of("반팔티", "#111111"))
+				.bottomAttribute(BottomAttribute.of("반바지", "#222222"))
 				.build()),
 		MemberOutfitResponse.of(
 			MemberOutfit.builder()
 				.id(2L)
 				.tempStage(TempStage.create(3, 20, 22))
-				.topAttribute(OutfitAttribute.of(OutfitType.TOP, "긴팔티", "#111111"))
-				.bottomAttribute(OutfitAttribute.of(OutfitType.BOTTOM, "긴바지", "#222222"))
+				.topAttribute(TopAttribute.of("긴팔티", "#111111"))
+				.bottomAttribute(BottomAttribute.of("긴바지", "#222222"))
 				.build()
 		));
 
@@ -69,8 +69,8 @@ public class MemberOutfitFixture {
 				MemberOutfit.builder()
 					.id(3L)
 					.tempStage(TempStage.create(1, 28, 50))
-					.topAttribute(OutfitAttribute.of(OutfitType.TOP, "반팔티", "#111111"))
-					.bottomAttribute(OutfitAttribute.of(OutfitType.BOTTOM, "반바지", "#222222"))
+					.topAttribute(TopAttribute.of("반팔티", "#111111"))
+					.bottomAttribute(BottomAttribute.of("반바지", "#222222"))
 					.build()
 			)
 		)),
@@ -79,8 +79,8 @@ public class MemberOutfitFixture {
 				MemberOutfit.builder()
 					.id(4L)
 					.tempStage(TempStage.create(2, 23, 27))
-					.topAttribute(OutfitAttribute.of(OutfitType.TOP, "긴팔티", "#333333"))
-					.bottomAttribute(OutfitAttribute.of(OutfitType.BOTTOM, "청바지", "#444444"))
+					.topAttribute(TopAttribute.of("긴팔티", "#333333"))
+					.bottomAttribute(BottomAttribute.of("청바지", "#444444"))
 					.build()
 			)
 		)),
@@ -89,8 +89,8 @@ public class MemberOutfitFixture {
 				MemberOutfit.builder()
 					.id(2L)
 					.tempStage(TempStage.create(3, 20, 22))
-					.topAttribute(OutfitAttribute.of(OutfitType.TOP, "셔츠", "#555555"))
-					.bottomAttribute(OutfitAttribute.of(OutfitType.BOTTOM, "면바지", "#666666"))
+					.topAttribute(TopAttribute.of("셔츠", "#555555"))
+					.bottomAttribute(BottomAttribute.of("면바지", "#666666"))
 					.build()
 			)
 		)),
@@ -99,8 +99,8 @@ public class MemberOutfitFixture {
 				MemberOutfit.builder()
 					.id(1L)
 					.tempStage(TempStage.create(4, 17, 19))
-					.topAttribute(OutfitAttribute.of(OutfitType.TOP, "니트", "#777777"))
-					.bottomAttribute(OutfitAttribute.of(OutfitType.BOTTOM, "청바지", "#888888"))
+					.topAttribute(TopAttribute.of("니트", "#777777"))
+					.bottomAttribute(BottomAttribute.of("청바지", "#888888"))
 					.build()
 			)
 		)),
@@ -109,8 +109,8 @@ public class MemberOutfitFixture {
 				MemberOutfit.builder()
 					.id(9L)
 					.tempStage(TempStage.create(5, 12, 16))
-					.topAttribute(OutfitAttribute.of(OutfitType.TOP, "후드티", "#999999"))
-					.bottomAttribute(OutfitAttribute.of(OutfitType.BOTTOM, "면바지", "#AAAAAA"))
+					.topAttribute(TopAttribute.of("후드티", "#999999"))
+					.bottomAttribute(BottomAttribute.of("면바지", "#AAAAAA"))
 					.build()
 			)
 		)),
@@ -119,8 +119,8 @@ public class MemberOutfitFixture {
 				MemberOutfit.builder()
 					.id(8L)
 					.tempStage(TempStage.create(6, 9, 11))
-					.topAttribute(OutfitAttribute.of(OutfitType.TOP, "가디건", "#BBBBBB"))
-					.bottomAttribute(OutfitAttribute.of(OutfitType.BOTTOM, "청바지", "#CCCCCC"))
+					.topAttribute(TopAttribute.of("가디건", "#BBBBBB"))
+					.bottomAttribute(BottomAttribute.of("청바지", "#CCCCCC"))
 					.build()
 			)
 		)),
@@ -129,8 +129,8 @@ public class MemberOutfitFixture {
 				MemberOutfit.builder()
 					.id(6L)
 					.tempStage(TempStage.create(7, 5, 8))
-					.topAttribute(OutfitAttribute.of(OutfitType.TOP, "패딩", "#DDDDDD"))
-					.bottomAttribute(OutfitAttribute.of(OutfitType.BOTTOM, "청바지", "#EEEEEE"))
+					.topAttribute(TopAttribute.of("패딩", "#DDDDDD"))
+					.bottomAttribute(BottomAttribute.of("청바지", "#EEEEEE"))
 					.build()
 			)
 		)),
@@ -139,8 +139,8 @@ public class MemberOutfitFixture {
 				MemberOutfit.builder()
 					.id(10L)
 					.tempStage(TempStage.create(8, -50, 4))
-					.topAttribute(OutfitAttribute.of(OutfitType.TOP, "패딩", "#FFFFFF"))
-					.bottomAttribute(OutfitAttribute.of(OutfitType.BOTTOM, "기모바지", "#000000"))
+					.topAttribute(TopAttribute.of("패딩", "#FFFFFF"))
+					.bottomAttribute(BottomAttribute.of("기모바지", "#000000"))
 					.build()
 			)
 		))

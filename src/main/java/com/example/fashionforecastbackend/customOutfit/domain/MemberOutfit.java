@@ -2,7 +2,8 @@ package com.example.fashionforecastbackend.customOutfit.domain;
 
 import org.hibernate.annotations.SQLDelete;
 
-import com.example.fashionforecastbackend.customOutfit.domain.constant.OutfitAttribute;
+import com.example.fashionforecastbackend.customOutfit.domain.constant.BottomAttribute;
+import com.example.fashionforecastbackend.customOutfit.domain.constant.TopAttribute;
 import com.example.fashionforecastbackend.global.BaseTimeEntity;
 import com.example.fashionforecastbackend.member.domain.Member;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
@@ -33,10 +34,10 @@ public class MemberOutfit extends BaseTimeEntity {
 	private Long id;
 
 	@Embedded
-	private OutfitAttribute topAttribute;
+	private TopAttribute topAttribute;
 
 	@Embedded
-	private OutfitAttribute bottomAttribute;
+	private BottomAttribute bottomAttribute;
 
 	private boolean isDeleted = false;
 
@@ -49,7 +50,7 @@ public class MemberOutfit extends BaseTimeEntity {
 	private Member member;
 
 	@Builder
-	public MemberOutfit(final Long id, final OutfitAttribute topAttribute, final OutfitAttribute bottomAttribute, final TempStage tempStage) {
+	public MemberOutfit(final Long id, final TopAttribute topAttribute, final BottomAttribute bottomAttribute, final TempStage tempStage) {
 		this.id = id;
 		this.topAttribute = topAttribute;
 		this.bottomAttribute = bottomAttribute;
@@ -60,11 +61,11 @@ public class MemberOutfit extends BaseTimeEntity {
 		this.member = member;
 	}
 
-	public void updateTopAttribute(final OutfitAttribute topAttribute) {
+	public void updateTopAttribute(final TopAttribute topAttribute) {
 		this.topAttribute = topAttribute;
 	}
 
-	public void updateBottomAttribute(final OutfitAttribute bottomAttribute) {
+	public void updateBottomAttribute(final BottomAttribute bottomAttribute) {
 		this.bottomAttribute = bottomAttribute;
 	}
 
