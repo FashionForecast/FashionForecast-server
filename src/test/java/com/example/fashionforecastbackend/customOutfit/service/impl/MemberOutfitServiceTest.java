@@ -80,7 +80,7 @@ class MemberOutfitServiceTest {
 			() -> assertThat(savedOutfit.getTopAttribute().getColor()).isEqualTo(memberOutfitRequest.topColor()),
 			() -> assertThat(savedOutfit.getBottomAttribute().getType()).isEqualTo(
 				memberOutfitRequest.bottomType()),
-			() -> assertThat(savedOutfit.getBottomAttribute().getType()).isEqualTo(
+			() -> assertThat(savedOutfit.getBottomAttribute().getColor()).isEqualTo(
 				memberOutfitRequest.bottomColor()),
 			() -> assertThat(savedOutfit.getTempStage().getLevel()).isEqualTo(memberOutfitRequest.tempStageLevel())
 		);
