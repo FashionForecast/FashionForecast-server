@@ -12,19 +12,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.fashionforecastbackend.customOutfit.domain.MemberOutfit;
-import com.example.fashionforecastbackend.customOutfit.domain.constant.BottomAttribute;
-import com.example.fashionforecastbackend.customOutfit.domain.constant.TopAttribute;
+import com.example.fashionforecastbackend.customOutfit.domain.constant.OutfitAttribute;
 import com.example.fashionforecastbackend.customOutfit.domain.repository.MemberOutfitRepository;
 import com.example.fashionforecastbackend.customOutfit.dto.request.MemberOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.request.MemberTempStageOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitGroupResponse;
 import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitResponse;
+import com.example.fashionforecastbackend.customOutfit.service.GuestOutfitService;
 import com.example.fashionforecastbackend.customOutfit.service.MemberOutfitService;
 import com.example.fashionforecastbackend.global.error.exception.MemberNotFoundException;
 import com.example.fashionforecastbackend.global.error.exception.MemberOutfitLimitExceededException;
 import com.example.fashionforecastbackend.global.error.exception.MemberOutfitNotFoundException;
 import com.example.fashionforecastbackend.member.domain.Member;
 import com.example.fashionforecastbackend.member.domain.repository.MemberRepository;
+import com.example.fashionforecastbackend.outfit.domain.OutfitType;
 import com.example.fashionforecastbackend.tempStage.domain.TempStage;
 import com.example.fashionforecastbackend.tempStage.service.TempStageService;
 
@@ -38,6 +39,7 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 	private final MemberRepository memberRepository;
 	private final MemberOutfitRepository memberOutfitRepository;
 	private final TempStageService tempStageService;
+	private final GuestOutfitService guestOutfitService;
 
 	@Transactional
 	@Override
@@ -45,9 +47,9 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 		final Member member = getMemberById(memberId);
 		final TempStage tempStage = tempStageService.getTempStageByLevel(memberOutfitRequest.tempStageLevel());
 		validateCount(tempStage.getId(), memberId);
-		final TopAttribute topAttribute = TopAttribute.of(memberOutfitRequest.topType(),
+		final OutfitAttribute topAttribute = OutfitAttribute.of(OutfitType.TOP, memberOutfitRequest.topType(),
 			memberOutfitRequest.topColor());
-		final BottomAttribute bottomAttribute = BottomAttribute.of(memberOutfitRequest.bottomType(),
+		final OutfitAttribute bottomAttribute = OutfitAttribute.of(OutfitType.BOTTOM, memberOutfitRequest.bottomType(),
 			memberOutfitRequest.bottomColor());
 
 		final MemberOutfit memberOutfit = MemberOutfit.builder()
@@ -90,8 +92,8 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 	@Override
 	public void updateMemberOutfit(final Long memberOutfitId, final MemberOutfitRequest request) {
 		final MemberOutfit memberOutfit = getMemberOutfitById(memberOutfitId);
-		final TopAttribute topAttribute = TopAttribute.of(request.topType(), request.topColor());
-		final BottomAttribute bottomAttribute = BottomAttribute.of(request.bottomType(), request.bottomColor());
+		final OutfitAttribute topAttribute = OutfitAttribute.of(OutfitType.TOP, request.topType(), request.topColor());
+		final OutfitAttribute bottomAttribute = OutfitAttribute.of(OutfitType.BOTTOM, request.bottomType(), request.bottomColor());
 		memberOutfit.updateTopAttribute(topAttribute);
 		memberOutfit.updateBottomAttribute(bottomAttribute);
 	}
