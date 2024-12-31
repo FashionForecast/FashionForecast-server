@@ -70,7 +70,6 @@ jobs:
           username: ${{ secrets.EC2_DEV_USERNAME }}
           host: ${{ secrets.EC2_DEV_HOST }}
           key: ${{ secrets.EC2_DEV_PRIVATE_KEY }}
-          script_stop: true
           script: |
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-${{ env.DEPLOY_ENV }}:latest
             sudo docker compose -f docker-compose-${{ env.DEPLOY_ENV }}.yml down
