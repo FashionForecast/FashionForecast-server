@@ -22,6 +22,6 @@ public enum Season {
 		return Arrays.stream(Season.values())
 			.filter(season -> season.startMonth <= month && season.endMonth >= month)
 			.findAny()
-			.orElse(null);
+			.orElse(WINTER);
 	}
 }
