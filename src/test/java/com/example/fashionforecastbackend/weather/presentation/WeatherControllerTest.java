@@ -118,7 +118,7 @@ class WeatherControllerTest extends ControllerTest {
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.code").value("E001"))
 			.andExpect(jsonPath("$.message").value(containsString("잘못된 요청")))
-			.andExpect(jsonPath("$.data.nx").value("위도는 34 이상이어야 합니다."))
+			.andExpect(jsonPath("$.data.nx").value("위도는 33 이상이어야 합니다."))
 			.andExpect(jsonPath("$.data.ny").value("경도는 131 이하여야 합니다."))
 			.andExpect(jsonPath("$.data.nowDateTime").value("현재 시간을 입력해주세요."))
 			.andExpect(jsonPath("$.data.startDateTime").value("외출 시작 시간을 입력해주세요."))
