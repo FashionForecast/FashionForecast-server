@@ -50,9 +50,14 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 	@Override
 	public List<GuestOutfitResponse> getGuestOutfitsByUuid(final String uuid) {
 		final Guest guest = guestService.getGuestByUuid(uuid);
-		validateGuestOutfit(guest.getId());
 		final List<GuestOutfit> guestOutfits = getGuestOutfitsByGuest(guest.getId());
-		return guestOutfits.stream()
+
+		Map<Integer, GuestOutfit> uniqueOutfits = new HashMap<>();
+		for (GuestOutfit outfit : guestOutfits) {
+			uniqueOutfits.putIfAbsent(outfit.getTempStageLevel(), outfit);
+		}
+
+		return uniqueOutfits.values().stream()
 			.map(GuestOutfitResponse::of)
 			.toList();
 	}
@@ -148,22 +153,4 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 		return redisTemplate.opsForList().range(key, 0, -1);
 	}
 
-	private void validateGuestOutfit(final Long guestId) {
-		final List<GuestOutfit> guestOutfits = getGuestOutfitsByGuest(guestId);
-
-		if (guestOutfits == null || guestOutfits.isEmpty()) {
-			return;
-		}
-
-		Map<Integer, Integer> tempStageCount = new HashMap<>();
-
-		for (GuestOutfit outfit : guestOutfits) {
-			int level = outfit.getTempStageLevel();
-			tempStageCount.put(level, tempStageCount.getOrDefault(level, 0) + 1);
-
-			if (tempStageCount.get(level) > 1) {
-				throw new GuestOutfitException(ALREADY_EXIST_GUEST_OUTFIT);
-			}
-		}
-	}
 }
