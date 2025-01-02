@@ -3,7 +3,7 @@
 
 ## [OOTC 바로가기](https://ootc.life)
 
-![Group 18](https://github.com/user-attachments/assets/5032a998-758f-4826-b219-5712f1351da8)
+![Group 18](https://github.com/user-attachments/assets/12afbd94-361e-48f9-bcc3-fae42617fa0f)
 
 </div>
 
