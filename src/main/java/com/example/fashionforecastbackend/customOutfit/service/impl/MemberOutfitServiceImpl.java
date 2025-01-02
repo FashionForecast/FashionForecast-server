@@ -23,6 +23,7 @@ import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfit
 import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitResponse;
 import com.example.fashionforecastbackend.customOutfit.service.GuestOutfitService;
 import com.example.fashionforecastbackend.customOutfit.service.MemberOutfitService;
+import com.example.fashionforecastbackend.global.error.exception.AlreadyExistException;
 import com.example.fashionforecastbackend.global.error.exception.MemberNotFoundException;
 import com.example.fashionforecastbackend.global.error.exception.MemberOutfitLimitExceededException;
 import com.example.fashionforecastbackend.global.error.exception.MemberOutfitNotFoundException;
@@ -106,15 +107,9 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 	@Override
 	public void saveMemberOutfitFromGuestOutfit(final GuestOutfitsRequest guestOutfitsRequest, final Long memberId) {
 		String uuid = guestOutfitsRequest.uuid();
-		List<GuestOutfitResponse> guestOutfits = guestOutfitService.getGuestOutfitsByUuid(uuid);
-		List<MemberOutfit> memberOutfits = guestOutfits.stream()
-			.map(guestOutfit -> MemberOutfit.builder()
-				.topAttribute(TopAttribute.of(guestOutfit.topType(), guestOutfit.topColor()))
-				.bottomAttribute(
-					BottomAttribute.of(guestOutfit.bottomType(), guestOutfit.bottomColor()))
-				.tempStage(tempStageService.getTempStageByLevel(guestOutfit.tempStageLevel()))
-				.build())
-			.toList();
+		validateMemberOutfitCount(memberId);
+		List<MemberOutfit> memberOutfits = createMemberOutfitByGuestOutfit(uuid);
+
 		memberOutfitRepository.saveAll(memberOutfits);
 
 		guestOutfitService.deleteAllGuestOutfit(uuid);
@@ -156,6 +151,25 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 		for (TempStage tempStage : allTempStage) {
 			memberOutfitsMap.put(tempStage.getLevel(), new ArrayList<>());
 		}
+	}
+
+	private void validateMemberOutfitCount(final Long memberId) {
+		Member member = getMemberById(memberId);
+		if(!member.notExistOutfit()) {
+			throw new AlreadyExistException(ALREADY_EXIST_MEMBER_OUTFIT);
+		}
+	}
+
+	private List<MemberOutfit> createMemberOutfitByGuestOutfit(String uuid) {
+		List<GuestOutfitResponse> guestOutfits = guestOutfitService.getGuestOutfitsByUuid(uuid);
+		return guestOutfits.stream()
+			.map(guestOutfit -> MemberOutfit.builder()
+				.topAttribute(TopAttribute.of(guestOutfit.topType(), guestOutfit.topColor()))
+				.bottomAttribute(
+					BottomAttribute.of(guestOutfit.bottomType(), guestOutfit.bottomColor()))
+				.tempStage(tempStageService.getTempStageByLevel(guestOutfit.tempStageLevel()))
+				.build())
+			.toList();
 	}
 
 	private Member getMemberById(final Long memberId) {
