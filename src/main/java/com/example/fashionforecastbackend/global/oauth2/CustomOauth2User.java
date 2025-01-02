@@ -30,7 +30,7 @@ public class CustomOauth2User extends DefaultOAuth2User {
 	 * @param email                이메일
 	 * @param role                 권한
 	 * @param isNewUser            새로운 유저인지 여부
-	 * @param canAddGuestOutfit         게스트 옷차림을 저장할 수 있는지 여부
+	 * @param canAddGuestOutfit    게스트 옷차림을 저장할 수 있는지 여부
 	 */
 	public CustomOauth2User(final Collection<? extends GrantedAuthority> authorities,
 		final Map<String, Object> attributes, final String userNameAttributeKey, final Long memberId,
