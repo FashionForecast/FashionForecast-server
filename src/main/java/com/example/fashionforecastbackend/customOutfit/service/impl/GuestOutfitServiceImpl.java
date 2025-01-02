@@ -2,7 +2,9 @@ package com.example.fashionforecastbackend.customOutfit.service.impl;
 
 import static com.example.fashionforecastbackend.global.error.ErrorCode.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -36,7 +38,7 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 	@Override
 	public void saveGuestOutfit(GuestOutfitRequest guestOutfitRequest) {
 		final Guest guest = guestService.getGuestByUuid(guestOutfitRequest.uuid());
-		validateCount(guestOutfitRequest.tempStageLevel(), guest.getId());
+		validateCountZero(guestOutfitRequest.tempStageLevel(), guest.getId());
 
 		final String key = KEY_PREFIX + guest.getId();
 		final GuestOutfit guestOutfit = createGuestOutfit(
@@ -48,6 +50,7 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 	@Override
 	public List<GuestOutfitResponse> getGuestOutfitsByUuid(final String uuid) {
 		final Guest guest = guestService.getGuestByUuid(uuid);
+		validateGuestOutfit(guest.getId());
 		final List<GuestOutfit> guestOutfits = getGuestOutfitsByGuest(guest.getId());
 		return guestOutfits.stream()
 			.map(GuestOutfitResponse::of)
@@ -73,7 +76,7 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 		final Guest guest = guestService.getGuestByUuid(request.uuid());
 		final String key = KEY_PREFIX + guest.getId();
 
-		validateGuestOutfit(request.tempStageLevel(), guest.getId());
+		validateGuestOutfitByTempStageLevel(request.tempStageLevel(), guest.getId());
 		final GuestOutfit guestOutfit = getGuestOutfit(request.tempStageLevel(), guest.getId());
 		redisTemplate.opsForList().remove(key, 1, guestOutfit);
 	}
@@ -83,8 +86,9 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 	public void updateGuestOutfit(final GuestOutfitRequest request) {
 		final Guest guest = guestService.getGuestByUuid(request.uuid());
 		final String key = KEY_PREFIX + guest.getId();
+
+		validateGuestOutfitByTempStageLevel(request.tempStageLevel(), guest.getId());
 		final List<GuestOutfit> guestOutfits = getGuestOutfitsByGuest(guest.getId());
-		validateGuestOutfit(request.tempStageLevel(), guest.getId());
 
 		final GuestOutfit updatedOutfit = createGuestOutfit(request);
 
@@ -105,7 +109,7 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 		redisTemplate.delete(key);
 	}
 
-	private void validateCount(final int tempStageLevel, final Long guestId) {
+	private void validateCountZero(final int tempStageLevel, final Long guestId) {
 		final List<GuestOutfit> guestOutfits = getGuestOutfitsByGuest(guestId);
 		if (guestOutfits != null && guestOutfits.stream()
 			.anyMatch(guestOutfit -> guestOutfit.getTempStageLevel() == tempStageLevel)) {
@@ -123,7 +127,7 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 			.build();
 	}
 
-	private void validateGuestOutfit(final int tempStageLevel, final Long guestId) {
+	private void validateGuestOutfitByTempStageLevel(final int tempStageLevel, final Long guestId) {
 		final GuestOutfit guestOutfit = getGuestOutfit(tempStageLevel, guestId);
 
 		if (guestOutfit == null) {
@@ -142,5 +146,24 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 	private List<GuestOutfit> getGuestOutfitsByGuest(final Long guestId) {
 		String key = KEY_PREFIX + guestId;
 		return redisTemplate.opsForList().range(key, 0, -1);
+	}
+
+	private void validateGuestOutfit(final Long guestId) {
+		final List<GuestOutfit> guestOutfits = getGuestOutfitsByGuest(guestId);
+
+		if (guestOutfits == null || guestOutfits.isEmpty()) {
+			return;
+		}
+
+		Map<Integer, Integer> tempStageCount = new HashMap<>();
+
+		for (GuestOutfit outfit : guestOutfits) {
+			int level = outfit.getTempStageLevel();
+			tempStageCount.put(level, tempStageCount.getOrDefault(level, 0) + 1);
+
+			if (tempStageCount.get(level) > 1) {
+				throw new GuestOutfitException(ALREADY_EXIST_GUEST_OUTFIT);
+			}
+		}
 	}
 }

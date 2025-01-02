@@ -72,7 +72,7 @@ public enum ErrorCode {
 	/**
 	 * Guest
 	 */
-	ALREADY_EXIST_GUEST_OUTFIT(HttpStatus.BAD_REQUEST, "G001", "온도 단계의 옷차림이 이미 존재합니다. 더 많은 옷차림 저장을 위해서 로그인 해주세요."),
+	ALREADY_EXIST_GUEST_OUTFIT(HttpStatus.BAD_REQUEST, "G001", "온도 단계의 옷차림이 이미 존재합니다."),
 	NOT_FOUND_GUEST_OUTFIT(HttpStatus.BAD_REQUEST, "G002", "게스트 옷차림이 존재하지 않습니다."),
 	NOT_FOUND_GUEST(HttpStatus.NOT_FOUND, "G003", "게스트가 존재하지 않습니다.");
 
