@@ -10,4 +10,6 @@ public interface GuestService {
 
 	Guest getGuestByUuid(String uuid);
 
+	void deleteGuest(String uuid);
+
 }

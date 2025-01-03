@@ -17,4 +17,6 @@ public interface GuestOutfitService {
 	void deleteGuestOutfit(final DeleteGuestOutfitRequest request);
 
 	void updateGuestOutfit(final GuestOutfitRequest request);
+
+	void deleteAllGuestOutfit(final String uuid);
 }
