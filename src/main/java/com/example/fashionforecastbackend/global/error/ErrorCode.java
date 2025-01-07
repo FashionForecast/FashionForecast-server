@@ -45,7 +45,6 @@ public enum ErrorCode {
 	/**
 	 * JWT
 	 */
-
 	EXPIRED_PERIOD_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "J001", "기한이 만료된 RefreshToken입니다."),
 	INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "J002", "올바르지 않은 RefreshToken입니다."),
 	EXPIRED_PERIOD_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "J003", "기한이 만료된 AccessToken입니다."),
@@ -57,12 +56,12 @@ public enum ErrorCode {
 	/**
 	 * Member
 	 */
-
 	NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "M001", "회원이 존재하지 않습니다."),
 	SOCIAL_LOGIN_FAILED(HttpStatus.UNAUTHORIZED, "M002", "소셜 로그인에 실패하였습니다."),
 	MEMBER_OUTFIT_COUNT_EXCEEDED(HttpStatus.BAD_REQUEST, "M003", "저장된 옷차림이 4개 이상 입니다."),
 	INVALID_OUTING_TIME(HttpStatus.BAD_REQUEST, "M003", "외출 끝 시간은 시작 시간보다 과거일 수 없습니다."),
 	NOT_FOUND_MEMBER_OUTFIT(HttpStatus.BAD_REQUEST, "M004", "저장된 옷차림을 찾을 수 없습니다."),
+	ALREADY_EXIST_MEMBER_OUTFIT(HttpStatus.BAD_REQUEST, "M005", "유저 옷차림이 이미 존재합니다."),
 
 	/**
 	 * 고객의 소리
@@ -72,7 +71,7 @@ public enum ErrorCode {
 	/**
 	 * Guest
 	 */
-	ALREADY_EXIST_GUEST_OUTFIT(HttpStatus.BAD_REQUEST, "G001", "온도 단계의 옷차림이 이미 존재합니다. 더 많은 옷차림 저장을 위해서 로그인 해주세요."),
+	ALREADY_EXIST_GUEST_OUTFIT(HttpStatus.BAD_REQUEST, "G001", "온도 단계의 옷차림이 이미 존재합니다."),
 	NOT_FOUND_GUEST_OUTFIT(HttpStatus.BAD_REQUEST, "G002", "게스트 옷차림이 존재하지 않습니다."),
 	NOT_FOUND_GUEST(HttpStatus.NOT_FOUND, "G003", "게스트가 존재하지 않습니다.");
 

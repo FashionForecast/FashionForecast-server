@@ -48,6 +48,7 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
 		final Oauth2Attributes extractAttributes = Oauth2Attributes.of(joinType, userNameAttributeName, attributes);
 		final boolean isNewUser = isNewMember(extractAttributes, joinType);
 		final Member member = getMember(extractAttributes, joinType);
+		final boolean canAddGuestOutfit = canAddGuestOutfit(member);
 
 		return new CustomOauth2User(
 			Collections.singleton(new SimpleGrantedAuthority(member.getRole().getKey())), // 단일 요소를 갖는 권한 목록(컬렉션)을 불변객체로
@@ -56,7 +57,7 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
 			member.getId(),
 			member.getEmail(),
 			member.getRole().getKey(),
-			isNewUser);
+			isNewUser, canAddGuestOutfit);
 	}
 
 	private MemberJoinType getMemberType(String registrationId) {
@@ -76,6 +77,10 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
 	private Member getMember(Oauth2Attributes attributes, MemberJoinType joinType) {
 		return memberRepository.findByJoinTypeAndSocialId(joinType,
 			attributes.getOauth2UserInfo().getId()).orElseGet(() -> savedMember(attributes, joinType));
+	}
+
+	private boolean canAddGuestOutfit(final Member member) {
+		return member.notExistOutfit();
 	}
 
 	private Member savedMember(Oauth2Attributes attributes, MemberJoinType joinType) {
