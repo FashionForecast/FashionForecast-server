@@ -22,12 +22,12 @@ public record WeatherRequest(
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	LocalDateTime endDateTime,
 
-	@Min(value = 1, message = "위도는 1 이상이어야 합니다.")
-	@Max(value = 999, message = "위도는 999 이하여야 합니다.")
-	int nx,
+	@Min(value = 33, message = "위도는 33 이상이어야 합니다.")
+	@Max(value = 39, message = "위도는 39 이하여야 합니다.")
+	double nx,
 
-	@Min(value = 1, message = "경도는 1 이상이어야 합니다.")
-	@Max(value = 999, message = "경도는 999 이하여야 합니다.")
-	int ny
+	@Min(value = 125, message = "경도는 125 이상이어야 합니다.")
+	@Max(value = 131, message = "경도는 131 이하여야 합니다.")
+	double ny
 ) {
 }

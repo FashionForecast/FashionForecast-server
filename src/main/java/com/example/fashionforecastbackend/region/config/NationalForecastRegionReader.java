@@ -51,8 +51,8 @@ public class NationalForecastRegionReader {
 		String city = fields[1];
 		String district = fields[2];
 		String neighborhood = fields[3];
-		int nx = Integer.parseInt(fields[4]);
-		int ny = Integer.parseInt(fields[5]);
+		double nx = Double.parseDouble(fields[4]);
+		double ny = Double.parseDouble(fields[5]);
 
 		Address address = new Address(code, city, district, neighborhood);
 		return Region.builder()

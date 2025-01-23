@@ -31,12 +31,12 @@ public class Region {
 	@Embedded
 	private Address address;
 
-	private int nx;
+	private double nx;
 
-	private int ny;
+	private double ny;
 
 	@Builder
-	public Region(Address address, int nx, int ny) {
+	public Region(Address address, double nx, double ny) {
 		this.address = address;
 		this.nx = nx;
 		this.ny = ny;

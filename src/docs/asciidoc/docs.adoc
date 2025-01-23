@@ -135,6 +135,113 @@ include::{snippets}/guest-controller-test/login-test/http-response.adoc[]
 
 include::{snippets}/guest-controller-test/login-test/response-fields.adoc[]
 
+=== 게스트 옷차림 추가 (POST /api/v1/guest/outfit)
+
+==== Description
+
+게스트의 옷차림 데이터를 저장합니다.
+
+==== Request
+
+include::{snippets}/guest-outfit-controller-test/add-outfit/http-request.adoc[]
+
+==== Field
+
+include::{snippets}/guest-outfit-controller-test/add-outfit/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/guest-outfit-controller-test/add-outfit/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/guest-outfit-controller-test/add-outfit/response-fields.adoc[]
+
+=== 게스트 옷차림 수정 (PATCH /api/v1/guest/outfit/{uuid})
+
+==== Description
+
+게스트 UUID를 기반으로 특정 옷차림 데이터를 수정합니다.
+
+==== Request
+
+include::{snippets}/guest-outfit-controller-test/update-outfit/http-request.adoc[]
+
+==== Field
+
+include::{snippets}/guest-outfit-controller-test/update-outfit/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/guest-outfit-controller-test/update-outfit/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/guest-outfit-controller-test/update-outfit/response-fields.adoc[]
+
+=== 게스트 옷차림 삭제 (DELETE /api/v1/guest/outfit/{uuid})
+
+==== Description
+
+게스트 UUID를 기반으로 특정 옷차림 데이터를 삭제합니다.
+
+==== Request
+
+include::{snippets}/guest-outfit-controller-test/delete-outfit/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/guest-outfit-controller-test/delete-outfit/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/guest-outfit-controller-test/delete-outfit/response-fields.adoc[]
+
+=== 게스트 모든 옷차림 조회 (GET /api/v1/guest/outfits/{uuid})
+
+==== Description
+
+게스트 UUID를 기반으로 등록된 모든 옷차림 데이터를 조회합니다.
+
+==== Request
+
+include::{snippets}/guest-outfit-controller-test/get-outfits/http-request.adoc[]
+
+==== Parameter
+
+include::{snippets}/guest-outfit-controller-test/get-outfits/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/guest-outfit-controller-test/get-outfits/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/guest-outfit-controller-test/get-outfits/response-fields.adoc[]
+
+=== 온도 단계별 옷차림 조회 (GET /api/v1/guest/outfit/temp-stage)
+
+==== Description
+
+게스트 UUID를 기반으로 현재 온도 조건에 따라 적합한 옷차림을 조회합니다.
+
+==== Request
+
+include::{snippets}/guest-outfit-controller-test/get-temp-stage-outfits/http-request.adoc[]
+
+==== Parameter
+
+include::{snippets}/guest-outfit-controller-test/get-temp-stage-outfits/query-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/guest-outfit-controller-test/get-temp-stage-outfits/http-response.adoc[]
+
+==== Field
+
+include::{snippets}/guest-outfit-controller-test/get-temp-stage-outfits/response-fields.adoc[]
+
+
 == 옷차림 API
 
 === 디폴트 옷차림 조회 (GET /api/v1/recommend/default)

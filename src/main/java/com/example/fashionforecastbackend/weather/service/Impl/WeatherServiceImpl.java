@@ -33,7 +33,7 @@ import com.example.fashionforecastbackend.weather.util.WeatherDateTimeValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Service
+@Service("weatherServiceImpl")
 @RequiredArgsConstructor
 @Slf4j
 public class WeatherServiceImpl implements WeatherService {
@@ -226,15 +226,15 @@ public class WeatherServiceImpl implements WeatherService {
 		return String.format("%02d00", hour);
 	}
 
-	private Region findRegion(int nx, int ny) {
+	private Region findRegion(double nx, double ny) {
 
 		Region region = regionRepository.findByNxAndNy(nx, ny).orElse(null);
 		if (Objects.equals(region, null)) {
 			List<Region> regions = regionRepository.findAll();
 			Collections.sort(regions, (r1, r2) -> {
-				int diff1 = Math.abs(r1.getNx() - nx) + Math.abs(r1.getNy() - ny);
-				int diff2 = Math.abs(r2.getNx() - nx) + Math.abs(r2.getNy() - ny);
-				return diff1 - diff2;
+				double diff1 = Math.abs(r1.getNx() - nx) + Math.abs(r1.getNy() - ny);
+				double diff2 = Math.abs(r2.getNx() - nx) + Math.abs(r2.getNy() - ny);
+				return Double.compare(diff1, diff2);
 			});
 			region = regions.get(0);
 		}

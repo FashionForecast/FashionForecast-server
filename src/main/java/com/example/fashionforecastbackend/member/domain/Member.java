@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.fashionforecastbackend.customOutfit.domain.MemberOutfit;
 import com.example.fashionforecastbackend.global.BaseTimeEntity;
 import com.example.fashionforecastbackend.member.domain.constant.Gender;
 import com.example.fashionforecastbackend.member.domain.constant.MemberJoinType;
