@@ -30,4 +30,14 @@ public record WeatherRequest(
 	@Max(value = 131, message = "경도는 131 이하여야 합니다.")
 	double ny
 ) {
+
+	public static WeatherRequest of(final WeatherTotalGroupRequest weatherTotalGroupRequest) {
+		return new WeatherRequest(
+			weatherTotalGroupRequest.nowDateTime(),
+			weatherTotalGroupRequest.minStartDateTime(),
+			weatherTotalGroupRequest.maxEndDateTime(),
+			weatherTotalGroupRequest.nx(),
+			weatherTotalGroupRequest.ny()
+		);
+	}
 }
