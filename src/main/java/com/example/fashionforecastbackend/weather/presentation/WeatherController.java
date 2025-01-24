@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fashionforecastbackend.global.response.ApiResponse;
 import com.example.fashionforecastbackend.weather.dto.request.WeatherRequest;
+import com.example.fashionforecastbackend.weather.dto.request.WeatherTotalGroupRequest;
+import com.example.fashionforecastbackend.weather.dto.response.WeatherGroupResponse;
 import com.example.fashionforecastbackend.weather.dto.response.WeatherResponse;
-import com.example.fashionforecastbackend.weather.service.WeatherService;
+import com.example.fashionforecastbackend.weather.service.WeatherServiceV2;
 
 import jakarta.validation.Valid;
 
@@ -17,9 +19,9 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1/weather")
 public class WeatherController {
 
-	private final WeatherService weatherService;
+	private final WeatherServiceV2 weatherService;
 
-	public WeatherController(final @Qualifier("weatherServiceImplV2") WeatherService weatherService) {
+	public WeatherController(final @Qualifier("weatherServiceImplV2") WeatherServiceV2 weatherService) {
 		this.weatherService = weatherService;
 	}
 
@@ -29,4 +31,10 @@ public class WeatherController {
 		return ApiResponse.ok(weatherService.getWeather(dto));
 	}
 
+	@GetMapping("/forecast/group")
+	public ApiResponse<WeatherGroupResponse> getWeatherGroup(
+		@ModelAttribute @Valid final WeatherTotalGroupRequest request
+	) {
+		return ApiResponse.ok(weatherService.getWeatherGroup(request));
+	}
 }
