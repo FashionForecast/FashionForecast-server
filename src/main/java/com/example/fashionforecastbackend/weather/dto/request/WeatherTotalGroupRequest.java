@@ -18,11 +18,11 @@ public record WeatherTotalGroupRequest(
 
 	@NotNull(message = "외출 시작 시간을 입력해주세요.")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	LocalDateTime totalStartDateTime,
+	LocalDateTime minStartDateTime,
 
 	@NotNull(message = "외출 끝 시간을 입력해주세요.")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	LocalDateTime totalEndDateTime,
+	LocalDateTime maxEndDateTime,
 
 	@Min(value = 33, message = "위도는 33 이상이어야 합니다.")
 	@Max(value = 39, message = "위도는 39 이하여야 합니다.")
