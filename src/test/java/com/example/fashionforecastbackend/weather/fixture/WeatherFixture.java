@@ -26,7 +26,7 @@ public class WeatherFixture {
 		createWeather("20240811", "1400", "20240811", "1900", 34, 126)
 	);
 
-	public static final WeatherGroupResponse WEATHER_GROUP_RESPONSE = new WeatherGroupResponse(Season.WINTER, 2, 0, 0, 0.0,
+	public static final WeatherGroupResponse WEATHER_GROUP_RESPONSE = new WeatherGroupResponse(Season.WINTER, 2, 2, 100, 15.0,
 		List.of(
 			new WeatherGroupForecast("20250124", "1200", "3", "10", "1", "0", "0.0mm", RainType.NONE, SkyStatus.CLEAR, false),
 			new WeatherGroupForecast("20250124", "1300", "4", "10", "3", "0", "0.0mm", RainType.NONE, SkyStatus.CLEAR, false),
