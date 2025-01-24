@@ -19,11 +19,11 @@ public class WeatherFixture {
 	public static final WeatherResponse WEATHER_RESPONSE = WeatherResponse.of(Season.SUMMER, 36, 0, 30,
 		0.0, WEATHER_FORECASTS);
 	public static final List<Weather> WEATHERS = List.of(
-		createWeather("20240811", "1400", "20240811", "1500", 120, 67),
-		createWeather("20240811", "1400", "20240811", "1600", 120, 67),
-		createWeather("20240811", "1400", "20240811", "1700", 120, 67),
-		createWeather("20240811", "1400", "20240811", "1800", 120, 67),
-		createWeather("20240811", "1400", "20240811", "1900", 120, 67)
+		createWeather("20240811", "1400", "20240811", "1500", 34, 126),
+		createWeather("20240811", "1400", "20240811", "1600", 34, 126),
+		createWeather("20240811", "1400", "20240811", "1700", 34, 126),
+		createWeather("20240811", "1400", "20240811", "1800", 34, 126),
+		createWeather("20240811", "1400", "20240811", "1900", 34, 126)
 	);
 
 	public static final WeatherGroupResponse WEATHER_GROUP_RESPONSE = new WeatherGroupResponse(Season.WINTER, 2, 0, 0, 0.0,
@@ -48,7 +48,7 @@ public class WeatherFixture {
 		 */
 		for (int t = 16; t <= 21; t++) {
 			String fcstTime = String.format("%02d00", t);
-			responses.add(WeatherForecast.from(createWeather(baseDate, baseTime, baseDate, fcstTime, 60, 127)));
+			responses.add(WeatherForecast.from(createWeather(baseDate, baseTime, baseDate, fcstTime, 34, 126)));
 		}
 
 		return responses;
