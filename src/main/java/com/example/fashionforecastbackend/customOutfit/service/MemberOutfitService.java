@@ -3,6 +3,7 @@ package com.example.fashionforecastbackend.customOutfit.service;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.example.fashionforecastbackend.customOutfit.dto.request.GuestOutfitsRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.request.MemberOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.request.MemberTempStageOutfitRequest;
 import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfitGroupResponse;
@@ -10,7 +11,7 @@ import com.example.fashionforecastbackend.customOutfit.dto.response.MemberOutfit
 
 public interface MemberOutfitService {
 
-	void saveMemberOutfit(MemberOutfitRequest memberOutfitRequest, Long memberId);
+	void saveMemberOutfit(final MemberOutfitRequest memberOutfitRequest, final Long memberId);
 
 	LinkedList<MemberOutfitGroupResponse> getMemberOutfits(final Long memberId);
 
@@ -20,4 +21,6 @@ public interface MemberOutfitService {
 	void deleteMemberOutfit(final Long memberOutfitId);
 
 	void updateMemberOutfit(final Long memberOutfitId, final MemberOutfitRequest request);
+
+	void saveMemberOutfitFromGuestOutfit(final GuestOutfitsRequest guestOutfitsRequest, final Long memberId);
 }
