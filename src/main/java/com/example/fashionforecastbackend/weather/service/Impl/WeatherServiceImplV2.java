@@ -23,19 +23,23 @@ import com.example.fashionforecastbackend.weather.domain.Weather;
 import com.example.fashionforecastbackend.weather.domain.repository.WeatherRepository;
 import com.example.fashionforecastbackend.weather.dto.request.WeatherFilter;
 import com.example.fashionforecastbackend.weather.dto.request.WeatherRequest;
+import com.example.fashionforecastbackend.weather.dto.request.WeatherTotalGroupRequest;
 import com.example.fashionforecastbackend.weather.dto.response.WeatherApiV2;
 import com.example.fashionforecastbackend.weather.dto.response.WeatherForecast;
+import com.example.fashionforecastbackend.weather.dto.response.WeatherGroupForecast;
+import com.example.fashionforecastbackend.weather.dto.response.WeatherGroupResponse;
 import com.example.fashionforecastbackend.weather.dto.response.WeatherResponse;
 import com.example.fashionforecastbackend.weather.service.WeatherMapper;
 import com.example.fashionforecastbackend.weather.service.WeatherMapperV2;
-import com.example.fashionforecastbackend.weather.service.WeatherService;
+import com.example.fashionforecastbackend.weather.service.WeatherServiceV2;
+import com.example.fashionforecastbackend.weather.util.LocalDateTimeConvertor;
 import com.example.fashionforecastbackend.weather.util.WeatherDateTimeValidator;
 
 import lombok.RequiredArgsConstructor;
 
 @Service("weatherServiceImplV2")
 @RequiredArgsConstructor
-public class WeatherServiceImplV2 implements WeatherService {
+public class WeatherServiceImplV2 implements WeatherServiceV2 {
 
 	private static final int DEFAULT_FORECAST_DAYS = 3;
 	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -73,6 +77,40 @@ public class WeatherServiceImplV2 implements WeatherService {
 
 		return getWeatherResponse(weatherForecasts, season);
 	}
+
+	@Override
+	public WeatherGroupResponse getWeatherGroup(final WeatherTotalGroupRequest request) {
+		final WeatherRequest weatherRequest = WeatherRequest.of(request);
+		final WeatherResponse weather = getWeather(weatherRequest);
+		final List<LocalDateTime> selectedTimes = request.selectedTimes();
+		final List<WeatherGroupForecast> weatherGroupForecasts = weather.forecasts().stream()
+			.map(weatherForecast -> convertToWeatherGroupForecast(weatherForecast, selectedTimes))
+			.toList();
+		final List<WeatherForecast> weatherForecasts = convertToWeatherForecast(weatherGroupForecasts);
+		final int maximumTmp = getMaximumTmp(weatherForecasts);
+		final int minimumTmp = getMinimumTmp(weatherForecasts);
+		return new WeatherGroupResponse(
+			weather.season(),
+			getExtremumTmp(maximumTmp, minimumTmp, weather.season()),
+			maximumTmp - minimumTmp,
+			getMaximumPop(weatherForecasts),
+			getMaximumPcp(weatherForecasts),
+			weatherGroupForecasts);
+	}
+
+	private List<WeatherForecast> convertToWeatherForecast(final List<WeatherGroupForecast> weatherGroupForecasts) {
+		return weatherGroupForecasts.stream()
+			.filter(WeatherGroupForecast::isSelected)
+			.map(WeatherForecast::from)
+			.toList();
+	}
+
+	private WeatherGroupForecast convertToWeatherGroupForecast(final WeatherForecast weatherForecast, final List<LocalDateTime> selectedTimes) {
+		final LocalDateTime localDateTime = LocalDateTimeConvertor.convert(weatherForecast.fcstDate(),
+			weatherForecast.fcstTime());
+		return WeatherGroupForecast.of(weatherForecast, selectedTimes.contains(localDateTime));
+	}
+
 
 	@Async
 	@Transactional(propagation = REQUIRES_NEW)
