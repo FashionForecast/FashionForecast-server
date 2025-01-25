@@ -23,9 +23,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.fashionforecastbackend.global.ControllerTest;
 import com.example.fashionforecastbackend.weather.dto.request.WeatherRequest;
+import com.example.fashionforecastbackend.weather.dto.request.WeatherTotalGroupRequest;
+import com.example.fashionforecastbackend.weather.dto.response.WeatherGroupResponse;
 import com.example.fashionforecastbackend.weather.dto.response.WeatherResponse;
 import com.example.fashionforecastbackend.weather.fixture.WeatherFixture;
-import com.example.fashionforecastbackend.weather.service.WeatherService;
+import com.example.fashionforecastbackend.weather.service.WeatherServiceV2;
 
 @WebMvcTest(WeatherController.class)
 @MockBean(JpaMetamodelMappingContext.class)
@@ -37,7 +39,7 @@ class WeatherControllerTest extends ControllerTest {
 	private MockMvc mockMvc;
 
 	@MockBean(name = "weatherServiceImplV2")
-	private WeatherService weatherService;
+	private WeatherServiceV2 weatherService;
 
 	@DisplayName("날씨 조회 api 호출이 성공 한다.")
 	@Test
@@ -64,8 +66,8 @@ class WeatherControllerTest extends ControllerTest {
 					parameterWithName("endDateTime")
 						.attributes(field("format", "yyyy-mm-ddTHH:mm:ss"))
 						.description("외출 끝 시간"),
-					parameterWithName("nx").attributes(field("format", "1~999 사이 정수값")).description("위도"),
-					parameterWithName("ny").attributes(field("format", "1~999 사이 정수값")).description("경도")
+					parameterWithName("nx").attributes(field("format", "33~39 사이 실수값")).description("위도"),
+					parameterWithName("ny").attributes(field("format", "125~131 사이 실수값")).description("경도")
 				),
 				responseFields(
 					fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),
@@ -94,6 +96,67 @@ class WeatherControllerTest extends ControllerTest {
 						fieldWithPath("ny").type(JsonFieldType.NUMBER).description("경도")
 					)
 			));
+	}
+
+	@DisplayName("날씨 그룹 조회 api 호출이 성공 한다.")
+	@Test
+	void getWeatherGroupTest() throws Exception {
+		//given
+		final WeatherGroupResponse weatherGroupResponse = WeatherFixture.WEATHER_GROUP_RESPONSE;
+		given(weatherService.getWeatherGroup(any(WeatherTotalGroupRequest.class))).willReturn(weatherGroupResponse);
+
+		//when
+		mockMvc.perform(get("/api/v1/weather/forecast/group")
+				.param("nowDateTime", "2025-01-24T11:53:00")
+				.param("minStartDateTime", "2025-01-24T12:00:00")
+				.param("maxEndDateTime", "2025-01-24T17:00:00")
+				.param("nx", "37.4784")
+				.param("ny", "126.9516")
+				.param("selectedTimes", "2025-01-24T15:00:00")
+				.param("selectedTimes", "2025-01-24T16:00:00")
+				.param("selectedTimes", "2025-01-24T17:00:00")
+				.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andDo(restDocs.document(
+				queryParameters(
+					parameterWithName("nowDateTime")
+						.attributes(field("format", "yyyy-mm-ddTHH:mm:ss"))
+						.description("현재 시간"),
+					parameterWithName("minStartDateTime")
+						.attributes(field("format", "yyyy-mm-ddTHH:mm:ss"))
+						.description("외출 시작 시간 최소값"),
+					parameterWithName("maxEndDateTime")
+						.attributes(field("format", "yyyy-mm-ddTHH:mm:ss"))
+						.description("외출 끝 시간 최대값"),
+					parameterWithName("nx").attributes(field("format", "33~39 사이 실수값")).description("위도"),
+					parameterWithName("ny").attributes(field("format", "125~131 사이 실수값")).description("경도"),
+					parameterWithName("selectedTimes").attributes(field("format", "yyyy-mm-ddTHH:mm:ss")).description("드래그로 선택된 시간")
+				), responseFields(
+					fieldWithPath("status").type(JsonFieldType.NUMBER).description("HttpStatus"),
+					fieldWithPath("message").type(JsonFieldType.STRING).description("상태 메세지"),
+					fieldWithPath("data").type(JsonFieldType.OBJECT).description("날씨 데이터")
+				).andWithPrefix("data.",
+						fieldWithPath("season").type(JsonFieldType.STRING).description("계절"),
+						fieldWithPath("extremumTmp").type(JsonFieldType.NUMBER).description("최고 또는 최저 기온"),
+						fieldWithPath("maxMinTmpDiff").type(JsonFieldType.NUMBER).description("최고 최저 기온차"),
+						fieldWithPath("maximumPop").type(JsonFieldType.NUMBER).description("최대 강수확률"),
+						fieldWithPath("maximumPcp").type(JsonFieldType.NUMBER).description("최대 강수량"),
+						fieldWithPath("forecasts").type(JsonFieldType.ARRAY).description("날씨 예보 목록")
+					)
+					.andWithPrefix("data.forecasts[].",
+						fieldWithPath("fcstDate").type(JsonFieldType.STRING).description("예보 날짜"),
+						fieldWithPath("fcstTime").type(JsonFieldType.STRING).description("예보 시간"),
+						fieldWithPath("tmp").type(JsonFieldType.STRING).description("온도"),
+						fieldWithPath("reh").type(JsonFieldType.STRING).description("습도"),
+						fieldWithPath("wsd").type(JsonFieldType.STRING).description("풍속"),
+						fieldWithPath("pop").type(JsonFieldType.STRING).description("강수확률"),
+						fieldWithPath("pcp").type(JsonFieldType.STRING).description("강수량"),
+						fieldWithPath("rainType").type(JsonFieldType.STRING).description("강수 유형"),
+						fieldWithPath("skyStatus").type(JsonFieldType.STRING).description("하늘 상태"),
+						fieldWithPath("isSelected").type(JsonFieldType.BOOLEAN).description("선택 여부")
+					)
+			));
+
 	}
 
 	@DisplayName("잘못된 날씨 요청값으로 에러가 발생한다.")
