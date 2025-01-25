@@ -32,4 +32,20 @@ public record WeatherForecast(
 			weather.getNy()
 		);
 	}
+
+	public static WeatherForecast from(final WeatherGroupForecast weatherGroupForecast) {
+		return new WeatherForecast(
+			weatherGroupForecast.fcstDate(),
+			weatherGroupForecast.fcstTime(),
+			weatherGroupForecast.tmp(),
+			weatherGroupForecast.reh(),
+			weatherGroupForecast.wsd(),
+			weatherGroupForecast.pop(),
+			weatherGroupForecast.pcp(),
+			weatherGroupForecast.rainType(),
+			weatherGroupForecast.skyStatus(),
+			0.0,
+			0.0
+		);
+	}
 }
