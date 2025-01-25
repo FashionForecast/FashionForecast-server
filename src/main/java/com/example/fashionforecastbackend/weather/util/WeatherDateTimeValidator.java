@@ -18,6 +18,9 @@ public class WeatherDateTimeValidator {
 
 	public void validateStartDateTime(LocalDateTime nowDateTime, LocalDateTime startDateTime,
 		LocalDateTime endDateTime) {
+		nowDateTime = nowDateTime.withMinute(0).withSecond(0).withNano(0);
+		startDateTime = startDateTime.withMinute(0).withSecond(0).withNano(0);
+		endDateTime = endDateTime.withMinute(0).withSecond(0).withNano(0);
 		if (!(startDateTime.isAfter(nowDateTime) || startDateTime.isEqual(nowDateTime))) {
 			throw new InvalidWeatherRequestException(ErrorCode.INVALID_WEATHER_START_DATE_TIME);
 		}
@@ -27,6 +30,9 @@ public class WeatherDateTimeValidator {
 	}
 
 	public void validateEndDateTime(LocalDateTime nowDateTime, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+		nowDateTime = nowDateTime.withMinute(0).withSecond(0).withNano(0);
+		startDateTime = startDateTime.withMinute(0).withSecond(0).withNano(0);
+		endDateTime = endDateTime.withMinute(0).withSecond(0).withNano(0);
 		if (!(endDateTime.isAfter(nowDateTime) || endDateTime.isEqual(nowDateTime))) {
 			throw new InvalidWeatherRequestException(ErrorCode.INVALID_WEATHER_END_DATE_TIME);
 		}
