@@ -33,6 +33,7 @@ public record WeatherTotalGroupRequest(
 	double ny,
 
 	@NotEmpty(message = "시간을 선택해주세요.")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	List<LocalDateTime> selectedTimes
 ) {
 }
