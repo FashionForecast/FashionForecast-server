@@ -25,10 +25,6 @@ public class WeatherController {
 		this.weatherService = weatherService;
 	}
 
-	public WeatherController(final @Qualifier("weatherServiceImplV2") WeatherService weatherService) {
-		this.weatherService = weatherService;
-	}
-
 	@GetMapping("/forecast")
 	public ApiResponse<WeatherResponse> getWeather(
 		@ModelAttribute @Valid WeatherRequest dto) {
