@@ -2,7 +2,9 @@ package com.example.fashionforecastbackend.customOutfit.service.impl;
 
 import static com.example.fashionforecastbackend.global.error.ErrorCode.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -36,7 +38,7 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 	@Override
 	public void saveGuestOutfit(GuestOutfitRequest guestOutfitRequest) {
 		final Guest guest = guestService.getGuestByUuid(guestOutfitRequest.uuid());
-		validateCount(guestOutfitRequest.tempStageLevel(), guest.getId());
+		validateCountZero(guestOutfitRequest.tempStageLevel(), guest.getId());
 
 		final String key = KEY_PREFIX + guest.getId();
 		final GuestOutfit guestOutfit = createGuestOutfit(
@@ -49,7 +51,13 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 	public List<GuestOutfitResponse> getGuestOutfitsByUuid(final String uuid) {
 		final Guest guest = guestService.getGuestByUuid(uuid);
 		final List<GuestOutfit> guestOutfits = getGuestOutfitsByGuest(guest.getId());
-		return guestOutfits.stream()
+
+		Map<Integer, GuestOutfit> uniqueOutfits = new HashMap<>();
+		for (GuestOutfit outfit : guestOutfits) {
+			uniqueOutfits.putIfAbsent(outfit.getTempStageLevel(), outfit);
+		}
+
+		return uniqueOutfits.values().stream()
 			.map(GuestOutfitResponse::of)
 			.toList();
 	}
@@ -73,7 +81,7 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 		final Guest guest = guestService.getGuestByUuid(request.uuid());
 		final String key = KEY_PREFIX + guest.getId();
 
-		validateGuestOutfit(request.tempStageLevel(), guest.getId());
+		validateGuestOutfitByTempStageLevel(request.tempStageLevel(), guest.getId());
 		final GuestOutfit guestOutfit = getGuestOutfit(request.tempStageLevel(), guest.getId());
 		redisTemplate.opsForList().remove(key, 1, guestOutfit);
 	}
@@ -83,8 +91,9 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 	public void updateGuestOutfit(final GuestOutfitRequest request) {
 		final Guest guest = guestService.getGuestByUuid(request.uuid());
 		final String key = KEY_PREFIX + guest.getId();
+
+		validateGuestOutfitByTempStageLevel(request.tempStageLevel(), guest.getId());
 		final List<GuestOutfit> guestOutfits = getGuestOutfitsByGuest(guest.getId());
-		validateGuestOutfit(request.tempStageLevel(), guest.getId());
 
 		final GuestOutfit updatedOutfit = createGuestOutfit(request);
 
@@ -97,7 +106,15 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 		}
 	}
 
-	private void validateCount(final int tempStageLevel, final Long guestId) {
+	@Transactional
+	@Override
+	public void deleteAllGuestOutfit(final String uuid) {
+		final Guest guest = guestService.getGuestByUuid(uuid);
+		final String key = KEY_PREFIX + guest.getId();
+		redisTemplate.delete(key);
+	}
+
+	private void validateCountZero(final int tempStageLevel, final Long guestId) {
 		final List<GuestOutfit> guestOutfits = getGuestOutfitsByGuest(guestId);
 		if (guestOutfits != null && guestOutfits.stream()
 			.anyMatch(guestOutfit -> guestOutfit.getTempStageLevel() == tempStageLevel)) {
@@ -105,7 +122,7 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 		}
 	}
 
-	private GuestOutfit createGuestOutfit(GuestOutfitRequest request) {
+	private GuestOutfit createGuestOutfit(final GuestOutfitRequest request) {
 		return GuestOutfit.builder()
 			.tempStageLevel(request.tempStageLevel())
 			.topType(request.topType())
@@ -115,7 +132,7 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 			.build();
 	}
 
-	private void validateGuestOutfit(final int tempStageLevel, final Long guestId) {
+	private void validateGuestOutfitByTempStageLevel(final int tempStageLevel, final Long guestId) {
 		final GuestOutfit guestOutfit = getGuestOutfit(tempStageLevel, guestId);
 
 		if (guestOutfit == null) {
@@ -135,4 +152,5 @@ public class GuestOutfitServiceImpl implements GuestOutfitService {
 		String key = KEY_PREFIX + guestId;
 		return redisTemplate.opsForList().range(key, 0, -1);
 	}
+
 }
