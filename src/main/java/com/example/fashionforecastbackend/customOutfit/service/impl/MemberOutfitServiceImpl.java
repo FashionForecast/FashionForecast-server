@@ -108,7 +108,8 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 	public void saveMemberOutfitFromGuestOutfit(final GuestOutfitsRequest guestOutfitsRequest, final Long memberId) {
 		String uuid = guestOutfitsRequest.uuid();
 		validateMemberOutfitCount(memberId);
-		List<MemberOutfit> memberOutfits = createMemberOutfitByGuestOutfit(uuid);
+
+		List<MemberOutfit> memberOutfits = createMemberOutfitByGuestOutfit(uuid, memberId);
 
 		memberOutfitRepository.saveAll(memberOutfits);
 
@@ -160,15 +161,21 @@ public class MemberOutfitServiceImpl implements MemberOutfitService {
 		}
 	}
 
-	private List<MemberOutfit> createMemberOutfitByGuestOutfit(String uuid) {
+	private List<MemberOutfit> createMemberOutfitByGuestOutfit(String uuid, Long memberId) {
 		List<GuestOutfitResponse> guestOutfits = guestOutfitService.getGuestOutfitsByUuid(uuid);
+		Member member = getMemberById(memberId);
+
 		return guestOutfits.stream()
-			.map(guestOutfit -> MemberOutfit.builder()
-				.topAttribute(TopAttribute.of(guestOutfit.topType(), guestOutfit.topColor()))
-				.bottomAttribute(
-					BottomAttribute.of(guestOutfit.bottomType(), guestOutfit.bottomColor()))
-				.tempStage(tempStageService.getTempStageByLevel(guestOutfit.tempStageLevel()))
-				.build())
+			.map(guestOutfit -> {
+				MemberOutfit memberOutfit = MemberOutfit.builder()
+					.topAttribute(TopAttribute.of(guestOutfit.topType(), guestOutfit.topColor()))
+					.bottomAttribute(
+						BottomAttribute.of(guestOutfit.bottomType(), guestOutfit.bottomColor()))
+					.tempStage(tempStageService.getTempStageByLevel(guestOutfit.tempStageLevel()))
+					.build();
+				memberOutfit.setMember(member);
+				return memberOutfit;
+			})
 			.toList();
 	}
 
