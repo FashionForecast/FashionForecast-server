@@ -69,11 +69,6 @@ jobs:
 
       - name: 배포 타겟 설정
         run: |
-          BRANCH_REF_NAME="${{ github.ref_name }}"
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            BRANCH_REF_NAME="${{ github.event.pull_request.base.ref }}"
-          fi
-
           if [[ "${BRANCH_REF_NAME}" == "main" ]]; then
             echo "DEPLOY_ENV=prod" >> $GITHUB_ENV
           elif [[ "${BRANCH_REF_NAME}" == "develop" ]]; then
@@ -97,8 +92,6 @@ jobs:
           key: ${{ secrets.EC2_DEV_PRIVATE_KEY }}
           script: |
             cd /home/ubuntu
-            sudo docker compose -f docker-compose-${{ env.DEPLOY_ENV }}.yml down
-            sudo docker image rm ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-${{ env.DEPLOY_ENV }}:latest
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-${{ env.DEPLOY_ENV }}:latest
+            sudo docker compose -f docker-compose-${{ env.DEPLOY_ENV }}.yml down --rmi all
             sudo docker compose -f docker-compose-${{ env.DEPLOY_ENV }}.yml up -d
             sudo docker image prune -f
