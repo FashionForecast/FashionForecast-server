@@ -40,20 +40,15 @@ jobs:
 
       - name: Docker 이미지 이름 및 환경 설정
         run: |
-          # pull_request 이벤트인 경우
+          BRANCH_REF_NAME="${{ github.ref_name }}"
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            if [[ "${{ github.event.pull_request.base.ref }}" == "main" ]]; then
-              echo "IMAGE_NAME=fashion-forecast-prod" >> $GITHUB_ENV
-            elif [[ "${{ github.event.pull_request.base.ref }}" == "develop" ]]; then
-              echo "IMAGE_NAME=fashion-forecast-dev" >> $GITHUB_ENV
-            fi
-          # push 이벤트인 경우
-          elif [[ "${{ github.event_name }}" == "push" ]]; then
-            if [[ "${{ github.ref_name }}" == "main" ]]; then
-              echo "IMAGE_NAME=fashion-forecast-prod" >> $GITHUB_ENV
-            elif [[ "${{ github.ref_name }}" == "develop" ]]; then
-              echo "IMAGE_NAME=fashion-forecast-dev" >> $GITHUB_ENV
-            fi
+            BRANCH_REF_NAME="${{ github.event.pull_request.base.ref }}"
+          fi
+
+          if [[ "${BRANCH_REF_NAME}" == "main" ]]; then
+            echo "IMAGE_NAME=fashion-forecast-prod" >> $GITHUB_ENV
+          elif [[ "${BRANCH_REF_NAME}" == "develop" ]]; then
+            echo "IMAGE_NAME=fashion-forecast-dev" >> $GITHUB_ENV
           fi
 
       - name: 도커 빌드 & 푸시
@@ -74,9 +69,14 @@ jobs:
 
       - name: 배포 타겟 설정
         run: |
-          if [[ "${{ github.event.pull_request.base.ref }}" == "main" ]]; then
+          BRANCH_REF_NAME="${{ github.ref_name }}"
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            BRANCH_REF_NAME="${{ github.event.pull_request.base.ref }}"
+          fi
+
+          if [[ "${BRANCH_REF_NAME}" == "main" ]]; then
             echo "DEPLOY_ENV=prod" >> $GITHUB_ENV
-          elif [[ "${{ github.event.pull_request.base.ref }}" == "develop" ]]; then
+          elif [[ "${BRANCH_REF_NAME}" == "develop" ]]; then
             echo "DEPLOY_ENV=dev" >> $GITHUB_ENV
           fi
 
