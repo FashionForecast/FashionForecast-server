@@ -40,10 +40,20 @@ jobs:
 
       - name: Docker 이미지 이름 및 환경 설정
         run: |
-          if [[ "${{ github.event.pull_request.base.ref }}" == "main" ]]; then
-            echo "IMAGE_NAME=fashion-forecast-prod" >> $GITHUB_ENV
-          elif [[ "${{ github.event.pull_request.base.ref }}" == "develop" ]]; then
-            echo "IMAGE_NAME=fashion-forecast-dev" >> $GITHUB_ENV
+          # pull_request 이벤트인 경우
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            if [[ "${{ github.event.pull_request.base.ref }}" == "main" ]]; then
+              echo "IMAGE_NAME=fashion-forecast-prod" >> $GITHUB_ENV
+            elif [[ "${{ github.event.pull_request.base.ref }}" == "develop" ]]; then
+              echo "IMAGE_NAME=fashion-forecast-dev" >> $GITHUB_ENV
+            fi
+          # push 이벤트인 경우
+          elif [[ "${{ github.event_name }}" == "push" ]]; then
+            if [[ "${{ github.ref_name }}" == "main" ]]; then
+              echo "IMAGE_NAME=fashion-forecast-prod" >> $GITHUB_ENV
+            elif [[ "${{ github.ref_name }}" == "develop" ]]; then
+              echo "IMAGE_NAME=fashion-forecast-dev" >> $GITHUB_ENV
+            fi
           fi
 
       - name: 도커 빌드 & 푸시
