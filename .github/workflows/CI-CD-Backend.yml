@@ -57,6 +57,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: 레포지토리 체크아웃
+        uses: actions/checkout@v4
+
       - name: 배포 타겟 설정
         run: |
           if [[ "${{ github.event.pull_request.base.ref }}" == "main" ]]; then
@@ -64,6 +67,16 @@ jobs:
           elif [[ "${{ github.event.pull_request.base.ref }}" == "develop" ]]; then
             echo "DEPLOY_ENV=dev" >> $GITHUB_ENV
           fi
+
+      - name: Docker Compose 파일 EC2로 복사
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_DEV_HOST }}
+          username: ${{ secrets.EC2_DEV_USERNAME }}
+          key: ${{ secrets.EC2_DEV_PRIVATE_KEY }}
+          source: "docker-compose-${{ env.DEPLOY_ENV }}.yml"
+          target: "/home/ubuntu"
+
       - name: EC2 원격 접속 및 Docker compose
         uses: appleboy/ssh-action@master
         with:
@@ -71,8 +84,9 @@ jobs:
           host: ${{ secrets.EC2_DEV_HOST }}
           key: ${{ secrets.EC2_DEV_PRIVATE_KEY }}
           script: |
-            sudo docker compose -f docker-compose-${{ env.DEPLOY_ENV }}.yml down --rmi all
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-${{ env.DEPLOY_ENV }}:latest
+            cd /home/ubuntu
             sudo docker compose -f docker-compose-${{ env.DEPLOY_ENV }}.yml down
+            sudo docker image rm ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-${{ env.DEPLOY_ENV }}:latest
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/fashion-forecast-${{ env.DEPLOY_ENV }}:latest
             sudo docker compose -f docker-compose-${{ env.DEPLOY_ENV }}.yml up -d
             sudo docker image prune -f
